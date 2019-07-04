@@ -1,0 +1,71 @@
+﻿{
+    "items":
+    [
+        {
+          "index": 0,
+          "name": "???",
+          "content": "여! 네가 베타 테스터구나! 만나서 반가워.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 1,
+          "name": "프로그래머",
+          "content": "내가 이 게임의 프로그래머야.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 2,
+          "name": "프로그래머",
+          "content": "방금 막 아트팀에서 보내준걸로 이 스테이지를 만들어봤어.<br>바로 테스트 해보고 싶은걸.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 3,
+          "name": "프로그래머",
+          "content": "이미 알고 있겠지만, 네 역할은 내가 만든 스테이지를 플레이해주는거야.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 4,
+          "name": "프로그래머",
+          "content": "플레이하면서 내가 이것저것 추가할거야.<br>그 때 버그가 있는지, 플레이는 가능한지 알아보는거지.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 5,
+          "name": "프로그래머",
+          "content": "첫 번째 보스는 저기 있는 슬라임이야.<br>꽤 귀엽지 않아?",
+          "target": "SlimeBoss"
+        },
+        {
+          "index": 6,
+          "name": "프로그래머",
+          "content": "열심히 플레이해보라구!",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 7,
+          "name": "프로그래머",
+          "content": "우와. 버그가 너무 많은걸…<br>오늘도 야근 확정이야…",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 8,
+          "name": "프로그래머",
+          "content": "그나저나 용케도 클리어하는구나…대단한걸…",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 9,
+          "name": "프로그래머",
+          "content": "네 덕분에 문제점을 많이 발견했어. 고마워.",
+          "target": "ProgrammerNPC"
+        },
+        {
+          "index": 10,
+          "name": "프로그래머",
+          "content": "앞으로도 잘 부탁해!",
+          "target": "ProgrammerNPC"
+        }
+    ]
+}
