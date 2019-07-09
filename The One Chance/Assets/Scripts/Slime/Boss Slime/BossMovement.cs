@@ -78,10 +78,10 @@ public class BossMovement : MonoBehaviour
         switch(phase)
         {
             case 1:
-                bossPattern = CoBossPattern();
+                bossPattern = CoBossPatternPhase01();
                 break;
             case 2:
-                bossPattern = CoBossPhase02Pattern();
+                bossPattern = CoBossPatternPhase02();
                 break;
         }
 
@@ -90,7 +90,7 @@ public class BossMovement : MonoBehaviour
 
     // 보스 패턴 종합 코루틴.
 
-    IEnumerator CoBossPattern()
+    IEnumerator CoBossPatternPhase01()
     {
         mainCoroutineIsRunning = true;
 
@@ -109,10 +109,10 @@ public class BossMovement : MonoBehaviour
         StartCoroutine(CoSpawn(spawnCount, waitTime));
         yield return new WaitUntil(() => spawnIsEnd);
 
-        StartCoroutine(CoBossPattern());
+        StartCoroutine(CoBossPatternPhase01());
     }
 
-    IEnumerator CoBossPhase02Pattern()
+    IEnumerator CoBossPatternPhase02()
     {
         mainCoroutineIsRunning = true;
 
@@ -130,10 +130,15 @@ public class BossMovement : MonoBehaviour
         StartCoroutine(CoMoveToMiddle(moveSpeed, waitTime));
         yield return new WaitUntil(() => moveToMiddle);
 
-        StartCoroutine(CoSpawn(spawnCount, waitTime));
-        yield return new WaitUntil(() => spawnIsEnd);
+        StartCoroutine(CoMoveToRightEnd(moveSpeed, moveRange ,waitTime));
+        yield return new WaitUntil(() => moveToRightEnd);
 
-        StartCoroutine(CoBossPhase02Pattern());
+        transform.localScale = new Vector3(-3, 3, 3);
+
+        StartCoroutine(CoShootMiniSlime(moveSpeed, waitTime));
+        yield return new WaitUntil(() => shootMiniSlime);        
+
+        StartCoroutine(CoBossPatternPhase02());
     }
 
     // 공동으로 사용하는 세부 코루틴.
@@ -178,6 +183,43 @@ public class BossMovement : MonoBehaviour
         transform.position = new Vector3(0, transform.position.y, 0);   
 
         moveToMiddle = true;  
+    }
+
+    public bool moveToRightEnd = false;
+
+    public bool shootMiniSlime = false;
+    IEnumerator CoShootMiniSlime(float speed, float waitTime)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            stage.miniSlimes[i].transform.position = transform.position - new Vector3(2, 0, 0);
+            stage.miniSlimes[i].SetActive(true);
+            stage.miniSlimes[i].GetComponent<MiniSlimeMove>().shootingMode = true;
+            yield return new WaitForSeconds(waitTime);
+        }
+
+
+        shootMiniSlime = true;
+    }
+
+    void SetMiniSlimePosToOrigin()
+    {
+
+    }
+
+    IEnumerator CoMoveToRightEnd(float speed, float range, float waitTime)
+    {
+        moveToRightEnd = false;
+        Vector3 endPos = transform.position + new Vector3(range, 0, 0);
+
+        transform.localScale = new Vector3(-3, 3, 3);
+
+        while (Vector3.Distance(transform.position, endPos) > 0.5f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endPos, speed * Time.deltaTime);
+            yield return new WaitForSeconds(0.01f);
+        }
+        moveToRightEnd = true;
     }
 
     IEnumerator CoMoveToSide(float speed, float range, float waitTime)
@@ -266,4 +308,5 @@ public class BossMovement : MonoBehaviour
         moveSpeed  += speedIncrement;
         spawnCount += spawnIncrement;
     }
+
 }

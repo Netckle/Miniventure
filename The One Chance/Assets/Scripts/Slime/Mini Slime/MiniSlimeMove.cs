@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class MiniSlimeMove : MonoBehaviour
 {
-    [Header("Test")]
     public int HP;
-    private Animator anim;
+    Animator anim;
 
     public ParticleSystem particle;
 
@@ -18,7 +17,7 @@ public class MiniSlimeMove : MonoBehaviour
 
     float myWidth, myHeight;
 
-    private bool canMove = true;
+    bool canMove = true;
 
     void Start()
     {
@@ -35,17 +34,28 @@ public class MiniSlimeMove : MonoBehaviour
     {
         if (HP <= 0)
         {
-            FindObjectOfType<PlayerMovement>().catchedSlimes++;
-            gameObject.SetActive(false);
+            
         }
     }
+    public bool shootingMode = false;
 
     void FixedUpdate()
     {
-        if (canMove)
+        if (shootingMode && canMove)
+        {
+            Shooting();
+        }
+        if (!shootingMode && canMove)
         {
             Move();
         }
+    }
+    Vector3 pos;
+    void Shooting()
+    {
+        pos = transform.position;
+        pos.x -= 0.1f; // Time.deltaTime;
+        transform.position = pos;
     }
 
     void Move()
@@ -79,10 +89,9 @@ public class MiniSlimeMove : MonoBehaviour
 
         // play a hurt sound
         // show damage effect
-        //Instantiate(bloodEffect, transform.position, Quaternion.identity);
+        //Instantiate(bloodEffect, transform.position, Quaternion.identity);       
 
-        
-        
+        StartCoroutine(CoTakeDamage(damage));
     }
 
     IEnumerator CoTakeDamage(int damage)
@@ -92,7 +101,49 @@ public class MiniSlimeMove : MonoBehaviour
         
         HP -= damage;
         Debug.Log("damage TAKEN !");
+
+        Vector2 attackedVelocity = Vector2.zero;
+            
+        attackedVelocity = new Vector2 (2f * this.transform.localScale.x, 10f);
+            
+        myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
+
         yield return new WaitForSeconds(0.3f);
         canMove = true;
+    }
+
+    IEnumerator CoDie()
+    {
+        FindObjectOfType<PlayerMovement>().catchedSlimes++;
+
+        yield return null;
+
+        Die();
+        
+    }
+
+    bool isDie;
+
+    public void Die()
+    {
+        // Strop Movement
+        canMove = false;
+        isDie = true;
+
+        // Flip Y Axis
+        SpriteRenderer renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        renderer.flipY = true;
+
+        // Falling
+        Collider2D coll = gameObject.GetComponent<Collider2D>();
+        coll.enabled = false;
+
+        // Die Bouncing
+        Rigidbody2D rigid = gameObject.GetComponent<Rigidbody2D>();
+        Vector2 dieVelocity = new Vector2 (0, 30f);
+        rigid.AddForce (dieVelocity, ForceMode2D.Impulse);
+
+        // Remove Object
+        Destroy(gameObject, 5f);
     }
 }

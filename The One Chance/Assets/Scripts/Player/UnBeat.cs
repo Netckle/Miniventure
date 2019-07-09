@@ -9,15 +9,18 @@ public class UnBeat : MonoBehaviour
     private bool isUnbeatTime = false;
     private Rigidbody2D rigid;
 
+    private PlayerMovement movement;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        movement = GetComponent<PlayerMovement>();
     }
 
     // Attacked by Creature
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "SlimeBoss" && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
+        if (!movement.isDashing && other.gameObject.tag == "SlimeBoss" && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
         {
             // Bouncing
             Vector2 attackedVelocity = Vector2.zero;

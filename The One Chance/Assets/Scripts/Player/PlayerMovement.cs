@@ -51,20 +51,18 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("Atttack")]    
-    public float            cooldown = 0.5f;   // Combo Attack Cooldown
-    public float            maxTime = 0.8f;    // Accepted Combo Limit Time
-    public int              maxCombo;          // Combo Attack Max Count
-    private int             combo = 0;         // Current Combo Count
-    private float           lastTime;          // Last Attack Time
+    public float cooldown = 0.5f; // Combo Attack Cooldown
+    public float maxTime = 0.8f; // Accepted Combo Limit Time
+    public int maxCombo; // Combo Attack Max Count
+    private int combo = 0; // Current Combo Count
+    private float lastTime; // Last Attack Time
 
-    public int              maxHealth = 6;
-    public int              health = 6;
+    public int maxHealth = 6;
+    public int health = 6;
 
     public bool canMove = false;
     public bool pause = false;
     public bool isTalking = false;
-
-    public bool isJumping = false;
 
     public void Pause()
     {
@@ -105,8 +103,10 @@ public class PlayerMovement : MonoBehaviour
         {
             DialogueManager.instance.DisplayNextSentence();
         }
+
         
-        if (isJumping)
+        
+        if (Input.GetButtonDown("Jump"))
         {
             animationScript.SetTrigger("jump");
 
@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        if (isDashing && !hasDashed)
+        if (Input.GetButtonDown("Dash") && !hasDashed)
         {
             if (xRaw != 0 || yRaw != 0)
             {
@@ -264,6 +264,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d.velocity += dir * jumpForce;
 
         particle.Play();
+
     }
 
     void WallJump()

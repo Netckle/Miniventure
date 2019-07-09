@@ -19,9 +19,7 @@ public class PlayerAttack : MonoBehaviour
     public int damage;
 
     void Update()
-    {
-        
-
+    {        
         if (timeBtwAttack <= 0)
         {
             // then you can attack
