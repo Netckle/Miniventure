@@ -15,8 +15,6 @@ public class Cutscene01 : Cutscene
     bool bossIsDead = false;
     bool cutscne01IsEnd, cutscne02IsEnd;   
 
-    public bool type01, type02, type03;
-
     void Start()
     {
         if (!cutscne01IsEnd)
@@ -37,16 +35,6 @@ public class Cutscene01 : Cutscene
             StartCoroutine(CoLastCutscene(7, 10));
             bossIsDead = false;
         }
-
-        if (type02)
-        {
-            niddle.SetActive(true);
-        }
-
-        if (type03)
-        {
-            
-        }
     }
 
     IEnumerator CoFirstCutscene(int dialogueStart, int dialogueEnd)
@@ -63,7 +51,10 @@ public class Cutscene01 : Cutscene
         Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
 
         player.Release();  
-        bossSlime.StartBossMove(2);
+
+        yield return new WaitForSeconds(2.0f);
+
+        bossSlime.StartBossMove(1);
 
         cutscne01IsEnd = true;
     }

@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Select Boss.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/First Boss Stage.unity
+    path: Assets/Scenes/Stage 01.unity
     guid: 8654d4481c9d8a74499c1337467da4c1
   m_configObjects: {}
