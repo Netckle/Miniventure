@@ -104,11 +104,11 @@ public class MiniSlimeMove : MonoBehaviour
 
         Vector2 attackedVelocity = Vector2.zero;
             
-        attackedVelocity = new Vector2 (2f * this.transform.localScale.x, 10f);
-            
+        attackedVelocity = new Vector2 (3f * this.transform.localScale.x, 3f);
+        myBody.velocity = Vector2.zero;
         myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(1.5f);
         canMove = true;
     }
 

@@ -6,15 +6,18 @@ public class StageController : MonoBehaviour
 {
     public PlayerMovement player;
 
-    public GameObject[] miniSlimes = new GameObject[6];
+    public GameObject[] miniSlimes;
     public GameObject[] lineColliders = new GameObject[3];
 
-    private Vector3[] spawnedPos = new Vector3[6];
+    private Vector3[] spawnedPos;
 
     void Start()
     {
+        spawnedPos = new Vector3[miniSlimes.Length];
         SaveMiniSlimesPos();
     }
+        
+        
 
     void SaveMiniSlimesPos()
     {
@@ -38,6 +41,24 @@ public class StageController : MonoBehaviour
     }
 
     public void SpawnMiniSlimes(int count)
+    {
+        for (int i = 0; i < miniSlimes.Length; ++i)
+        {
+            miniSlimes[i].SetActive(false);
+        }
+
+        for (int i = 0; i < count; ++i)
+        {
+            miniSlimes[i].transform.position = spawnedPos[i];
+            miniSlimes[i].SetActive(true);
+
+            Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(miniSlimes[i].transform);
+            
+            miniSlimes[i].GetComponent<MiniSlimeMove>().particle.Play();
+        }
+    }
+
+    public void SpawnRadomMiniSlimes(int count)
     { 
         Debug.Log("소환할 갯수 : " + count);
         // 남아있는 슬라임 오브젝트 Off.

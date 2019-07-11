@@ -24,6 +24,7 @@ public class BossMovement : MonoBehaviour
     private Rigidbody2D rigid;
     private Animator anim;
     private bool spawnedSlimeIsExist;
+    public bool canDamaged = false;
 
     [Space]
     [Header("행동 플래그")]
@@ -54,11 +55,40 @@ public class BossMovement : MonoBehaviour
         particle = GetComponentInChildren<ParticleSystem>();
     }
 
+    Vector3 pausePos;
+
+    public void Pause()
+    {
+        pausePos = transform.position;
+        pause = true;
+        anim.StartPlayback();
+    }
+
+    public void Release()
+    {
+        pause = false;
+        anim.StopPlayback();
+    }
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Pause();
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Release();
+        }
+
         if (stage.CheckSlimeIsActive()) // 스테이지에 활성화되어있는 슬라임이 없는 경우...
         {
             spawnIsEnd = true;
+        }
+
+        if (pause)
+        {
+            transform.position = pausePos;
         }
     }
 
@@ -107,20 +137,26 @@ public class BossMovement : MonoBehaviour
     {
         mainCorIsRunning = true;
 
-        StartCoroutine(CoMoveToNewLine(player.currentLine, normalWaitTime));
-        yield return new WaitUntil(() => moveToNewLine);
+        yield return new WaitForSeconds(2.0f);
 
-        StartCoroutine(CoMoveToBoth(moveSpeed, moveRange, normalWaitTime));
-        yield return new WaitUntil(() => moveToBoth);
+        canDamaged = false;
 
         StartCoroutine(CoMoveToMiddle(moveSpeed));
-        yield return new WaitUntil(() => moveToMiddle);
+        yield return new WaitUntil(() => moveToMiddle && !pause);
+
+        StartCoroutine(CoMoveToBoth(moveSpeed, moveRange, normalWaitTime));
+        yield return new WaitUntil(() => moveToBoth && !pause);
+
+        StartCoroutine(CoMoveToMiddle(moveSpeed));
+        yield return new WaitUntil(() => moveToMiddle && !pause);
 
         StartCoroutine(CoJump(jumpCount, normalWaitTime));
-        yield return new WaitUntil(() => jumpIsEnd);
+        yield return new WaitUntil(() => jumpIsEnd && !pause);
 
         StartCoroutine(CoSpawnMiniSlime(spawnCount, normalWaitTime));
-        yield return new WaitUntil(() => spawnIsEnd);
+        yield return new WaitUntil(() => spawnIsEnd && !pause);
+
+        canDamaged = true;
 
         StartCoroutine(CoBossPatternPhase01());
     }
@@ -152,6 +188,37 @@ public class BossMovement : MonoBehaviour
         yield return new WaitUntil(() => spawnIsEnd);        
 
         StartCoroutine(CoBossPatternPhase02());
+    }
+
+    public void TakeDamage(int damage)
+    {
+        //dazedTime = startDazedTime;
+
+        // play a hurt sound
+        // show damage effect
+        //Instantiate(bloodEffect, transform.position, Quaternion.identity);       
+
+        StartCoroutine(CoTakeDamage(damage));
+    }
+
+    IEnumerator CoTakeDamage(int damage)
+    {
+        if (canDamaged)
+        {
+        Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
+        
+        HP -= damage;
+        Debug.Log("damage TAKEN !");
+
+        //Vector2 attackedVelocity = Vector2.zero;
+            
+        //attackedVelocity = new Vector2 (3f * this.transform.localScale.x, 3f);
+            
+        //myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(1.5f);
+        }
+        
     }
 
     // 세부 코루틴
@@ -190,6 +257,7 @@ public class BossMovement : MonoBehaviour
         while (Vector3.Distance(transform.position, endPos) > 0.5f)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos, speed * Time.deltaTime);
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(0.01f);
         }        
         transform.position = new Vector3(0, transform.position.y, 0);   
@@ -206,6 +274,7 @@ public class BossMovement : MonoBehaviour
         while (Vector3.Distance(transform.position, leftPos) > 0.5f)
         {
             transform.position = Vector3.MoveTowards(transform.position, leftPos, speed * Time.deltaTime);
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -222,6 +291,7 @@ public class BossMovement : MonoBehaviour
         while (Vector3.Distance(transform.position, endPos) > 0.5f)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos, speed * Time.deltaTime);
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(0.01f);
         }
         moveToRight = true;
@@ -239,6 +309,7 @@ public class BossMovement : MonoBehaviour
         while (Vector3.Distance(transform.position, leftPos) > 0.5f)
         {
             transform.position = Vector3.MoveTowards(transform.position, leftPos, speed * Time.deltaTime);
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -249,6 +320,7 @@ public class BossMovement : MonoBehaviour
         while (Vector3.Distance(transform.position, rightPos) > 0.5f)
         {
             transform.position = Vector3.MoveTowards(transform.position, rightPos, speed * Time.deltaTime);
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -260,6 +332,7 @@ public class BossMovement : MonoBehaviour
         spawnIsEnd = false;
 
         stage.SpawnMiniSlimes(count);
+        yield return new WaitUntil(()=>!pause);
         yield return new WaitForSeconds(time);
     }
 
@@ -271,6 +344,7 @@ public class BossMovement : MonoBehaviour
             stage.miniSlimes[i].transform.position = transform.position - new Vector3(2, 0, 0);
             stage.miniSlimes[i].SetActive(true);
             stage.miniSlimes[i].GetComponent<MiniSlimeMove>().shootingMode = true;
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(time);
         }
     }
@@ -282,6 +356,7 @@ public class BossMovement : MonoBehaviour
         for (int i = 0; i < count; ++i)
         {
             isJumping = true;
+            yield return new WaitUntil(()=>!pause);
             yield return new WaitForSeconds(time);
         }
 

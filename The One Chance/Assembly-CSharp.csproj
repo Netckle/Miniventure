@@ -62,6 +62,7 @@
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\Freeze.cs" />
+     <Compile Include="Assets\Scenes\DogDrip.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
      <Compile Include="Assets\Scripts\Camera\MultipleTargetCamera.cs" />
      <Compile Include="Assets\Scripts\Cutscene\Cutscene.cs" />

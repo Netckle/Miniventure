@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashSpeed    = 20;
 
     private bool groundTouch;
-    private bool hasDashed;
+    public bool hasDashed;
 
     [Space]
     [Header("State Flags")]
@@ -121,12 +121,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        if (Input.GetButtonDown("Dash") && !hasDashed)
+        if (Input.GetButtonDown("Dash"))//&& !hasDashed)
         {
-            if (xRaw != 0 || yRaw != 0)
-            {
+            //if (xRaw != 0 || yRaw != 0)
+            //{
+                Debug.Log(xRaw + " " + yRaw);
                 Dash(xRaw, yRaw);
-            }
+            //}
         }
 
         if (collision.onWall && Input.GetButton("Interact") && canMove)
@@ -238,6 +239,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+
     void Dash(float x, float y)
     {
         Camera.main.transform.DOComplete();
@@ -250,6 +253,8 @@ public class PlayerMovement : MonoBehaviour
 
         rigidbody2d.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
+
+        Debug.Log("대쉬 : " + dir.x + " " + dir.y);
 
         rigidbody2d.velocity += dir.normalized * dashSpeed;
         StartCoroutine(CoDashWait());

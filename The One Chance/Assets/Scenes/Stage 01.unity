@@ -5339,23 +5339,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage: {fileID: 1230156296}
   player: {fileID: 1940407669}
-  moveSpeed: 10
+  HP: 100
+  moveSpeed: 6.67
   moveRange: 12
   jumpPower: 5
-  waitTime: 1
+  normalWaitTime: 0
   jumpCount: 2
   spawnCount: 2
   moveToNewLine: 0
   moveToMiddle: 0
-  moveToSide: 0
-  blockDmgIsEnd: 0
+  moveToBoth: 0
   spawnIsEnd: 0
   jumpIsEnd: 0
-  moveToLeftEnd: 0
+  moveToLeft: 0
+  moveToRight: 0
   isJumping: 0
   pause: 0
-  moveToRightEnd: 0
-  shootMiniSlime: 0
 --- !u!95 &56423421
 Animator:
   serializedVersion: 3
@@ -5393,15 +5392,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.5
+      value: -11.59
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 8.6
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -12192,7 +12196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &165070391
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12520,7 +12524,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BGMSounds:
   - {fileID: 8300000, guid: da3b4fa8cf7b2464ba3e8c330b4e6edb, type: 3}
-  EffectSounds: []
+  EffectSounds:
+  - {fileID: 8300000, guid: 56217aac54fedda4ab8bbcd752dfce3f, type: 3}
   isSfxMute: 0
   sfxVolume: 1
   soundPlayPosition: {x: 0, y: 0, z: 0}
@@ -12805,15 +12810,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.5
+      value: 10.77
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 22.63
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -13209,9 +13219,7 @@ MonoBehaviour:
   npc: {fileID: 1916469680}
   bossSlime: {fileID: 56423418}
   niddle: {fileID: 0}
-  type01: 0
-  type02: 0
-  type03: 0
+  cutsceneIsEnd: 0
 --- !u!4 &583387966
 Transform:
   m_ObjectHideFlags: 0
@@ -17191,15 +17199,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.5
+      value: -11.36
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -23176,15 +23189,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.5
+      value: 11.38
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 7.91
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -25210,6 +25228,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &967545084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1031112940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &967545085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1031112940}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1029422597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
@@ -25221,6 +25251,92 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
     type: 3}
   m_PrefabInstance: {fileID: 662058286}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1031112940
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1230156297}
+    m_Modifications:
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_Name
+      value: Mini Slime (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f, type: 3}
+--- !u!1 &1033345881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2019087486}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1033345882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2019087486}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1094640559
 PrefabInstance:
@@ -25234,15 +25350,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.5
+      value: 10.52
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7
+      value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -30068,7 +30189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152468874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: -0.48, z: 0}
+  m_LocalPosition: {x: 1.15, y: -0.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1940407672}
@@ -30086,15 +30207,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mini Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.5
+      value: -9.48
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 22.53
       objectReference: {fileID: 0}
     - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
         type: 3}
@@ -36071,6 +36197,8 @@ MonoBehaviour:
   - {fileID: 366564681}
   - {fileID: 1029422597}
   - {fileID: 523869725}
+  - {fileID: 967545084}
+  - {fileID: 1033345881}
   lineColliders:
   - {fileID: 253646777}
   - {fileID: 1441046527}
@@ -36092,6 +36220,8 @@ Transform:
   - {fileID: 366564686}
   - {fileID: 1029422602}
   - {fileID: 523869730}
+  - {fileID: 967545085}
+  - {fileID: 1033345882}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45184,7 +45314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916469675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 7, z: 0}
+  m_LocalPosition: {x: -2.65, y: 21.02, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -45393,7 +45523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940407667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.9, y: 8.2, z: 0}
+  m_LocalPosition: {x: -6.9, y: 24.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1597155883}
@@ -46620,6 +46750,80 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &2019087486
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1230156297}
+    m_Modifications:
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_Name
+      value: Mini Slime (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426726993506191764, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106679970866792414, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ccb91d196d3e2de4b8d2ea2dfa2a786f, type: 3}
 --- !u!1 &2102697886
 GameObject:
   m_ObjectHideFlags: 0
@@ -46859,7 +47063,7 @@ PrefabInstance:
     - target: {fileID: 300359627050030480, guid: 162de5b024a79a646ae9901da6f9ce2b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.75
+      value: 23.91
       objectReference: {fileID: 0}
     - target: {fileID: 300359627050030480, guid: 162de5b024a79a646ae9901da6f9ce2b,
         type: 3}
@@ -46979,7 +47183,7 @@ PrefabInstance:
     - target: {fileID: 2391740584869915403, guid: 75ad3e39338609447876d849e80ebc01,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.2
+      value: 24.36
       objectReference: {fileID: 0}
     - target: {fileID: 2391740584869915403, guid: 75ad3e39338609447876d849e80ebc01,
         type: 3}

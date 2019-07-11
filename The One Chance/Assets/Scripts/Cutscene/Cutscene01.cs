@@ -10,14 +10,13 @@ public class Cutscene01 : Cutscene
     public NPCMovement npc;
     public BossMovement bossSlime;
 
-    public GameObject niddle;
-
-    bool bossIsDead = false;
-    bool cutscne01IsEnd, cutscne02IsEnd;   
+    public GameObject niddle;    
+    public bool cutsceneIsEnd;
+    public bool bossIsDead;
 
     void Start()
     {
-        if (!cutscne01IsEnd)
+        if (!cutsceneIsEnd)
         {
             StartCoroutine(CoFirstCutscene(0, 6));
         }            
@@ -39,6 +38,8 @@ public class Cutscene01 : Cutscene
 
     IEnumerator CoFirstCutscene(int dialogueStart, int dialogueEnd)
     {        
+        cutsceneIsEnd = false;
+
         fade.FadeOut(3.0f);
 
         player.Pause();
@@ -54,22 +55,41 @@ public class Cutscene01 : Cutscene
 
         yield return new WaitForSeconds(2.0f);
 
+        npc.gameObject.SetActive(false);
+
         bossSlime.StartBossMove(1);
 
-        cutscne01IsEnd = true;
+        cutsceneIsEnd = true;
     }
 
     IEnumerator CoLastCutscene(int dialogueStart, int dialogueEnd)
     {
         // Fade In Out 
 
+        cutsceneIsEnd = false;
+
+        npc.gameObject.SetActive(true);
+
         player.Pause();
         player.ChangeTransform(npc.gameObject.transform.position + new Vector3(-5, 1, 0));
+
+        
 
         DialogueManager.instance.StartDialogue(this, JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
 
         yield return new WaitUntil(() => dialogueIsEnd);
 
+        cutsceneIsEnd = true;
         // Fade In Out 
+
+        bossSlime.GetComponent<Collider2D>().isTrigger = true;
+
+        yield return new WaitForSeconds(0.7f);
+
+        bossSlime.GetComponent<Collider2D>().isTrigger = false;
+
+        bossSlime.StartBossMove(2);
+
+        cutsceneIsEnd = true;
     }
 }

@@ -23,11 +23,11 @@ public class PlayerAttack : MonoBehaviour
         if (timeBtwAttack <= 0)
         {
             // then you can attack
-            if (Input.GetKey(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 playerAnim.SetBool("isAttacking", true);
                 //playerAnim.SetTrigger("attack");
-
+                SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[0]);
                 timeBtwAttack = startTimeBtwAttack;
                 Collider2D[] enemiesToDamage;
  
@@ -37,6 +37,12 @@ public class PlayerAttack : MonoBehaviour
                 for (int i = 0; i < enemiesToDamage.Length; i++)
                 {                    
                     enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage);
+                    Debug.Log(enemiesToDamage[i].tag);
+                    
+                    if (enemiesToDamage[i].tag == "SlimeBoss")
+                    {
+                        enemiesToDamage[i].GetComponent<BossMovement>().TakeDamage(damage);
+                    }
                 }
             }      
             else

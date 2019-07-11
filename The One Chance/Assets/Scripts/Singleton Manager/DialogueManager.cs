@@ -52,6 +52,23 @@ public class DialogueManager : MonoBehaviour
 
         DisplayNextSentence();
     }
+    public void StartDialogue(Dialogue[] data, int start, int end)
+    {
+        Debug.Log("StartDialogue");
+        FindObjectOfType<PlayerMovement>().isTalking = true;
+
+        panel.gameObject.SetActive(true);
+        namePanel.gameObject.SetActive(true);
+
+        sentences.Clear();
+
+        for (int i = start; i < end + 1; ++i)
+        {
+            sentences.Enqueue(data[i]);
+        }
+
+        DisplayNextSentence();
+    }
 
     public void DisplayNextSentence()
     {
@@ -75,8 +92,24 @@ public class DialogueManager : MonoBehaviour
         nameContent.text = sentence.name;
         
         float xPos = 0.0f;
-
-        Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = GameObject.FindGameObjectWithTag(sentence.target).transform;
+        if (sentence.target == "none")
+        {
+            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Count > 1)
+            {
+            Camera.main.GetComponent<MultipleTargetCamera>().targets.RemoveAt(1);
+            }
+        }
+        else if (sentence.target != "none")
+        {
+            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Count < 2)
+            {
+                Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(GameObject.FindGameObjectWithTag(sentence.target).transform);
+            }
+            else
+            {
+            Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = GameObject.FindGameObjectWithTag(sentence.target).transform;
+            }
+        }
 
         foreach (char letter in sentence.content)
         {
