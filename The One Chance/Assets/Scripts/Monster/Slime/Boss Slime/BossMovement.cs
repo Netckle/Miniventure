@@ -43,7 +43,7 @@ public class BossMovement : MonoBehaviour
     public bool isJumping;
     public bool pause;
 
-    private bool mainCorIsRunning;
+    private bool corIsRunning;
     private IEnumerator bossPattern;
 
     private ParticleSystem particle;
@@ -80,11 +80,7 @@ public class BossMovement : MonoBehaviour
         {
             Release();
         }
-
-        if (stage.CheckSlimeIsActive()) // 스테이지에 활성화되어있는 슬라임이 없는 경우...
-        {
-            spawnIsEnd = true;
-        }
+        spawnIsEnd = stage.CheckSlimeIsActive();        
 
         if (pause)
         {
@@ -112,10 +108,13 @@ public class BossMovement : MonoBehaviour
 
     public void StartBossMove(int phase)
     {
-        if (mainCorIsRunning)
+        if (corIsRunning && bossPattern != null)
         {
+            // 이미 실행중인 코루틴 중단 및 새로운 코루틴으로 교체.
+            Debug.Log("보스패턴코루틴을 중단합니다.");
+
             StopCoroutine(bossPattern);
-            mainCorIsRunning = false;
+            corIsRunning = false;
         }
 
         switch(phase)
@@ -135,7 +134,8 @@ public class BossMovement : MonoBehaviour
 
     IEnumerator CoBossPatternPhase01()
     {
-        mainCorIsRunning = true;
+        Debug.Log("페이즈1 코루틴 가동중.");
+        corIsRunning = true;
 
         yield return new WaitForSeconds(2.0f);
 
@@ -150,8 +150,8 @@ public class BossMovement : MonoBehaviour
         StartCoroutine(CoMoveToMiddle(moveSpeed));
         yield return new WaitUntil(() => moveToMiddle && !pause);
 
-        StartCoroutine(CoJump(jumpCount, normalWaitTime));
-        yield return new WaitUntil(() => jumpIsEnd && !pause);
+        //StartCoroutine(CoJump(jumpCount, normalWaitTime));
+        //yield return new WaitUntil(() => jumpIsEnd && !pause);
 
         StartCoroutine(CoSpawnMiniSlime(spawnCount, normalWaitTime));
         yield return new WaitUntil(() => spawnIsEnd && !pause);
@@ -163,29 +163,44 @@ public class BossMovement : MonoBehaviour
 
     IEnumerator CoBossPatternPhase02()
     {
-        mainCorIsRunning = true;
+        Debug.Log("페이즈2 코루틴 가동중.");
+        corIsRunning = true;
 
-        int[] lineNumTemp = RandomInt.getRandomInt(3, 0, 3);
+        //int[] lineNumTemp = RandomInt.getRandomInt(3, 0, 3);             
 
-        for (int i = 0; i < 3; ++i)
-        {           
-            StartCoroutine(CoMoveToNewLine(lineNumTemp[i], normalWaitTime, moveRange));            
-            yield return new WaitUntil(() => moveToNewLine);
+                   
+            transform.position = stage.linePos[0].position;
+
+            StartCoroutine(CoMoveToMiddle(moveSpeed));
+            yield return new WaitUntil(() => moveToMiddle);
+
+            StartCoroutine(CoMoveToRight(moveSpeed, moveRange));
+            yield return new WaitUntil(() => moveToRight);
+
+            transform.position = stage.linePos[1].position;
+
+            StartCoroutine(CoMoveToMiddle(moveSpeed));
+            yield return new WaitUntil(() => moveToMiddle);
 
             StartCoroutine(CoMoveToLeft(moveSpeed, moveRange));
             yield return new WaitUntil(() => moveToLeft);
-        }
+
+            transform.position = stage.linePos[2].position;
+
+            StartCoroutine(CoMoveToMiddle(moveSpeed));
+            yield return new WaitUntil(() => moveToMiddle);
+
+            StartCoroutine(CoMoveToRight(moveSpeed, moveRange));
+            yield return new WaitUntil(() => moveToRight);
+        
 
         StartCoroutine(CoMoveToMiddle(moveSpeed));
         yield return new WaitUntil(() => moveToMiddle);
 
-        StartCoroutine(CoMoveToRight(moveSpeed, moveRange));
-        yield return new WaitUntil(() => moveToRight);
-
         transform.localScale = new Vector3(-3, 3, 3);
 
-        StartCoroutine(CoShootMiniSlime(moveSpeed, normalWaitTime));
-        yield return new WaitUntil(() => spawnIsEnd);        
+        //StartCoroutine(CoShootMiniSlime(moveSpeed, normalWaitTime));
+        //yield return new WaitUntil(() => spawnIsEnd);        
 
         StartCoroutine(CoBossPatternPhase02());
     }
@@ -231,7 +246,7 @@ public class BossMovement : MonoBehaviour
 
         yield return new WaitForSeconds(time);
 
-        transform.position = stage.lineColliders[lineIndex].transform.position + new Vector3(padding, 0, 0);
+        //transform.position = stage.lineColliders[lineIndex].transform.position + new Vector3(padding, 0, 0);
         particle.Play();
 
         moveToNewLine = true;
@@ -269,7 +284,7 @@ public class BossMovement : MonoBehaviour
     {
         moveToLeft = false;
 
-        Vector3 leftPos  = transform.position - new Vector3(xPos * 2, 0, 0);
+        Vector3 leftPos  = transform.position - new Vector3(xPos, 0, 0);
 
         while (Vector3.Distance(transform.position, leftPos) > 0.5f)
         {
@@ -345,7 +360,7 @@ public class BossMovement : MonoBehaviour
             stage.miniSlimes[i].SetActive(true);
             stage.miniSlimes[i].GetComponent<MiniSlimeMove>().shootingMode = true;
             yield return new WaitUntil(()=>!pause);
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 

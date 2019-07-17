@@ -27,34 +27,10 @@ public class DialogueManager : MonoBehaviour
     public Image namePanel;
     public TextMeshProUGUI nameContent;
 
-    void Start()
-    {
-        //panel.gameObject.SetActive(false);
-    }
+    public bool dialogueIsEnd = false;
 
-    private Cutscene cutscneTemp;
-
-    public void StartDialogue(Cutscene cutscne, Dialogue[] data, int start, int end)
-    {
-        Debug.Log("StartDialogue");
-        FindObjectOfType<PlayerMovement>().isTalking = true;
-
-        cutscneTemp = cutscne;
-        panel.gameObject.SetActive(true);
-        namePanel.gameObject.SetActive(true);
-
-        sentences.Clear();
-
-        for (int i = start; i < end + 1; ++i)
-        {
-            sentences.Enqueue(data[i]);
-        }
-
-        DisplayNextSentence();
-    }
     public void StartDialogue(Dialogue[] data, int start, int end)
     {
-        Debug.Log("StartDialogue");
         FindObjectOfType<PlayerMovement>().isTalking = true;
 
         panel.gameObject.SetActive(true);
@@ -92,23 +68,17 @@ public class DialogueManager : MonoBehaviour
         nameContent.text = sentence.name;
         
         float xPos = 0.0f;
+
         if (sentence.target == "none")
         {
-            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Count > 1)
+            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Length > 1)
             {
-            Camera.main.GetComponent<MultipleTargetCamera>().targets.RemoveAt(1);
+                Camera.main.GetComponent<MultipleTargetCamera>().SetTarget();
             }
         }
         else if (sentence.target != "none")
         {
-            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Count < 2)
-            {
-                Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(GameObject.FindGameObjectWithTag(sentence.target).transform);
-            }
-            else
-            {
-            Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = GameObject.FindGameObjectWithTag(sentence.target).transform;
-            }
+            Camera.main.GetComponent<MultipleTargetCamera>().SetTarget(GameObject.FindGameObjectWithTag(sentence.target).transform);
         }
 
         foreach (char letter in sentence.content)
@@ -127,7 +97,7 @@ public class DialogueManager : MonoBehaviour
         panel.gameObject.SetActive(false);
         namePanel.gameObject.SetActive(false);
 
-        cutscneTemp.dialogueIsEnd = true;
+        dialogueIsEnd = true;
         FindObjectOfType<PlayerMovement>().isTalking = false;
     }
 }

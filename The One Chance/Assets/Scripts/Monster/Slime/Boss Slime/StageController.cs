@@ -6,10 +6,10 @@ public class StageController : MonoBehaviour
 {
     public PlayerMovement player;
 
-    public GameObject[] miniSlimes;
-    public GameObject[] lineColliders = new GameObject[3];
-
+    public GameObject[] miniSlimes = new GameObject[2];
     private Vector3[] spawnedPos;
+
+    public Transform[] linePos = new Transform[3];
 
     void Start()
     {
@@ -17,7 +17,13 @@ public class StageController : MonoBehaviour
         SaveMiniSlimesPos();
     }
         
-        
+    public void AllMiniSlimeFalse()
+    {
+        for (int i = 0; i < miniSlimes.Length; ++i)
+        {
+            miniSlimes[i].SetActive(false);
+        }
+    }
 
     void SaveMiniSlimesPos()
     {
@@ -52,9 +58,10 @@ public class StageController : MonoBehaviour
             miniSlimes[i].transform.position = spawnedPos[i];
             miniSlimes[i].SetActive(true);
 
-            Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(miniSlimes[i].transform);
+            //Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(miniSlimes[i].transform);
             
             miniSlimes[i].GetComponent<MiniSlimeMove>().particle.Play();
+            miniSlimes[i].GetComponent<MiniSlimeMove>().SetToOrigin();
         }
     }
 
@@ -75,9 +82,10 @@ public class StageController : MonoBehaviour
             miniSlimes[num].transform.position = spawnedPos[num];
             miniSlimes[num].SetActive(true);
 
-            Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(miniSlimes[num].transform);
+            //Camera.main.GetComponent<MultipleTargetCamera>().targets.Add(miniSlimes[num].transform);
             
             miniSlimes[num].GetComponent<MiniSlimeMove>().particle.Play();
+            miniSlimes[num].GetComponent<MiniSlimeMove>().SetToOrigin();
         }
     }
 }

@@ -3,69 +3,69 @@
     [
         {
           "index": 0,
-          "name": "메루",
-          "content": "이봐 슬라임. 내가 문제를 하나 내줄게.",
+          "name": "넷클",
+          "content": "집앞에 슬라임이 산다고 들었다.",
           "target": "none"
         },
         {
           "index": 1,
-          "name": "지나가는 슬라임",
-          "content": "......???",
+          "name": "슬라임",
+          "content": "몰캉몰캉.",
           "target": "SlimeBoss"
         },
         {
           "index": 2,
-          "name": "메루",
-          "content": "이건 사실 비밀인데, 근처 숲의 짱 이쁜 슬라임은 널...",
+          "name": "넷클",
+          "content": "슬라임을 구워먹으면 쫀득한 식감이 기가 막힌다고 하던데...",
           "target": "none"
         },
         {
           "index": 3,
-          "name": "지나가는 슬라임",
-          "content": "(대충 오지게 흥분하는 상태)",
+          "name": "슬라임",
+          "content": "!!....몰캉.",
           "target": "SlimeBoss"
         },
         {
           "index": 4,
-          "name": "메루",
-          "content": "널...뛰기 선수야!",
+          "name": "넷클",
+          "content": "다른 녀석들을 찾기 전에 널 먹는게 우선인 것 같군.",
           "target": "none"
         },
         {
           "index": 5,
-          "name": "메루",
-          "content": "깔깔깔깔깔깔깔깔깔깔!!!!!",
+          "name": "슬라임",
+          "content": "몰캉....몰캉....몰캉",
           "target": "none"
         },
         {
           "index": 6,
-          "name": "화가 난 슬라임",
-          "content": "............X발",
+          "name": "슬라임",
+          "content": "(왠 거지새끼가 오나 했더니 괴식가였누...<br>도중에 도망가야겠다.)",
           "target": "SlimeBoss"
         },
         {
           "index": 7,
-          "name": "프로그래머",
-          "content": "우와. 버그가 너무 많은걸…<br>오늘도 야근 확정이야…",
-          "target": "ProgrammerNPC"
+          "name": "넷클",
+          "content": "어디야...어디로 간거야!",
+          "target": "none"
         },
         {
           "index": 8,
-          "name": "프로그래머",
-          "content": "그나저나 용케도 클리어하는구나…대단한걸…",
-          "target": "ProgrammerNPC"
+          "name": "슬라임",
+          "content": "끼에에에에엑!!!!!",
+          "target": "SlimeBoss"
         },
         {
           "index": 9,
-          "name": "프로그래머",
-          "content": "네 덕분에 문제점을 많이 발견했어. 고마워.",
-          "target": "ProgrammerNPC"
+          "name": "넷클",
+          "content": "반드시...반드시 먹고 말꺼야...!",
+          "target": "none"
         },
         {
           "index": 10,
-          "name": "프로그래머",
-          "content": "앞으로도 잘 부탁해!",
-          "target": "ProgrammerNPC"
+          "name": "슬라임",
+          "content": "끼에에에에엑!!!!!",
+          "target": "SlimeBoss"
         }
     ]
 }

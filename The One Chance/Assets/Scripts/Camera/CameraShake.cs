@@ -19,7 +19,7 @@ public class CameraShake : MonoBehaviour
     
     IEnumerator CoShake(float _amount,float _duration)
     {
-        GetComponent<MultipleTargetCamera>().canZoom = false;
+        //GetComponent<MultipleTargetCamera>().canZoom = false;
         float timer=0;
         while(timer <= _duration)
         {
@@ -29,6 +29,6 @@ public class CameraShake : MonoBehaviour
             yield return null;
         }
         transform.localPosition = originPos;    
-        GetComponent<MultipleTargetCamera>().canZoom = true;
+        //GetComponent<MultipleTargetCamera>().canZoom = true;
     }
 }

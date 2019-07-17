@@ -5,6 +5,7 @@ using UnityEngine;
 public class MiniSlimeMove : MonoBehaviour
 {
     public int HP;
+    private int appliedHP;
     Animator anim;
 
     public ParticleSystem particle;
@@ -21,6 +22,8 @@ public class MiniSlimeMove : MonoBehaviour
 
     void Start()
     {
+        appliedHP = HP;
+
         anim = GetComponentInChildren<Animator>();
 
         myTrans = this.transform;
@@ -96,9 +99,15 @@ public class MiniSlimeMove : MonoBehaviour
 
     IEnumerator CoTakeDamage(int damage)
     {
+        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
+
         canMove = false;
         Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
         
+        if (HP <= 0)
+        {
+            StartCoroutine(CoDie());
+        }
         HP -= damage;
         Debug.Log("damage TAKEN !");
 
@@ -116,10 +125,10 @@ public class MiniSlimeMove : MonoBehaviour
     {
         FindObjectOfType<PlayerMovement>().catchedSlimes++;
 
-        yield return null;
-
         Die();
-        
+
+        yield return new WaitForSeconds(1.0f);
+        this.gameObject.SetActive(false);
     }
 
     bool isDie;
@@ -144,6 +153,25 @@ public class MiniSlimeMove : MonoBehaviour
         rigid.AddForce (dieVelocity, ForceMode2D.Impulse);
 
         // Remove Object
-        Destroy(gameObject, 5f);
+        //Destroy(gameObject, 2f);
+    }
+
+    public void SetToOrigin()
+    {
+        HP = appliedHP;
+        canMove = true;
+        isDie = false;
+
+        // Flip Y Axis
+        SpriteRenderer renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        renderer.flipY = false;
+
+        // Falling
+        Collider2D coll = gameObject.GetComponent<Collider2D>();
+        coll.enabled = true;
+
+        // Die Bouncing
+        Rigidbody2D rigid = gameObject.GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
     }
 }

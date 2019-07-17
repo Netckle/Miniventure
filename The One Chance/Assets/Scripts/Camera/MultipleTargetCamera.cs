@@ -5,7 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class MultipleTargetCamera : MonoBehaviour
 {
-    public List<Transform> targets;
+    //public List<Transform> targets;
+
+    public Transform[] targets = new Transform[2];
 
     public Vector3 offset;
     public float smoothTime = .5f;
@@ -24,14 +26,24 @@ public class MultipleTargetCamera : MonoBehaviour
         cam = GetComponent<Camera>();
         canZoom = true;
     }
-
+    Vector3 temp = new Vector3(0, 28, -80);
     void LateUpdate()
     {
-        if (targets.Count == 0)
+        if (!canZoom)
+        {
+            transform.position = temp;
+            GetComponent<Camera>().fieldOfView = 13;
+        }
+
+
+        if (targets.Length == 0)
             return;
 
+        if(canZoom)
+        {
         Move();
         Zoom();
+        }
     }
 
     void Zoom()
@@ -53,9 +65,10 @@ public class MultipleTargetCamera : MonoBehaviour
     float GetGreatestDistance()
     {
         var bounds = new Bounds(targets[0].position, Vector3.zero);
-        for (int i = 0; i < targets.Count; i++)
+        for (int i = 0; i < targets.Length; i++)
         {
-            bounds.Encapsulate(targets[i].position);
+            if (targets[i] != null)
+                bounds.Encapsulate(targets[i].position);
         }
 
         return bounds.size.x;
@@ -63,17 +76,23 @@ public class MultipleTargetCamera : MonoBehaviour
 
     Vector3 GetCenterPoint()
     {
-        if (targets.Count == 1)
+        if (targets.Length == 1)
         {
             return targets[0].position;
         }
 
         var bounds = new Bounds(targets[0].position, Vector3.zero);
-        for (int i = 0; i < targets.Count; i++)
+        for (int i = 0; i < targets.Length; i++)
         {
-            bounds.Encapsulate(targets[i].position);
+            if (targets[i] != null)
+                bounds.Encapsulate(targets[i].position);
         }
 
         return bounds.center;
+    }
+    
+    public void SetTarget(Transform t2 = null)
+    {
+        targets[1] = t2;
     }
 }

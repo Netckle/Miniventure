@@ -22,6 +22,8 @@ public class UnBeat : MonoBehaviour
     {
         if (!movement.isDashing && (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime") && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
         {
+            SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[2]);
+
             // Bouncing
             Vector2 attackedVelocity = Vector2.zero;
 

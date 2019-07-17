@@ -7,12 +7,13 @@ public class Cutscene01 : Cutscene
     public Fade fade;
 
     public PlayerMovement player;
-    public NPCMovement npc;
     public BossMovement bossSlime;
-
-    public GameObject niddle;    
+   
     public bool cutsceneIsEnd;
     public bool bossIsDead;
+
+    public Transform phase02Pos;
+    public StageController stageController;
 
     void Start()
     {
@@ -20,11 +21,6 @@ public class Cutscene01 : Cutscene
         {
             StartCoroutine(CoFirstCutscene(0, 6));
         }            
-    }
-
-    public void BossIsDead()
-    {
-        bossIsDead = true;
     }
 
     void Update()
@@ -43,11 +39,10 @@ public class Cutscene01 : Cutscene
         fade.FadeOut(3.0f);
 
         player.Pause();
-        player.ChangeTransform(npc.gameObject.transform.position + new Vector3(-5, 1, 0));
+        player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
-        DialogueManager.instance.StartDialogue(this, JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
-
-        yield return new WaitUntil(() => dialogueIsEnd);
+        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
         
         Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
 
@@ -55,41 +50,37 @@ public class Cutscene01 : Cutscene
 
         yield return new WaitForSeconds(2.0f);
 
-        npc.gameObject.SetActive(false);
-
         bossSlime.StartBossMove(1);
-
         cutsceneIsEnd = true;
     }
 
     IEnumerator CoLastCutscene(int dialogueStart, int dialogueEnd)
     {
-        // Fade In Out 
+        stageController.AllMiniSlimeFalse();
 
         cutsceneIsEnd = false;
 
-        npc.gameObject.SetActive(true);
+        //fade.FadeIn(3.0f);
+        //fade.FadeOut(3.0f);
+
+        bossSlime.transform.position = phase02Pos.position;  
+
+        yield return new WaitForSeconds(0.5f);    
 
         player.Pause();
-        player.ChangeTransform(npc.gameObject.transform.position + new Vector3(-5, 1, 0));
+        player.ChangeTransform(bossSlime.transform.position + new Vector3(-5, 1, 0));    
 
-        
+        Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
+        Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
 
-        DialogueManager.instance.StartDialogue(this, JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
 
-        yield return new WaitUntil(() => dialogueIsEnd);
+        player.Release();
 
-        cutsceneIsEnd = true;
-        // Fade In Out 
-
-        bossSlime.GetComponent<Collider2D>().isTrigger = true;
-
-        yield return new WaitForSeconds(0.7f);
-
-        bossSlime.GetComponent<Collider2D>().isTrigger = false;
+        yield return new WaitForSeconds(2.0f);
 
         bossSlime.StartBossMove(2);
-
         cutsceneIsEnd = true;
     }
 }
