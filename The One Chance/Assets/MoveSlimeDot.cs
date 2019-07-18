@@ -131,6 +131,7 @@ public class MoveSlimeDot : MonoBehaviour
 
     IEnumerator BossMovementPhase01()
     {
+        Debug.Log("페이즈1실행중");
         canDamaged = false;
 
         MoveToMiddle(normalMoveTime);
@@ -160,24 +161,29 @@ public class MoveSlimeDot : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
-        StartCoroutine(BossMovementPhase01());
+        bossPattern = BossMovementPhase01();
+        StartCoroutine(bossPattern);
     }
 
     IEnumerator BossMovementPhase02()
     {
+        Debug.Log("페이즈2실행중");
         int[] nums = RandomInt.getRandomInt(3, 0, 3);
+
+        float tempTime = normalMoveTime * 2.5f;
 
         for (int i = 0; i < 3; i++)
         {
             transform.position = stage.linePos[nums[i]].position;
 
-            MoveX(normalMoveTime * 2, normalMoveTime * 2);
+            MoveX(moveRange, tempTime);
             yield return new WaitUntil(()=>moveIsEnd && !pause);
         }
 
         yield return new WaitForSeconds(3.0f);
 
-        StartCoroutine(BossMovementPhase02());
+        bossPattern = BossMovementPhase02();
+        StartCoroutine(bossPattern);
     }
 
     public void TakeDamage(int damage)

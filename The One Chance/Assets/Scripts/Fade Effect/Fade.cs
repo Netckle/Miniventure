@@ -18,6 +18,7 @@ public class Fade : MonoBehaviour
 	// 투명 -> 불투명
 	IEnumerator CoFadeIn(float fadeOutTime, System.Action nextEvent = null)
 	{
+		Debug.Log("페이드인");
 		Image img = this.gameObject.GetComponent<Image>();
 		//SpriteRenderer sr = this.gameObject.GetComponent<SpriteRenderer>();
 		Color tempColor = img.color;
@@ -37,6 +38,7 @@ public class Fade : MonoBehaviour
 	// 불투명 -> 투명
 	IEnumerator CoFadeOut(float fadeOutTime, System.Action nextEvent = null)
 	{
+		Debug.Log("페이드아웃");
 		Image img = this.gameObject.GetComponent<Image>();
 		Color tempColor = img.color;
 		while(tempColor.a > 0f){

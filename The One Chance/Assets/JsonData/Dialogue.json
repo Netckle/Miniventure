@@ -4,68 +4,80 @@
         {
           "index": 0,
           "name": "넷클",
-          "content": "집앞에 슬라임이 산다고 들었다.",
+          "content": "집앞에 사람말을 한다는 슬라임이 산다고 들었다.",
           "target": "none"
         },
         {
           "index": 1,
           "name": "슬라임",
-          "content": "몰캉몰캉.",
+          "content": "사람 잘못 본 것이에요.",
           "target": "SlimeBoss"
         },
         {
           "index": 2,
           "name": "넷클",
-          "content": "슬라임을 구워먹으면 쫀득한 식감이 기가 막힌다고 하던데...",
+          "content": "슬라임은 제대로 찾은 것 같은데,",
           "target": "none"
         },
         {
           "index": 3,
           "name": "슬라임",
-          "content": "!!....몰캉.",
+          "content": ".....",
           "target": "SlimeBoss"
         },
         {
           "index": 4,
           "name": "넷클",
-          "content": "다른 녀석들을 찾기 전에 널 먹는게 우선인 것 같군.",
+          "content": ".....",
           "target": "none"
         },
         {
           "index": 5,
           "name": "슬라임",
-          "content": "몰캉....몰캉....몰캉",
+          "content": "그냥 가주시면 안 되는 것일까요?",
           "target": "none"
         },
         {
           "index": 6,
-          "name": "슬라임",
-          "content": "(왠 거지새끼가 오나 했더니 괴식가였누...<br>도중에 도망가야겠다.)",
+          "name": "넷클",
+          "content": "안 돼.",
           "target": "SlimeBoss"
         },
         {
           "index": 7,
           "name": "넷클",
-          "content": "어디야...어디로 간거야!",
+          "content": "거기로 간다고 달라지는게 있나?",
           "target": "none"
         },
         {
           "index": 8,
           "name": "슬라임",
-          "content": "끼에에에에엑!!!!!",
+          "content": "지 발로 내 집에 들어오다니, 죽여버릴테니 준비하는 것이에요.",
           "target": "SlimeBoss"
         },
         {
           "index": 9,
           "name": "넷클",
-          "content": "반드시...반드시 먹고 말꺼야...!",
+          "content": "응 아니야.",
           "target": "none"
         },
         {
           "index": 10,
           "name": "슬라임",
-          "content": "끼에에에에엑!!!!!",
+          "content": "탱글권법을 받는 거에요! 끼요요요옷!",
           "target": "SlimeBoss"
+        },
+        {
+          "index": 11,
+          "name": "슬라임",
+          "content": "아아, 너무 아프니깐 도망가는 것이에요.",
+          "target": "SlimeBoss"
+        },
+        {
+          "index": 12,
+          "name": "넷클",
+          "content": "아니...잠깐!",
+          "target": "none"
         }
     ]
 }

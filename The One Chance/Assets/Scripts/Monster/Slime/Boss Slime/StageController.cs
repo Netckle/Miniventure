@@ -11,6 +11,8 @@ public class StageController : MonoBehaviour
 
     public Transform[] linePos = new Transform[3];
 
+    public GameObject phase01Block;
+
     void Start()
     {
         spawnedPos = new Vector3[miniSlimes.Length];
