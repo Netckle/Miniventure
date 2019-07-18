@@ -51,7 +51,7 @@ public class BossMovement : MonoBehaviour
     void Start()
     {
         rigid    = GetComponent<Rigidbody2D>();
-        anim     = GetComponent<Animator>();
+        anim     = GetComponentInChildren<Animator>();
         particle = GetComponentInChildren<ParticleSystem>();
     }
 

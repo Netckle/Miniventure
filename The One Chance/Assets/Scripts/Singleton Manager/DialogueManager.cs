@@ -31,6 +31,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue[] data, int start, int end)
     {
+        dialogueIsEnd = false;
         FindObjectOfType<PlayerMovement>().isTalking = true;
 
         panel.gameObject.SetActive(true);

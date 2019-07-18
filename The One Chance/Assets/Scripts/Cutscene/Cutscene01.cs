@@ -7,13 +7,15 @@ public class Cutscene01 : Cutscene
     public Fade fade;
 
     public PlayerMovement player;
-    public BossMovement bossSlime;
+    public MoveSlimeDot bossSlime;
    
     public bool cutsceneIsEnd;
     public bool bossIsDead;
 
     public Transform phase02Pos;
     public StageController stageController;
+
+    
 
     void Start()
     {
@@ -48,8 +50,6 @@ public class Cutscene01 : Cutscene
 
         player.Release();  
 
-        yield return new WaitForSeconds(2.0f);
-
         bossSlime.StartBossMove(1);
         cutsceneIsEnd = true;
     }
@@ -64,6 +64,7 @@ public class Cutscene01 : Cutscene
         //fade.FadeOut(3.0f);
 
         bossSlime.transform.position = phase02Pos.position;  
+        bossSlime.StopCor();
 
         yield return new WaitForSeconds(0.5f);    
 
