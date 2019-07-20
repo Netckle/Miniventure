@@ -102,7 +102,7 @@ public class MiniSlimeMove : MonoBehaviour
         SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
 
         canMove = false;
-        Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
+        //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
         
         if (HP <= 0)
         {

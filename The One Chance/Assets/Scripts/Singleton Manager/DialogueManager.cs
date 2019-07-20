@@ -72,9 +72,9 @@ public class DialogueManager : MonoBehaviour
 
         if (sentence.target == "none")
         {
-            if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Length > 1)
+            //if (Camera.main.GetComponent<MultipleTargetCamera>().targets.Length > 1)
             {
-                Camera.main.GetComponent<MultipleTargetCamera>().SetTarget();
+                //Camera.main.GetComponent<MultipleTargetCamera>().SetTarget();
             }
         }
         else if (sentence.target != "none")
