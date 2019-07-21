@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: 17a30962e5f9a76459f8cd12ac06ff48
+guid: 3e8d28731f30fe4448b87ee91610dde9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8964898033698024632
-    second: CharAttack_0
+      213: 8989163066291655692
+    second: Player Attack_0
   - first:
-      213: -6203271248919799735
-    second: CharAttack_1
+      213: 8029827228418758951
+    second: Player Attack_1
   - first:
-      213: 7160155862130542087
-    second: CharAttack_2
+      213: -8909054472637860261
+    second: Player Attack_2
   - first:
-      213: -4984274526873897915
-    second: CharAttack_3
+      213: -8512732028961369658
+    second: Player Attack_3
   - first:
-      213: 1516629829676469687
-    second: CharAttack_4
+      213: -3824780186810016227
+    second: Player Attack_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -97,23 +97,11 @@ TextureImporter:
     overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharAttack_0
+      name: Player Attack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -127,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ede40dcb8ec6a404e80ed3c2d0ef514f
-      internalID: 8964898033698024632
+      spriteID: f7e153c559e6395469923915c75ce690
+      internalID: 8989163066291655692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharAttack_1
+      name: Player Attack_1
       rect:
         serializedVersion: 2
         x: 64
@@ -148,14 +136,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e08ddd7cb88f774c98db6b4e0983d58
-      internalID: -6203271248919799735
+      spriteID: 4f6b19038dad1834ebb991ab108012a0
+      internalID: 8029827228418758951
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharAttack_2
+      name: Player Attack_2
       rect:
         serializedVersion: 2
         x: 128
@@ -169,14 +157,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 623dd715f44b54145a76f0d043e6ef56
-      internalID: 7160155862130542087
+      spriteID: 3992a174853ec3d48b01e7b70d46e302
+      internalID: -8909054472637860261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharAttack_3
+      name: Player Attack_3
       rect:
         serializedVersion: 2
         x: 192
@@ -190,14 +178,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f57ce1d19d1b9749a7fd7b16f148f76
-      internalID: -4984274526873897915
+      spriteID: df39dd039f254a34285a66733b4014c8
+      internalID: -8512732028961369658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharAttack_4
+      name: Player Attack_4
       rect:
         serializedVersion: 2
         x: 256
@@ -211,8 +199,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ca95150807517c40aebb24e720f4c00
-      internalID: 1516629829676469687
+      spriteID: 945977576856587458256fade9f66106
+      internalID: -3824780186810016227
       vertices: []
       indices: 
       edges: []

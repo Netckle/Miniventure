@@ -18,12 +18,20 @@ public class PlayerAttack : MonoBehaviour
     public float attackRange;
     public int damage;
 
+    private bool attackIsRunning;
+
+    public void OnClickAct()
+    {
+        attackIsRunning = true;
+    }
+
     void Update()
     {        
         if (timeBtwAttack <= 0)
         {
             // then you can attack
-            if (Input.GetKeyDown(KeyCode.Q))
+            //if (Input.GetKeyDown(KeyCode.Q))
+            if (attackIsRunning)
             {
                 playerAnim.SetBool("isAttacking", true);
                 //playerAnim.SetTrigger("attack");
@@ -35,20 +43,25 @@ public class PlayerAttack : MonoBehaviour
                 enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position , attackRange, whatIsEnemies);
                 
                 for (int i = 0; i < enemiesToDamage.Length; i++)
-                {                    
-                    enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage);
-                    Debug.Log(enemiesToDamage[i].tag);
-                    
+                {       
                     if (enemiesToDamage[i].tag == "SlimeBoss")
                     {
-                        enemiesToDamage[i].GetComponent<BossMovement>().TakeDamage(damage);
+                        enemiesToDamage[i].GetComponent<MoveSlimeDot>().TakeDamage(damage);
                     }
+                    else if (enemiesToDamage[i].tag == "Slime")
+                    {
+                        enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage, transform.localScale.x);
+                    }                    
+                    Debug.Log(enemiesToDamage[i].tag);                  
                 }
+
+                attackIsRunning = false;  
             }      
             else
             {
                 playerAnim.SetBool("isAttacking", false);
-            }      
+                attackIsRunning = false;  
+            }                
         }
         else
         {

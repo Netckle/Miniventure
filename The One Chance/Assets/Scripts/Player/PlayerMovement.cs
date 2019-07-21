@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {   
@@ -64,6 +65,27 @@ public class PlayerMovement : MonoBehaviour
     public bool pause = false;
     public bool isTalking = false;
 
+    // ----- Joystick
+
+    public Joystick joystick;
+    private Vector3 _moveVector; // 플레이어 이동벡터
+
+    
+
+    public void HandleInput()
+    {
+        _moveVector = PoolInput();
+    }
+
+    public Vector3 PoolInput()
+    {
+        float h = joystick.GetHorizontalValue();
+        float v = joystick.GetVerticalValue();
+        Vector3 moveDir = new Vector3(h, v, 0).normalized;
+
+        return moveDir;
+    }
+
     public void Pause()
     {
         canMove = false;
@@ -79,12 +101,28 @@ public class PlayerMovement : MonoBehaviour
         this.gameObject.transform.position = pos;
     }
 
+    
+
     void Start()
     {
         collision = GetComponent<Collision>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         animationScript = GetComponentInChildren<AnimationScript>();
         animator = GetComponentInChildren<Animator>();
+    }
+    public bool jumpFlag;
+
+    public bool jumpIsRunning;
+    bool nextDialogue;
+
+    public void OnClickAct()
+    {
+        jumpFlag = true;
+    }
+
+    public void OnClickDialogue()
+    {
+        jumpFlag = true;
     }
 
     void Update()
@@ -96,17 +134,23 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 dir = new Vector2(x, y);
 
-        Walk(dir);        
-        animationScript.SetHorizontalMovement(x, y, rigidbody2d.velocity.y);
+        HandleInput();
 
-        if (isTalking && Input.GetButtonDown("Interact"))
+        Walk(_moveVector);        
+        animationScript.SetHorizontalMovement(_moveVector.x, _moveVector.y, rigidbody2d.velocity.y);
+
+        //if (isTalking && Input.GetButtonDown("Interact"))
+        if (isTalking && nextDialogue)
         {
+            nextDialogue = false;
             DialogueManager.instance.DisplayNextSentence();
+            
         }
 
         
         
-        if (Input.GetButtonDown("Jump"))
+        //if (Input.GetButtonDown("Jump"))
+        if (jumpFlag)
         {
             animationScript.SetTrigger("jump");
 
@@ -119,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 WallJump();
             }
+            jumpFlag = false;
         }
         
         if (Input.GetButtonDown("Dash"))//&& !hasDashed)
@@ -208,13 +253,15 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab || wallSlide || !canMove)
             return;
 
-        if (x > 0)
+        //if (x > 0)
+        if (_moveVector.x > 0)
         {
             side = 1;
             animationScript.Flip(side);
         }
 
-        if (x < 0)
+        //if (x < 0)
+        if (_moveVector.x < 0)
         {
             side = -1;
             animationScript.Flip(side);
@@ -262,6 +309,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump(Vector2 dir, bool wall)
     {
+        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[3]);
+
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
 

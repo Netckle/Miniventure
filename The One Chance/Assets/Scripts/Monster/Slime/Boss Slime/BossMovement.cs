@@ -130,6 +130,8 @@ public class BossMovement : MonoBehaviour
         StartCoroutine(bossPattern);
     }    
 
+    
+
     // 종합 코루틴
 
     IEnumerator CoBossPatternPhase01()
@@ -216,22 +218,64 @@ public class BossMovement : MonoBehaviour
         StartCoroutine(CoTakeDamage(damage));
     }
 
+    public SpriteRenderer spriteRenderer;
+
+    private IEnumerator CorUnBeatTime()
+    {
+        //GetComponent<BossMovement>().canMove = false;
+
+        int countTime = 0;
+
+        while (countTime < 10)
+        {
+            // Alpha Effect
+            if (countTime % 2 == 0)
+            {
+                spriteRenderer.color = new Color32(255, 255, 255, 90);
+            }
+            else
+            {
+                spriteRenderer.color = new Color32(255, 255, 255, 180);
+            }
+
+            // Wait Update Frame
+            yield return new WaitForSeconds(0.1f);
+
+            countTime++;
+        }
+
+        // Alpha Effect End
+        spriteRenderer.color = new Color32(255, 255, 255, 255);
+
+        // UnBeatTime Off
+        //isUnbeatTime = false;
+
+        //GetComponent<PlayerMovement>().canMove = true;
+        
+        yield return null;
+    }
+
+
     IEnumerator CoTakeDamage(int damage)
     {
+        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
+
+        StartCoroutine(CorUnBeatTime());
+
         if (canDamaged)
         {
-        Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
-        
-        HP -= damage;
-        Debug.Log("damage TAKEN !");
-
-        //Vector2 attackedVelocity = Vector2.zero;
+            //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
             
-        //attackedVelocity = new Vector2 (3f * this.transform.localScale.x, 3f);
-            
-        //myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
+            HP -= damage;
+            Debug.Log("damage TAKEN !");
 
-        yield return new WaitForSeconds(1.5f);
+            //Vector2 attackedVelocity = Vector2.zero;
+                
+            //attackedVelocity = new Vector2 (3f * this.transform.localScale.x, 3f);
+                
+            //myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
+
+            yield return new WaitForSeconds(1.5f);
         }
         
     }

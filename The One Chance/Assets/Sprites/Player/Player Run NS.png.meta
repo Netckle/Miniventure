@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: ca27e9866049bf74b919d99868cbdc81
+guid: c80afea68ba558b4c8c8654a1c89115e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -938658608654533949
-    second: player_run_0
+      213: 2446490378773697484
+    second: Player Run NS_0
   - first:
-      213: -4148961355465977301
-    second: player_run_1
+      213: 6603182805688615611
+    second: Player Run NS_1
   - first:
-      213: 8204335442217980708
-    second: player_run_2
+      213: -1113243519273735803
+    second: Player Run NS_2
   - first:
-      213: 4230258538296812781
-    second: player_run_3
+      213: 8624860974686263988
+    second: Player Run NS_3
   - first:
-      213: 1805687361805048230
-    second: player_run_4
+      213: 6063645818125303768
+    second: Player Run NS_4
   - first:
-      213: -8277223436960721367
-    second: player_run_5
+      213: -991246450884055421
+    second: Player Run NS_5
   - first:
-      213: -5844229392406826400
-    second: player_run_6
+      213: -8570579233457415712
+    second: Player Run NS_6
   - first:
-      213: -2270108244896127765
-    second: player_run_7
+      213: 115924138134517381
+    second: Player Run NS_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -106,23 +106,11 @@ TextureImporter:
     overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_run_0
+      name: Player Run NS_0
       rect:
         serializedVersion: 2
         x: 0
@@ -136,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e87b180d1426794e89b0e6b51d21398
-      internalID: -938658608654533949
+      spriteID: 9dedddc712492504e9fc70716d2e6e99
+      internalID: 2446490378773697484
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_1
+      name: Player Run NS_1
       rect:
         serializedVersion: 2
         x: 32
@@ -157,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14de666bff8b97c4cb053703becab40c
-      internalID: -4148961355465977301
+      spriteID: 52fa3f7168dce1747b96babeaa03ff07
+      internalID: 6603182805688615611
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_2
+      name: Player Run NS_2
       rect:
         serializedVersion: 2
         x: 64
@@ -178,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c29818c2c210ea34b92ab91b9c860f30
-      internalID: 8204335442217980708
+      spriteID: 570d640f8d54bdd4ea3eacd238dd35bf
+      internalID: -1113243519273735803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_3
+      name: Player Run NS_3
       rect:
         serializedVersion: 2
         x: 96
@@ -199,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a55557ebf204004789a72c66fc6606d
-      internalID: 4230258538296812781
+      spriteID: 499cf8ee93d67f9498c2585c3b969e79
+      internalID: 8624860974686263988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_4
+      name: Player Run NS_4
       rect:
         serializedVersion: 2
         x: 128
@@ -220,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16530adc092d18f43b7ffbebf7122bab
-      internalID: 1805687361805048230
+      spriteID: 6d04ac2331ae5ee40a8c48603100869f
+      internalID: 6063645818125303768
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_5
+      name: Player Run NS_5
       rect:
         serializedVersion: 2
         x: 160
@@ -241,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 485d8e22c3b0b5f46ae7b79ef9a02c14
-      internalID: -8277223436960721367
+      spriteID: c48084015ca993048ba1920b6c3ff87a
+      internalID: -991246450884055421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_6
+      name: Player Run NS_6
       rect:
         serializedVersion: 2
         x: 192
@@ -262,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef637b37eb4eac94cbf2eced190f78a0
-      internalID: -5844229392406826400
+      spriteID: 3a07eaa183afdb742ac80f6bcf83090c
+      internalID: -8570579233457415712
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_run_7
+      name: Player Run NS_7
       rect:
         serializedVersion: 2
         x: 224
@@ -283,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6c633921ff4d5042a24a4351cfe608d
-      internalID: -2270108244896127765
+      spriteID: c7eb06eac79adb745a50d09c31d265da
+      internalID: 115924138134517381
       vertices: []
       indices: 
       edges: []

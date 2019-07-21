@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: ca3d824e23719e84aa79af34219cdc7c
+guid: ef41b5ec0cf72d74d96ce1f73c11a27f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9079888709195855916
-    second: CharacterJumpNoSword_0
+      213: 5040646664913743944
+    second: Player Jump NS_0
   - first:
-      213: 6232132670842008696
-    second: CharacterJumpNoSword_1
+      213: -789182088317636194
+    second: Player Jump NS_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -88,23 +88,11 @@ TextureImporter:
     overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterJumpNoSword_0
+      name: Player Jump NS_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +106,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a5279b20a44c8644852c501621844dd
-      internalID: 9079888709195855916
+      spriteID: 6dba33822737b6a41981ad1745936bb1
+      internalID: 5040646664913743944
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterJumpNoSword_1
+      name: Player Jump NS_1
       rect:
         serializedVersion: 2
         x: 32
@@ -139,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96b7b1dd14d69d14f9b268274dc5fe4b
-      internalID: 6232132670842008696
+      spriteID: 825f89444a54d5142a5bf92e42bd49da
+      internalID: -789182088317636194
       vertices: []
       indices: 
       edges: []

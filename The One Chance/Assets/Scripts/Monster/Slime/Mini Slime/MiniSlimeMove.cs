@@ -20,6 +20,8 @@ public class MiniSlimeMove : MonoBehaviour
 
     bool canMove = true;
 
+    SpriteRenderer mySprite;
+
     void Start()
     {
         appliedHP = HP;
@@ -28,7 +30,7 @@ public class MiniSlimeMove : MonoBehaviour
 
         myTrans = this.transform;
         myBody = this.GetComponent<Rigidbody2D>();
-        SpriteRenderer mySprite = this.GetComponentInChildren<SpriteRenderer>();
+        mySprite = this.GetComponentInChildren<SpriteRenderer>();
         myWidth = mySprite.bounds.extents.x;
         myHeight = mySprite.bounds.extents.y;
     }
@@ -86,7 +88,45 @@ public class MiniSlimeMove : MonoBehaviour
         myBody.velocity = myVel;
     }
 
-    public void TakeDamage(int damage)
+    public SimpleCameraShakeInCinemachine cameraShake;
+
+
+    private IEnumerator CorUnBeatTime()
+    {
+        //GetComponent<PlayerMovement>().canMove = false;
+
+        int countTime = 0;
+
+        while (countTime < 10)
+        {
+            // Alpha Effect
+            if (countTime % 2 == 0)
+            {
+                mySprite.color = new Color32(255, 255, 255, 90);
+            }
+            else
+            {
+                mySprite.color = new Color32(255, 255, 255, 180);
+            }
+
+            // Wait Update Frame
+            yield return new WaitForSeconds(0.1f);
+
+            countTime++;
+        }
+
+        // Alpha Effect End
+        mySprite.color = new Color32(255, 255, 255, 255);
+
+        // UnBeatTime Off
+        //isUnbeatTime = false;
+
+        //GetComponent<PlayerMovement>().canMove = true;
+        
+        yield return null;
+    }
+
+    public void TakeDamage(int damage, float localScaleX)
     {
         //dazedTime = startDazedTime;
 
@@ -94,15 +134,22 @@ public class MiniSlimeMove : MonoBehaviour
         // show damage effect
         //Instantiate(bloodEffect, transform.position, Quaternion.identity);       
 
-        StartCoroutine(CoTakeDamage(damage));
+        StartCoroutine(CoTakeDamage(damage, localScaleX));
     }
 
-    IEnumerator CoTakeDamage(int damage)
+    public GameObject Part;
+
+    IEnumerator CoTakeDamage(int damage, float localScaleX)
     {
         SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
 
         canMove = false;
         //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
+        cameraShake.ShakeCam();
+        StartCoroutine(CorUnBeatTime());
+        Part.SetActive(false);
+        Part.transform.position = this.transform.position;
+        Part.SetActive(true);
         
         if (HP <= 0)
         {
@@ -113,7 +160,7 @@ public class MiniSlimeMove : MonoBehaviour
 
         Vector2 attackedVelocity = Vector2.zero;
             
-        attackedVelocity = new Vector2 (3f * this.transform.localScale.x, 3f);
+        attackedVelocity = new Vector2 (3f * localScaleX, 3f);
         myBody.velocity = Vector2.zero;
         myBody.AddForce(attackedVelocity, ForceMode2D.Impulse);
 
@@ -165,6 +212,7 @@ public class MiniSlimeMove : MonoBehaviour
         // Flip Y Axis
         SpriteRenderer renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         renderer.flipY = false;
+        renderer.color = new Color32(255, 255, 255, 255);
 
         // Falling
         Collider2D coll = gameObject.GetComponent<Collider2D>();

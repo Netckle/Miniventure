@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: 4e78cc2d474178346bcf794f9591994f
+guid: 7808b2e3b236c504fa9a8405cc636123
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3957354419846351829
-    second: CharacterFallNoSword_0
+      213: -5300730227309139365
+    second: Player Fall NS_0
   - first:
-      213: -3803000080746464780
-    second: CharacterFallNoSword_1
+      213: -4359409010004976150
+    second: Player Fall NS_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -88,23 +88,11 @@ TextureImporter:
     overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterFallNoSword_0
+      name: Player Fall NS_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +106,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 126690b32274db543aa6be06937c3ef4
-      internalID: -3957354419846351829
+      spriteID: 3442ade0b1b77ca4385807451b7e91f0
+      internalID: -5300730227309139365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterFallNoSword_1
+      name: Player Fall NS_1
       rect:
         serializedVersion: 2
         x: 32
@@ -139,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53f88252249e81e4a8e548d5295a47bd
-      internalID: -3803000080746464780
+      spriteID: 8db44aa0d69833a4891ab7d338fd78be
+      internalID: -4359409010004976150
       vertices: []
       indices: 
       edges: []

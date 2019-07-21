@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: a7083e1c94a2aa64682f220ef55d834d
+guid: b473c439eef6b96409cb474d0dc4bfac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5115618752126089108
-    second: player_idle_0
+      213: 945066621946782568
+    second: Player Idle NS_0
   - first:
-      213: -5050664382621690000
-    second: player_idle_1
+      213: 8280125302301266979
+    second: Player Idle NS_1
   - first:
-      213: -5937766766644145194
-    second: player_idle_2
+      213: -2679535299997444519
+    second: Player Idle NS_2
   - first:
-      213: 6213080392227812279
-    second: player_idle_3
+      213: 4270520230514830049
+    second: Player Idle NS_3
   - first:
-      213: 3690559776813112666
-    second: player_idle_4
+      213: 2665746690474455954
+    second: Player Idle NS_4
   - first:
-      213: 8748236870546505689
-    second: player_idle_5
+      213: -3417223535352164700
+    second: Player Idle NS_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -100,23 +100,11 @@ TextureImporter:
     overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_idle_0
+      name: Player Idle NS_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ffdad7ad43dc9724c967749c8b7c09e2
-      internalID: -5115618752126089108
+      spriteID: eead14487ba7f564b81d32e329eca12f
+      internalID: 945066621946782568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_1
+      name: Player Idle NS_1
       rect:
         serializedVersion: 2
         x: 32
@@ -151,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9a575b5dc45f834cb9f08e45743294b
-      internalID: -5050664382621690000
+      spriteID: 06a1434aa38011c4db8da43cf0327b41
+      internalID: 8280125302301266979
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_2
+      name: Player Idle NS_2
       rect:
         serializedVersion: 2
         x: 64
@@ -172,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b93383a3ced940d43987995fa0ba42df
-      internalID: -5937766766644145194
+      spriteID: 85909f62fdac2ed468a4e0ce00c4c521
+      internalID: -2679535299997444519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_3
+      name: Player Idle NS_3
       rect:
         serializedVersion: 2
         x: 96
@@ -193,14 +181,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae0c1f88fa08298478aef283b502c6b1
-      internalID: 6213080392227812279
+      spriteID: bf40eb3874faaaf4a8319b5d94b805d5
+      internalID: 4270520230514830049
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_4
+      name: Player Idle NS_4
       rect:
         serializedVersion: 2
         x: 128
@@ -214,14 +202,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5c662839b8c1404c8e5490525b1f0bc
-      internalID: 3690559776813112666
+      spriteID: 28d741624e4c1b346a14824d668a29df
+      internalID: 2665746690474455954
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_idle_5
+      name: Player Idle NS_5
       rect:
         serializedVersion: 2
         x: 160
@@ -235,8 +223,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7310a07499998e842bb35d56cae2602f
-      internalID: 8748236870546505689
+      spriteID: 0d0c9b425f6b8e3498fa709905720ee4
+      internalID: -3417223535352164700
       vertices: []
       indices: 
       edges: []

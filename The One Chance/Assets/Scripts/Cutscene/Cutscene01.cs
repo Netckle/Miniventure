@@ -21,7 +21,7 @@ public class Cutscene01 : Cutscene
     {
         if (!cutsceneIsEnd)
         {
-            StartCoroutine(CoFirstCutscene(0, 6));
+            StartCoroutine(CoFirstCutscene(2, 5));
         }            
     }
 
@@ -32,7 +32,7 @@ public class Cutscene01 : Cutscene
         if (bossIsDead)
         {          
             bossIsDead = false;  
-            StartCoroutine(CoLastCutscene(7, 10));
+            StartCoroutine(CoLastCutscene(7, 8));
             
         }
 
@@ -41,6 +41,8 @@ public class Cutscene01 : Cutscene
             middlePhaseCanOn = false;
             StartCoroutine(BetweenPhase());
         }
+
+        
     }
 
     IEnumerator BetweenPhase()
@@ -49,7 +51,7 @@ public class Cutscene01 : Cutscene
         bossSlime.StopCor();
         //player.transform.position = bossSlime.transform.position + new Vector3(-4, 0, 0);
 
-        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), 11, 12);
+        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), 5, 6);
         yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
 
         fade.FadeIn(3.0f);
@@ -77,7 +79,7 @@ public class Cutscene01 : Cutscene
         DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
         
-        Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
+        //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
 
         player.Release();  
 
@@ -102,8 +104,8 @@ public class Cutscene01 : Cutscene
         player.Pause();
         player.ChangeTransform(bossSlime.transform.position + new Vector3(-5, 1, 0));    
 
-        Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
-        Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
+        //Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
+        //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
 
         DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);

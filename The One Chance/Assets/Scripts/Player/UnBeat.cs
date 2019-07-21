@@ -17,12 +17,14 @@ public class UnBeat : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
     }
 
+    public SimpleCameraShakeInCinemachine cameraShake;
     // Attacked by Creature
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!movement.isDashing && (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime") && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
         {
             SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[2]);
+            cameraShake.ShakeCam();
 
             // Bouncing
             Vector2 attackedVelocity = Vector2.zero;

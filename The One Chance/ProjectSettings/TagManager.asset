@@ -45,12 +45,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: "\uBC30\uACBD"
+    uniqueID: 1420720039
     locked: 0
-  - name: aaaa
+  - name: "\uB098\uBB34"
+    uniqueID: 4209422233
+    locked: 0
+  - name: "\uBC14\uC704"
+    uniqueID: 2933955623
+    locked: 0
+  - name: "\uC2DD\uBB3C"
     uniqueID: 302708135
     locked: 0
-  - name: aaaaa
-    uniqueID: 1420720039
+  - name: Default
+    uniqueID: 0
     locked: 0
