@@ -42,7 +42,7 @@ public class JsonManager : MonoBehaviour
 
     public T[] Load<T>()
     {
-        string jsonString = File.ReadAllText(Application.dataPath + "/Resources/JsonData/Dialogue.json");
+        string jsonString = File.ReadAllText(Application.streamingAssetsPath + "/JsonData/Dialogue.json");
         T[] data = JsonHelper.FromJson<T>(jsonString);
 
         return data;

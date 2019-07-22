@@ -1,0 +1,16 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LineCheck : MonoBehaviour
+{
+    public int lineNum = 0;
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            other.gameObject.GetComponent<PlayerMovement>().currentLine = lineNum;
+        }
+    }
+}
