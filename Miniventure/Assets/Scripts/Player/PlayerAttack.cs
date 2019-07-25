@@ -47,10 +47,12 @@ public class PlayerAttack : MonoBehaviour
                     if (enemiesToDamage[i].tag == "SlimeBoss")
                     {
                         enemiesToDamage[i].GetComponent<MoveSlimeDot>().TakeDamage(damage);
+                        Debug.Log("보스 슬라임에게 데미지를 준다");
                     }
                     else if (enemiesToDamage[i].tag == "Slime")
                     {
                         enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage, transform.localScale.x);
+                        Debug.Log("슬라임에게 데미지를 준다");
                     }                    
                     Debug.Log(enemiesToDamage[i].tag);                  
                 }

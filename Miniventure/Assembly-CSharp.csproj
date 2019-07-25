@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\BackgroundFollow.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraShake.cs" />
      <Compile Include="Assets\Scripts\Camera\MultipleTargetCamera.cs" />
+     <Compile Include="Assets\Scripts\ChangeForPhase02.cs" />
      <Compile Include="Assets\Scripts\CinemachineCameraShaker.cs" />
      <Compile Include="Assets\Scripts\Cutscene\Cutscene.cs" />
      <Compile Include="Assets\Scripts\Cutscene\Cutscene01.cs" />
@@ -91,7 +92,7 @@
      <Compile Include="Assets\Scripts\FPS\FPS.cs" />
      <Compile Include="Assets\Scripts\Freeze.cs" />
      <Compile Include="Assets\Scripts\HP.cs" />
-     <Compile Include="Assets\Scripts\Monster\Slime\Boss Slime\BossMovement.cs" />
+     <Compile Include="Assets\Scripts\Monster\Slime\Boss Slime\BossSlimeMovement.cs" />
      <Compile Include="Assets\Scripts\Monster\Slime\Boss Slime\RandomInt.cs" />
      <Compile Include="Assets\Scripts\Monster\Slime\Boss Slime\StageController.cs" />
      <Compile Include="Assets\Scripts\Monster\Slime\Mini Slime\MiniSlime.cs" />

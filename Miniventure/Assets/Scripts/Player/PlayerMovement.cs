@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     public JoystickTest joystick;
     private Vector3 _moveVector; // 플레이어 이동벡터
 
-    
+    SpriteRenderer renderer;
 
     public void HandleInput()
     {
@@ -109,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         animationScript = GetComponentInChildren<AnimationScript>();
         animator = GetComponentInChildren<Animator>();
+        renderer = GetComponentInChildren<SpriteRenderer>();
     }
     public bool jumpFlag;
 
@@ -118,12 +119,26 @@ public class PlayerMovement : MonoBehaviour
     public void OnClickAct()
     {
         jumpFlag = true;
+        jumpIsRunning = true;
     }
 
     public void OnClickDialogue()
     {
         nextDialogue = true;
+        
     }
+
+    public void OnClickRotateEffector()
+    {
+        StartCoroutine(CoRotatePlatform(0.5f));
+    }
+
+    public int jumpCount = 2;
+
+    public bool canDoubleJump = true;
+
+    public Fade fade;
+    bool isDie;
 
     void Update()
     {
@@ -139,7 +154,6 @@ public class PlayerMovement : MonoBehaviour
         Walk(_moveVector);        
         animationScript.SetHorizontalMovement(_moveVector.x, _moveVector.y, rigidbody2d.velocity.y);
 
-        //if (isTalking && Input.GetButtonDown("Interact"))
         if (isTalking && nextDialogue)
         {
             nextDialogue = false;
@@ -147,23 +161,41 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
-        
-        
-        //if (Input.GetButtonDown("Jump"))
+        if (health == 0)
+        {
+            Pause();
+            //fade.FadeOutSprite(renderer, 2.0f);
+            fade.FadeIn(3.0f);
+        }
+
         if (jumpFlag)
         {
             animationScript.SetTrigger("jump");
-
-            if (collision.onGround)
-            {
+            
+            if (!collision.onGround && canDoubleJump)
+            {                
                 Jump(Vector2.up, false);
+                canDoubleJump = false;
             }
+
+            if (collision.onGround) // 바닥에서 시작할때
+            {
+                Jump(Vector2.up, false);              
+            } 
+            
+
+                       
 
             if (collision.onWall && !collision.onGround)
             {
                 WallJump();
             }
             jumpFlag = false;
+        }
+
+        if (!collision.onGround)
+        {
+            
         }
         
         if (Input.GetButtonDown("Dash"))//&& !hasDashed)
@@ -190,14 +222,21 @@ public class PlayerMovement : MonoBehaviour
             wallSlide = false;
         }
 
-        if (nextDialogue && !canGoDown)
-        {
-            StartCoroutine(CoRotatePlatform(0.5f));
-        }
+        //if (nextDialogue && !canGoDown)
+        //{
+            //StartCoroutine(CoRotatePlatform(0.5f));
+        //}
 
         if (pause)
         {
             PauseManager.instance.Pause(this.gameObject, true);            
+        }
+
+        if (collision.onGround)
+        {
+           // jumpFlag = false;
+            //jumpIsRunning = false;
+            canDoubleJump = true;
         }
 
         if (collision.onGround && !isDashing)

@@ -52,4 +52,25 @@ public class Fade : MonoBehaviour
 		img.color = tempColor;
 		if(nextEvent != null) nextEvent();
 	}
+
+	public void FadeOutSprite(SpriteRenderer renderer, float fadeOutTime, System.Action nextEvent = null)
+	{
+		StartCoroutine(CoFadeOutSprite(renderer, fadeOutTime, nextEvent));
+	}
+
+	IEnumerator CoFadeOutSprite(SpriteRenderer renderer, float fadeOutTime, System.Action nextEvent = null)
+    {
+        Debug.Log("페이드아웃");
+		Color tempColor = renderer.color;
+		while(tempColor.a > 0f){
+			tempColor.a -= Time.deltaTime / fadeOutTime;
+			renderer.color = tempColor;
+
+			if(tempColor.a <= 0f) tempColor.a = 0f;
+
+			yield return null;
+		}
+		renderer.color = tempColor;
+		if(nextEvent != null) nextEvent();
+    }
 }

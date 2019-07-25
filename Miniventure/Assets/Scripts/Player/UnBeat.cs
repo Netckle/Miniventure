@@ -23,6 +23,7 @@ public class UnBeat : MonoBehaviour
     {
         if (!movement.isDashing && (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime") && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
         {
+            --movement.health;
             SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[2]);
             cameraShake.ShakeCam();
 
@@ -47,6 +48,8 @@ public class UnBeat : MonoBehaviour
     {
         StartCoroutine(CorUnBeatTime());
     }
+
+    
 
     private IEnumerator CorUnBeatTime()
     {

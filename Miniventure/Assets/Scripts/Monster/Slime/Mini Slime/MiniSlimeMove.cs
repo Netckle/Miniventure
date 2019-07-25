@@ -5,7 +5,7 @@ using UnityEngine;
 public class MiniSlimeMove : MonoBehaviour
 {
     public int HP;
-    private int appliedHP;
+    private const int appliedHP = 3;
     Animator anim;
 
     public ParticleSystem particle;
@@ -24,8 +24,6 @@ public class MiniSlimeMove : MonoBehaviour
 
     void Start()
     {
-        appliedHP = HP;
-
         anim = GetComponentInChildren<Animator>();
 
         myTrans = this.transform;

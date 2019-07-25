@@ -7,8 +7,6 @@ public class actionButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 {
     public PlayerMovement player;
 
-    
-
     public void OnPointerDown(PointerEventData ped)
     {
         player.jumpFlag = true;

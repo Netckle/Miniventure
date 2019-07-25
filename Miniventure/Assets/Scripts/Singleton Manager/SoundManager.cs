@@ -22,7 +22,6 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         SimplePlayBGM(0);
-        Screen.SetResolution(1920, 1080, true);
     }
 
     public AudioClip[] BGMSounds;

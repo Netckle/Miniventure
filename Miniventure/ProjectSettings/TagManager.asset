@@ -43,3 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Fade
+    uniqueID: 2559367821
+    locked: 0
+  - name: Other
+    uniqueID: 3293707163
+    locked: 0

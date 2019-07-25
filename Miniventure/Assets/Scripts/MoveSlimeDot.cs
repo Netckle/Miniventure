@@ -9,6 +9,7 @@ public class MoveSlimeDot : MonoBehaviour
     public PlayerMovement player;
 
     public int HP = 10;
+    public int maxHP;
 
     [Range(0, 10)]
     public float moveSpeed;
@@ -31,24 +32,47 @@ public class MoveSlimeDot : MonoBehaviour
 
     IEnumerator bossPattern;
 
+    SpriteRenderer sprite;
+
     public GameObject Part;
 
     void Start()
     {
+        maxHP = HP;
         rigid    = GetComponent<Rigidbody2D>();
         anim     = GetComponentInChildren<Animator>();
         particle = GetComponentInChildren<ParticleSystem>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     public SpriteRenderer spriteRenderer;
 
-    void Die()
+    public void Die()
     {
         // 파티클 효과
         // 서서히 사라짐 효과
         // 카메라 효과
 
         // 대화문 작성
+
+        StartCoroutine(CoDie());
+    }
+
+    public Fade fade;
+    public bool isDie = false;
+
+    IEnumerator CoDie()
+    {
+        isDie = false;
+        fade.FadeOutSprite(sprite, 2.0f);
+        yield return new WaitForSeconds(2.0f);
+        particle.Play();
+
+        yield return new WaitUntil(()=>!particle.isPlaying);
+        
+        this.gameObject.SetActive(false);
+
+        
     }
 
     private IEnumerator CorUnBeatTime()
@@ -221,17 +245,40 @@ public class MoveSlimeDot : MonoBehaviour
     IEnumerator BossMovementPhase02()
     {
         Debug.Log("페이즈2실행중");
-        int[] nums = RandomInt.getRandomInt(3, 0, 3);
+        //int[] nums = RandomInt.getRandomInt(3, 0, 3);
 
-        float tempTime = normalMoveTime * 2.5f;
+        float tempTime = normalMoveTime * 0.75f;
 
-        for (int i = 0; i < 3; i++)
-        {
-            transform.position = stage.linePos[nums[i]].position;
+        //
 
-            MoveX(moveRange, tempTime);
-            yield return new WaitUntil(()=>moveIsEnd && !pause);
-        }
+        transform.position = stage.linePos[0].position;
+        particle.Play();
+        MoveToMiddle(tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        MoveX(moveRange, tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        //
+
+        transform.position = stage.linePos[1].position;
+        particle.Play();
+        MoveToMiddle(tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        MoveX(-moveRange, tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        //
+
+        transform.position = stage.linePos[2].position;
+        particle.Play();
+        MoveToMiddle(tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        MoveX(moveRange, tempTime);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
 
         yield return new WaitForSeconds(3.0f);
 

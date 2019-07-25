@@ -13,7 +13,7 @@ public class UnBeatEffect : MonoBehaviour
     Rigidbody2D rigidbody2d;
 
     PlayerMovement playerMovement = null;
-    BossMovement bossMovement = null;
+    //BossMovement bossMovement = null;
 
     void Start()
     {
@@ -32,9 +32,9 @@ public class UnBeatEffect : MonoBehaviour
             case "플레이어":
             playerMovement = GetComponent<PlayerMovement>();
             break;
-            case "보스슬라임":
-            bossMovement = GetComponent<BossMovement>();
-            break;
+            //case "보스슬라임":
+            //bossMovement = GetComponent<BossMovement>();
+            //break;
         }
 
         //if ((!playerMovement.isDashing && other.gameObject.tag == "SlimeBoss"))
