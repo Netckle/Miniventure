@@ -116,10 +116,10 @@ TextureImporter:
       name: RocksAndSign_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 6
         y: 0
-        width: 32
-        height: 32
+        width: 52
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,7 +127,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a03d52ee5fbd5464d974bbf3d63503ef
+      spriteID: 1705ed1125c6a494e8e9cb8a450cf798
       internalID: 6727495677646683704
       vertices: []
       indices: 
@@ -137,10 +137,10 @@ TextureImporter:
       name: RocksAndSign_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 67
         y: 0
-        width: 32
-        height: 32
+        width: 20
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,7 +148,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1d389966f0266344bb99eb4aa072d1f2
+      spriteID: 893aac3d27f39764ab1e91e7304853e2
       internalID: 3995688518458973701
       vertices: []
       indices: 
@@ -158,10 +158,10 @@ TextureImporter:
       name: RocksAndSign_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 94
         y: 0
-        width: 32
-        height: 32
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,7 +169,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35ed2dd0caa63a842bd967bf52cb1e07
+      spriteID: dcebc26062afec44b82e359ce9c68285
       internalID: -2894599326449382010
       vertices: []
       indices: 
@@ -179,10 +179,10 @@ TextureImporter:
       name: RocksAndSign_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 149
         y: 0
-        width: 32
-        height: 32
+        width: 20
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,50 +190,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf110205c9745524fb28b151784499eb
+      spriteID: e2f1c0e37a50957439c649ebf5f45495
       internalID: -5608985462611672816
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RocksAndSign_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 225935d635819764dba3fc6e03f2caa5
-      internalID: 1887240266748944428
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RocksAndSign_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d1ff9f7de9099e94ea53b907969578f3
-      internalID: 3218024599870789052
       vertices: []
       indices: 
       edges: []
