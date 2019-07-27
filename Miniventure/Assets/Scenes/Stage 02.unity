@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 286271843}
   - component: {fileID: 286271842}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: Scroll End Collider
   m_TagString: StopCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 306262399}
   - component: {fileID: 306262398}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Background Trees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -925,7 +925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683240862}
   m_Layer: 0
-  m_Name: Mino
+  m_Name: BossCow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -956,7 +956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1283130514}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Spawn Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1285,7 +1285,7 @@ PrefabInstance:
     - target: {fileID: 1195835079069738013, guid: 8b0cc113a34599f428ac67a77302c1c6,
         type: 3}
       propertyPath: m_Name
-      value: Canvas 1
+      value: Fade
       objectReference: {fileID: 0}
     - target: {fileID: 1195835079069738009, guid: 8b0cc113a34599f428ac67a77302c1c6,
         type: 3}
