@@ -11,10 +11,13 @@ public class UnBeat : MonoBehaviour
 
     private PlayerMovement movement;
 
+    private SoundManager soundManager;
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         movement = GetComponent<PlayerMovement>();
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
     }
 
     public SimpleCameraShakeInCinemachine cameraShake;
@@ -24,7 +27,7 @@ public class UnBeat : MonoBehaviour
         if (!movement.isDashing && (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime") && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
         {
             --movement.health;
-            SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[2]);
+            soundManager.PlaySfx(soundManager.EffectSounds[2]);
             cameraShake.ShakeCam();
 
             // Bouncing

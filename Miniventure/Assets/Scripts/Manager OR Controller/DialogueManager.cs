@@ -6,18 +6,7 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueManager instance = null;
 
-    void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        
-        else if (instance != this)
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-    }
 
     Queue<Dialogue> sentences = new Queue<Dialogue>();
 

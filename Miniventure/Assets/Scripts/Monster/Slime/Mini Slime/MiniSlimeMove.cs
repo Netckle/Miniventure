@@ -31,6 +31,8 @@ public class MiniSlimeMove : MonoBehaviour
         mySprite = this.GetComponentInChildren<SpriteRenderer>();
         myWidth = mySprite.bounds.extents.x;
         myHeight = mySprite.bounds.extents.y;
+
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
     }
 
     void Update()
@@ -135,11 +137,13 @@ public class MiniSlimeMove : MonoBehaviour
         StartCoroutine(CoTakeDamage(damage, localScaleX));
     }
 
+    private SoundManager soundManager;
+
     public GameObject Part;
 
     IEnumerator CoTakeDamage(int damage, float localScaleX)
     {
-        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
+        soundManager.PlaySfx(soundManager.EffectSounds[1]);
 
         canMove = false;
         //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);

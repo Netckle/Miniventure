@@ -32,6 +32,22 @@ public class TreeMove : MonoBehaviour
         return false;
     }
 
+    public void StopAllTree()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            trees[i].GetComponent<TreeMovement>().StopMove();
+        }
+    }
+
+    public void StartAllTree()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            trees[i].GetComponent<TreeMovement>().StartMove();
+        }
+    }
+
     private bool spawn_tree_is_end = false;
     IEnumerator SpawnTree()
     {   

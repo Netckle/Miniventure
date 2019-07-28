@@ -20,10 +20,20 @@ public class PlayerAttack : MonoBehaviour
 
     private bool attackIsRunning;
 
+    private SoundManager soundManager;
+
+    private void Start() {
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        player = GetComponentInParent<PlayerMovement>();
+    }
+    
+
     public void OnClickAct()
     {
         attackIsRunning = true;
     }
+
+    private PlayerMovement player;
 
     void Update()
     {        
@@ -31,11 +41,11 @@ public class PlayerAttack : MonoBehaviour
         {
             // then you can attack
             //if (Input.GetKeyDown(KeyCode.Q))
-            if (attackIsRunning)
+            if (attackIsRunning && player.canMove)
             {
                 playerAnim.SetBool("isAttacking", true);
                 //playerAnim.SetTrigger("attack");
-                SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[0]);
+                soundManager.PlaySfx(soundManager.EffectSounds[0]);
                 timeBtwAttack = startTimeBtwAttack;
                 Collider2D[] enemiesToDamage;
  

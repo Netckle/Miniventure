@@ -8,6 +8,9 @@ public class Cutscene01 : Cutscene
 
     public PlayerMovement player;
     public MoveSlimeDot bossSlime;
+
+    public DialogueManager dialogueManager;
+    public JsonManager jsonManager;
    
     public bool cutsceneIsEnd;
     public bool phase02start;
@@ -19,8 +22,13 @@ public class Cutscene01 : Cutscene
     bool middlePhaseCanOn = true;
     bool endCanOn = true;
 
+    PauseManager pauseManager;
+
     void Start()
     {
+        //dialogueManager = GameObject.Find("Dialogue  Manager").GetComponent<DialogueManager>();
+        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
+
         if (!cutsceneIsEnd)
         {
             StartCoroutine(CoFirstCutscene(2, 5));
@@ -50,12 +58,13 @@ public class Cutscene01 : Cutscene
 
     IEnumerator BetweenPhase()
     {
+        player.pause = true;
         stageController.AllMiniSlimeFalse();
         bossSlime.StopCor();
         //player.transform.position = bossSlime.transform.position + new Vector3(-4, 0, 0);
 
-        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), 5, 6);
-        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), 5, 6);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.transform.position = new Vector3(0, bossSlime.transform.position.y, bossSlime.transform.position.z);
         fade.FadeIn(3.0f);
@@ -66,6 +75,8 @@ public class Cutscene01 : Cutscene
         stageController.phase01Block.SetActive(false);
 
         fade.FadeOut(3.0f);
+
+        player.pause = false;
 
         //bossIsDead = true;
         
@@ -80,8 +91,8 @@ public class Cutscene01 : Cutscene
         player.Pause();
         player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
-        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
-        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
         
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
 
@@ -111,8 +122,8 @@ public class Cutscene01 : Cutscene
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
 
-        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), dialogueStart, dialogueEnd);
-        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();
 
@@ -128,8 +139,8 @@ public class Cutscene01 : Cutscene
         cutsceneIsEnd = false;
         player.Pause();
 
-        DialogueManager.instance.StartDialogue(JsonManager.instance.Load<Dialogue>(), start, end);
-        yield return new WaitUntil(() => DialogueManager.instance.dialogueIsEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), start, end);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.Die();
         yield return new WaitUntil(()=>bossSlime.isDie);

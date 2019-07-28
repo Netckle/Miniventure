@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class MoveSlimeDot : MonoBehaviour
 {
+    private SoundManager soundManager;
+
     public StageController stage;
     public PlayerMovement player;
 
@@ -36,6 +38,8 @@ public class MoveSlimeDot : MonoBehaviour
 
     public GameObject Part;
 
+    PauseManager pauseManager;
+
     void Start()
     {
         maxHP = HP;
@@ -43,6 +47,9 @@ public class MoveSlimeDot : MonoBehaviour
         anim     = GetComponentInChildren<Animator>();
         particle = GetComponentInChildren<ParticleSystem>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
     }
 
     public SpriteRenderer spriteRenderer;
@@ -296,7 +303,7 @@ public class MoveSlimeDot : MonoBehaviour
 
     IEnumerator CoTakeDamage(int damage)
     {        
-        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[1]);
+        soundManager.PlaySfx(soundManager.EffectSounds[1]);
         //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
         
         cameraShake.ShakeCam();

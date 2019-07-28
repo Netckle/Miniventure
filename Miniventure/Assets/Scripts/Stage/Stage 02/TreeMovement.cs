@@ -35,4 +35,9 @@ public class TreeMovement : MonoBehaviour {
     {
         is_active = true;
     }
+
+    public void StopMove()
+    {
+        is_active = false;
+    }
 }

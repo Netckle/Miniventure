@@ -61,16 +61,35 @@ public class PlayerMovement : MonoBehaviour
     public int maxHealth = 6;
     public int health = 6;
 
-    public bool canMove = false;
-    public bool pause = false;
     public bool isTalking = false;
 
-    // ----- Joystick
+    public bool jumpFlag;
 
+    public bool jumpIsRunning;
+    bool nextDialogue;  
+    
+    public int jumpCount = 2;
+
+    public bool canDoubleJump = true;
+
+    public Fade fade;
+    bool isDie;
+
+    public bool canMove = false;
+
+    public bool pause = false;
+
+    public DialogueManager dialogueManager;
+
+    private SoundManager soundManager;
+    private PauseManager pauseManager;
+
+    #region JOYSTICK
+        
     public JoystickTest joystick;
     private Vector3 _moveVector; // 플레이어 이동벡터
 
-    SpriteRenderer renderer;
+    SpriteRenderer sprite;
 
     public void HandleInput()
     {
@@ -86,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
         return moveDir;
     }
 
+    #endregion
+
     public void Pause()
     {
         canMove = false;
@@ -99,9 +120,7 @@ public class PlayerMovement : MonoBehaviour
     public void ChangeTransform(Vector3 pos)
     {
         this.gameObject.transform.position = pos;
-    }
-
-    
+    }    
 
     void Start()
     {
@@ -109,14 +128,15 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d = GetComponent<Rigidbody2D>();
         animationScript = GetComponentInChildren<AnimationScript>();
         animator = GetComponentInChildren<Animator>();
-        renderer = GetComponentInChildren<SpriteRenderer>();
-    }
-    public bool jumpFlag;
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
+    }   
 
-    public bool jumpIsRunning;
-    bool nextDialogue;
-
-    public void OnClickAct()
+    #region ONCLICK
+        
+    public void OnClickJump()
     {
         jumpFlag = true;
         jumpIsRunning = true;
@@ -124,8 +144,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnClickDialogue()
     {
-        nextDialogue = true;
-        
+        nextDialogue = true;        
     }
 
     public void OnClickRotateEffector()
@@ -133,13 +152,8 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(CoRotatePlatform(0.5f));
     }
 
-    public int jumpCount = 2;
-
-    public bool canDoubleJump = true;
-
-    public Fade fade;
-    bool isDie;
-
+    #endregion
+    bool pauseFlag = false;
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
@@ -154,11 +168,29 @@ public class PlayerMovement : MonoBehaviour
         Walk(_moveVector);        
         animationScript.SetHorizontalMovement(_moveVector.x, _moveVector.y, rigidbody2d.velocity.y);
 
+        if (pause)
+        {
+            pauseManager.Pause(this.gameObject, false);  
+            canMove = false;  
+            pauseFlag = true;
+        }
+        else if (!pause && pauseFlag)
+        {
+            pauseManager.Release(this.gameObject, "Player");
+            canMove = true;
+            pauseFlag = false;
+        }
+
+        if (pause)
+        {
+             
+                   
+        }
+
         if (isTalking && nextDialogue)
         {
             nextDialogue = false;
-            DialogueManager.instance.DisplayNextSentence();
-            
+            dialogueManager.DisplayNextSentence();            
         }
 
         if (health == 0)
@@ -168,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
             fade.FadeIn(3.0f);
         }
 
-        if (jumpFlag)
+        if (jumpFlag && canMove)
         {
             animationScript.SetTrigger("jump");
             
@@ -181,21 +213,13 @@ public class PlayerMovement : MonoBehaviour
             if (collision.onGround) // 바닥에서 시작할때
             {
                 Jump(Vector2.up, false);              
-            } 
-            
-
-                       
+            }          
 
             if (collision.onWall && !collision.onGround)
             {
                 WallJump();
             }
             jumpFlag = false;
-        }
-
-        if (!collision.onGround)
-        {
-            
         }
         
         if (Input.GetButtonDown("Dash"))//&& !hasDashed)
@@ -222,20 +246,8 @@ public class PlayerMovement : MonoBehaviour
             wallSlide = false;
         }
 
-        //if (nextDialogue && !canGoDown)
-        //{
-            //StartCoroutine(CoRotatePlatform(0.5f));
-        //}
-
-        if (pause)
-        {
-            PauseManager.instance.Pause(this.gameObject, true);            
-        }
-
         if (collision.onGround)
         {
-           // jumpFlag = false;
-            //jumpIsRunning = false;
             canDoubleJump = true;
         }
 
@@ -292,14 +304,14 @@ public class PlayerMovement : MonoBehaviour
         if (wallGrab || wallSlide || !canMove)
             return;
 
-        //if (x > 0)
+        // x가 0 이상일 경우...
         if (_moveVector.x > 0)
         {
             side = 1;
             animationScript.Flip(side);
         }
 
-        //if (x < 0)
+        // x가 0 이하일 경우...
         if (_moveVector.x < 0)
         {
             side = -1;
@@ -325,8 +337,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
     void Dash(float x, float y)
     {
         Camera.main.transform.DOComplete();
@@ -340,15 +350,13 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
 
-        Debug.Log("대쉬 : " + dir.x + " " + dir.y);
-
         rigidbody2d.velocity += dir.normalized * dashSpeed;
         StartCoroutine(CoDashWait());
     }
 
     void Jump(Vector2 dir, bool wall)
     {
-        SoundManager.instance.PlaySfx(SoundManager.instance.EffectSounds[3]);
+        soundManager.PlaySfx(soundManager.EffectSounds[3]);
 
         slideParticle.transform.parent.localScale = new Vector3(ParticleSide(), 1, 1);
         ParticleSystem particle = wall ? wallJumpParticle : jumpParticle;
@@ -357,7 +365,6 @@ public class PlayerMovement : MonoBehaviour
         rigidbody2d.velocity += dir * jumpForce;
 
         particle.Play();
-
     }
 
     void WallJump()
@@ -434,6 +441,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    #region COROUTINE
+        
     IEnumerator CoRotatePlatform(float waitTime)
     {
         canGoDown = true;
@@ -524,4 +533,6 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
     }
+
+    #endregion
 }
