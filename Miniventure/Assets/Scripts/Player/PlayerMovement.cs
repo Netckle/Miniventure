@@ -7,6 +7,39 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {   
+    public bool move_is_end = false;
+
+    void MoveOnlyX(float x_destination, float move_time)
+    {
+        move_is_end = false;
+
+        float x_end_pos = x_destination;
+
+        transform.DOMoveX(x_destination, move_time)
+            .SetEase(Ease.InOutQuart)
+            .OnComplete(EndMove);
+    }
+
+    void EndMove()
+    {
+        move_is_end = true;
+    }
+
+    private IEnumerator CoBackToOriginPos(float x_destination, float move_time)
+    {
+        MoveOnlyX(x_destination, move_time);
+        yield return new WaitUntil(()=>move_is_end);
+    }
+
+    public void BackToOriginPos(Transform origin, float move_time)
+    {
+        StartCoroutine(CoBackToOriginPos(origin.position.x, move_time));
+    }
+
+    
+
+    //-----
+
     public int catchedSlimes = 0;
 
     [HideInInspector]
@@ -105,6 +138,19 @@ public class PlayerMovement : MonoBehaviour
         return moveDir;
     }
 
+    public bool force_move_mode = false;
+
+    public void ForcePlayWalkAnim()
+    {
+        force_move_mode = true;
+        animator.SetFloat("HorizontalAxis", 1);
+    }
+    public void ForceStopWalkAnim()
+    {
+        force_move_mode = false;
+        animator.SetFloat("HorizontalAxis", 0);
+    }
+
     #endregion
 
     public void Pause()
@@ -165,8 +211,11 @@ public class PlayerMovement : MonoBehaviour
 
         HandleInput();
 
-        Walk(_moveVector);        
-        animationScript.SetHorizontalMovement(_moveVector.x, _moveVector.y, rigidbody2d.velocity.y);
+        Walk(_moveVector);     
+        if (!force_move_mode)
+        {   
+            animationScript.SetHorizontalMovement(_moveVector.x, _moveVector.y, rigidbody2d.velocity.y);
+        }
 
         if (pause)
         {

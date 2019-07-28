@@ -27,6 +27,8 @@ public class MoveMino : MonoBehaviour
 
     public TreeMove treeMove;
 
+    public Transform originPos;
+
     private void Start() 
     {
         maxHP    = HP;
@@ -37,6 +39,8 @@ public class MoveMino : MonoBehaviour
 
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
+
+        //player.ForcePlayWalkAnim(true);
     }
 
     private IEnumerator CorUnBeatTime()
@@ -82,26 +86,57 @@ public class MoveMino : MonoBehaviour
         }
     }
 
+    public void StartBossPattern()
+    {
+        StartCoroutine(BossMovementPhase01());
+    }
+
     IEnumerator BossMovementPhase01()
     {
-        treeMove.StartAllTree();
+        //player.Pause();
+        player.BackToOriginPos(originPos, 1.0f);
+        player.ForcePlayWalkAnim();
+        
         yield return new WaitForSeconds(3.0f);
 
         anim.SetBool("isAttack", true);
-
-        yield return new WaitForSeconds(2.0f);
-
-        anim.SetBool("isAttack", false);
-
-        yield return new WaitForSeconds(2.0f);
-
         treeMove.StopAllTree();
-        anim.SetBool("isStop", true);
 
-        // 공격받을때까지 대기
+        player.Release();
+        player.ForceStopWalkAnim();
 
+        yield return new WaitForSeconds(6.0f);
 
+        anim.SetBool("isAttack", false);  
+        treeMove.StartAllTree();    
 
         StartCoroutine(BossMovementPhase01());
+    }    
+
+    public void TakeDamage(int damage)
+    {   
+        Debug.Log("데미지 들어간다");
+        //if (canDamaged)
+            StartCoroutine(CoTakeDamage(damage));
+    }
+
+    public SimpleCameraShakeInCinemachine cameraShake;
+
+    IEnumerator CoTakeDamage(int damage)
+    {        
+        soundManager.PlaySfx(soundManager.EffectSounds[1]);
+        //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
+        
+        cameraShake.ShakeCam();
+        //Part.SetActive(false);
+        //Part.transform.position = this.transform.position;
+        //Part.SetActive(true);
+
+        StartCoroutine(CorUnBeatTime());
+        
+        HP -= damage;
+        Debug.Log(this.gameObject.name + "이 " + damage + "의 데미지를 입었습니다.");
+
+        yield return new WaitForSeconds(1.5f);                
     }
 }

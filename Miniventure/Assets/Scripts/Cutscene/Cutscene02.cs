@@ -42,6 +42,7 @@ public class Cutscene02 : MonoBehaviour
         fade.FadeOut(3.0f);
 
         player.Pause();
+        //player.ForcePlayWalkAnim();
         //player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
         dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
@@ -51,7 +52,7 @@ public class Cutscene02 : MonoBehaviour
 
         player.Release();  
 
-        //mino.StartBossMove(1);
+        mino.StartBossPattern();
         cutsceneIsEnd = true;
     }
 }

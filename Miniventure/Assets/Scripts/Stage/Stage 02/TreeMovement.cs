@@ -38,6 +38,7 @@ public class TreeMovement : MonoBehaviour {
 
     public void StopMove()
     {
+        Debug.Log("멈춤 실행됨.");
         is_active = false;
     }
 }

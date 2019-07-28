@@ -32,9 +32,12 @@ public class TreeMove : MonoBehaviour
         return false;
     }
 
+    private bool canMove;
+
     public void StopAllTree()
     {
-        for (int i = 0; i < 3; i++)
+        canMove = false;
+        for (int i = 0; i < 5; i++)
         {
             trees[i].GetComponent<TreeMovement>().StopMove();
         }
@@ -42,7 +45,8 @@ public class TreeMove : MonoBehaviour
 
     public void StartAllTree()
     {
-        for (int i = 0; i < 3; i++)
+        canMove = true;
+        for (int i = 0; i < 5; i++)
         {
             trees[i].GetComponent<TreeMovement>().StartMove();
         }
@@ -52,14 +56,20 @@ public class TreeMove : MonoBehaviour
     IEnumerator SpawnTree()
     {   
         spawn_tree_is_end = false;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
-            int[] test = RandomInt.getRandomInt(1, 1, 4);
+            int[] test = RandomInt.getRandomInt(1, 3, 4);
             Debug.Log(i + "번째 나무를 소환하고 기다리는 시간은 " + test[0] + "초입니다.");
 
+            yield return new WaitUntil(()=>canMove);
             trees[i].transform.position = spawn_transform.position;
+
+            yield return new WaitUntil(()=>canMove);
             trees[i].SetActive(true);
+            
+            yield return new WaitUntil(()=>canMove);
             trees[i].GetComponent<TreeMovement>().StartMove();
+            
 
             yield return new WaitForSeconds(test[0]);
         }

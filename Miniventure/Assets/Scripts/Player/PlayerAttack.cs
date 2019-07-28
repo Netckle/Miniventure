@@ -54,7 +54,12 @@ public class PlayerAttack : MonoBehaviour
                 
                 for (int i = 0; i < enemiesToDamage.Length; i++)
                 {       
-                    if (enemiesToDamage[i].tag == "SlimeBoss")
+                    if (enemiesToDamage[i].tag == "MinoBoss")
+                    {
+                        Debug.Log("보스 미노 데미지 준다");
+                        enemiesToDamage[i].GetComponent<MoveMino>().TakeDamage(damage);
+                    }
+                    else if (enemiesToDamage[i].tag == "SlimeBoss")
                     {
                         enemiesToDamage[i].GetComponent<MoveSlimeDot>().TakeDamage(damage);
                         Debug.Log("보스 슬라임에게 데미지를 준다");
