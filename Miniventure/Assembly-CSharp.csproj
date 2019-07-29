@@ -73,6 +73,7 @@
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelPerfectCamera.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
+     <Compile Include="Assets\PlayParticle.cs" />
      <Compile Include="Assets\Scripts\Camera\CinemachineCameraShaker.cs" />
      <Compile Include="Assets\Scripts\Camera\MultipleTargetCamera.cs" />
      <Compile Include="Assets\Scripts\Camera\SimpleCameraShakeInCinemachine.cs" />
@@ -110,8 +111,10 @@
      <Compile Include="Assets\Scripts\Stage\Stage 01\StageController.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\test.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 02\BackgroundFollow.cs" />
+     <Compile Include="Assets\Scripts\Stage\Stage 02\StageController02.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 02\TreeMove.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 02\TreeMovement.cs" />
+     <Compile Include="Assets\Scripts\Stage\Stage 02\Trigger.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\Scripts\RippleEffect\RippleEffect.shader" />

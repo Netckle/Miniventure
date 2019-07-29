@@ -249,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
             fade.FadeIn(3.0f);
         }
 
-        if (jumpFlag && canMove)
+        if (jumpFlag)
         {
             animationScript.SetTrigger("jump");
             

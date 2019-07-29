@@ -6,7 +6,7 @@ using TMPro;
 
 public enum OBJTYPE
 {
-    PLAYER, SLIME
+    PLAYER, SLIME, MINO
 }
 
 public class HP : MonoBehaviour
@@ -15,6 +15,7 @@ public class HP : MonoBehaviour
 
     public MoveSlimeDot slime;
     public PlayerMovement player;
+    public MoveMino mino;
 
     public Image HP_BAR;
     public TextMeshProUGUI HP_TEXT;
@@ -29,6 +30,10 @@ public class HP : MonoBehaviour
             case OBJTYPE.SLIME:
                 UpdateSlimeHPbar();
                 break;
+            case OBJTYPE.MINO:
+                UpdateMinoHPbar();
+                break;
+
         }
     }
 
@@ -44,5 +49,12 @@ public class HP : MonoBehaviour
         float HP = slime.HP;
         HP_BAR.fillAmount = HP / slime.maxHP;
         HP_TEXT.text = string.Format("HP {0} / {0}", HP, slime.maxHP);        
+    }
+    
+    void UpdateMinoHPbar()
+    {
+        float HP = mino.HP;
+        HP_BAR.fillAmount = HP / mino.maxHP;
+        HP_TEXT.text = string.Format("HP {0} / {0}", HP, mino.maxHP);    
     }
 }

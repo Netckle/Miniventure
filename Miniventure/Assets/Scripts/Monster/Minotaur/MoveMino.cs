@@ -29,6 +29,7 @@ public class MoveMino : MonoBehaviour
 
     public Transform originPos;
 
+
     private void Start() 
     {
         maxHP    = HP;
@@ -43,10 +44,15 @@ public class MoveMino : MonoBehaviour
         //player.ForcePlayWalkAnim(true);
     }
 
+    public void PlayAttack()
+    {
+        anim.SetTrigger("isAttack");
+    }
+
     private IEnumerator CorUnBeatTime()
     {
         //GetComponent<BossMovement>().canMove = false;
-
+        anim.SetTrigger("isDamage");
         int countTime = 0;
 
         while (countTime < 10)
@@ -69,6 +75,7 @@ public class MoveMino : MonoBehaviour
 
         // Alpha Effect End
         sprite.color = new Color32(255, 255, 255, 255);
+        
 
         // UnBeatTime Off
         //isUnbeatTime = false;
@@ -87,56 +94,54 @@ public class MoveMino : MonoBehaviour
     }
 
     public void StartBossPattern()
-    {
+    {   
         StartCoroutine(BossMovementPhase01());
     }
 
     IEnumerator BossMovementPhase01()
     {
-        //player.Pause();
+        anim.SetBool("isMoving", true);
+        treeMove.StartAllTree();
+
+        player.Pause();
         player.BackToOriginPos(originPos, 1.0f);
         player.ForcePlayWalkAnim();
         
         yield return new WaitForSeconds(3.0f);
 
-        anim.SetBool("isAttack", true);
+        anim.SetTrigger("isAttack");
         treeMove.StopAllTree();
 
         player.Release();
         player.ForceStopWalkAnim();
 
-        yield return new WaitForSeconds(6.0f);
+        anim.SetBool("isMoving", false);
 
-        anim.SetBool("isAttack", false);  
-        treeMove.StartAllTree();    
+        yield return new WaitForSeconds(6.0f);
 
         StartCoroutine(BossMovementPhase01());
     }    
 
+    public AnimationClip ani;
+
     public void TakeDamage(int damage)
     {   
-        Debug.Log("데미지 들어간다");
-        //if (canDamaged)
-            StartCoroutine(CoTakeDamage(damage));
+        StartCoroutine(CoTakeDamage(damage));
     }
 
     public SimpleCameraShakeInCinemachine cameraShake;
 
     IEnumerator CoTakeDamage(int damage)
     {        
+        
         soundManager.PlaySfx(soundManager.EffectSounds[1]);
-        //Camera.main.GetComponent<CameraShake>().Shake(0.3f, 0.3f);
         
         cameraShake.ShakeCam();
-        //Part.SetActive(false);
-        //Part.transform.position = this.transform.position;
-        //Part.SetActive(true);
 
         StartCoroutine(CorUnBeatTime());
         
         HP -= damage;
-        Debug.Log(this.gameObject.name + "이 " + damage + "의 데미지를 입었습니다.");
 
-        yield return new WaitForSeconds(1.5f);                
+        yield return new WaitForSeconds(1.5f);                     
     }
 }

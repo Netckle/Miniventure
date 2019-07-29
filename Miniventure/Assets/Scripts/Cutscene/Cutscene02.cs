@@ -13,7 +13,7 @@ public class Cutscene02 : MonoBehaviour
     public JsonManager jsonManager;
 
     public bool cutsceneIsEnd;
-    public bool phase02start;
+    public bool phase_02_can_load = true;
     public bool bossIsDead;
 
     public Transform phase02Pos;
@@ -24,6 +24,8 @@ public class Cutscene02 : MonoBehaviour
 
     PauseManager pauseManager;
 
+    public TreeMove treeMove;
+
     void Start()
     {
         //dialogueManager = GameObject.Find("Dialogue  Manager").GetComponent<DialogueManager>();
@@ -33,6 +35,46 @@ public class Cutscene02 : MonoBehaviour
         {
             StartCoroutine(CoFirstCutscene(2, 5));
         }            
+    }
+    
+    private void Update() {
+        if (mino.HP == 4 && phase_02_can_load)
+        {
+            phase_02_can_load = false;
+            StartCoroutine(CoBetweenCutscene(2, 5));
+        }
+        
+    }
+
+    public StageController02 stage_controller_02;
+    public bool phase_02_start;
+
+    IEnumerator CoBetweenCutscene(int dialogueStart, int dialogueEnd)
+    {
+        player.Pause();
+        mino.StopAllCoroutines();
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
+
+        for (int i = 0; i < 3; i++)
+        {
+            mino.PlayAttack();
+            stage_controller_02.particle.Play();
+            yield return new WaitForSeconds(0.8f);
+        }
+
+        treeMove.StopAllTree();
+        stage_controller_02.phase_01_floor.SetActive(false);
+              
+        // 바닥 트리거에 닿았을 경우.
+
+        yield return new WaitUntil(()=>phase_02_start);
+
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
+
+        player.Release();
+        //mino.StartBossPattern(); // 2페이즈
     }
 
     IEnumerator CoFirstCutscene(int dialogueStart, int dialogueEnd)
