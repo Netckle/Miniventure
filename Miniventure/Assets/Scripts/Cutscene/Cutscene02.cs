@@ -53,14 +53,17 @@ public class Cutscene02 : MonoBehaviour
     {
         player.Pause();
         mino.StopAllCoroutines();
+        mino.sprite.color = new Color32(255, 255, 255, 255);
         dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         for (int i = 0; i < 3; i++)
         {
             mino.PlayAttack();
-            stage_controller_02.particle.Play();
+            
             yield return new WaitForSeconds(0.8f);
+
+            stage_controller_02.particle.Play();
         }
 
         treeMove.StopAllTree();
@@ -74,7 +77,7 @@ public class Cutscene02 : MonoBehaviour
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();
-        //mino.StartBossPattern(); // 2페이즈
+        mino.StartBossPattern02(); // 2페이즈
     }
 
     IEnumerator CoFirstCutscene(int dialogueStart, int dialogueEnd)

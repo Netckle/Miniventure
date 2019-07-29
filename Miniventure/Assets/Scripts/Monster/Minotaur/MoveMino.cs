@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MoveMino : MonoBehaviour 
 {
@@ -21,7 +22,8 @@ public class MoveMino : MonoBehaviour
 
     private Rigidbody2D rigid;
     private Animator anim;
-    private SpriteRenderer sprite;
+    [HideInInspector]
+    public SpriteRenderer sprite;
 
     public Fade fade;
 
@@ -98,14 +100,38 @@ public class MoveMino : MonoBehaviour
         StartCoroutine(BossMovementPhase01());
     }
 
+    public void StartBossPattern02()
+    {
+        StartCoroutine(BossMovementPhase02());
+    }
+
+    public bool move_is_end = false;
+
+    void MoveOnlyX(float x_destination, float move_time)
+    {
+        move_is_end = false;
+
+        float x_end_pos = x_destination;
+
+        transform.DOMoveX(x_destination, move_time)
+            .SetEase(Ease.InOutQuart)
+            .OnComplete(EndMove);
+    }
+
+    void EndMove()
+    {
+        move_is_end = true;
+    }
+
     IEnumerator BossMovementPhase01()
     {
         anim.SetBool("isMoving", true);
         treeMove.StartAllTree();
 
-        player.Pause();
-        player.BackToOriginPos(originPos, 1.0f);
         player.ForcePlayWalkAnim();
+        player.transform.localScale = new Vector3(1, 1, 1);
+        player.BackToOriginPos(originPos, 1.0f);        
+        player.Pause();
         
         yield return new WaitForSeconds(3.0f);
 
@@ -120,7 +146,34 @@ public class MoveMino : MonoBehaviour
         yield return new WaitForSeconds(6.0f);
 
         StartCoroutine(BossMovementPhase01());
-    }    
+    }   
+
+    IEnumerator BossMovementPhase02()
+    {
+        anim.SetBool("isMoving", true);
+        transform.localScale = new Vector3(3, 3, 3);
+        MoveOnlyX(0, 3.0f);
+        yield return new WaitUntil(()=>move_is_end);
+        
+        MoveOnlyX(6, 3.0f);
+        yield return new WaitUntil(()=>move_is_end);
+
+        anim.SetTrigger("isAttack");
+
+        yield return new WaitForSeconds(1.0f);
+        transform.localScale = new Vector3(-3, 3, 3);
+        MoveOnlyX(0, 3.0f);
+        yield return new WaitUntil(()=>move_is_end);
+        
+        MoveOnlyX(-5, 3.0f);
+        yield return new WaitUntil(()=>move_is_end);
+
+        anim.SetTrigger("isAttack");
+
+        yield return new WaitForSeconds(1.0f);
+
+        StartCoroutine(BossMovementPhase02());
+    } 
 
     public AnimationClip ani;
 
