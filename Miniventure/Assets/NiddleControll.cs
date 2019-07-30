@@ -9,12 +9,15 @@ public class NiddleControll : MonoBehaviour
 
     bool move_is_end = false;
 
+    public float jumpPower;
     void OnTriggerEnter2D(Collider2D other) 
     {
         if ((other.gameObject.tag == "Player") &&
             other.gameObject.GetComponent<Rigidbody2D>().velocity.y < 0)
             {
-                StartCoroutine(MoveNiddle());
+                //StartCoroutine(MoveNiddle());
+
+                other.gameObject.GetComponent<PlayerMovement>().canDoubleJump = true;
             }
     }
 

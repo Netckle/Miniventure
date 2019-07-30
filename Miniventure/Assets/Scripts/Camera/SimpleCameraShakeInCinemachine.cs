@@ -24,9 +24,10 @@ public class SimpleCameraShakeInCinemachine : MonoBehaviour {
             virtualCameraNoise = VirtualCamera.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
     }
 
-    public void ShakeCam()
+    public void ShakeCam(float shake_time = 0.3f)
     {
-        ShakeElapsedTime = ShakeDuration;
+        //ShakeElapsedTime = ShakeDuration;
+        ShakeElapsedTime = shake_time;
     }
 
     // Update is called once per frame

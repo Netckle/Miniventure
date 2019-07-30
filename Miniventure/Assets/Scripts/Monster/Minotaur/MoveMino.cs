@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class MoveMino : MonoBehaviour 
 {
@@ -21,6 +22,7 @@ public class MoveMino : MonoBehaviour
     public float moveRange;
 
     private Rigidbody2D rigid;
+
     private Animator anim;
     [HideInInspector]
     public SpriteRenderer sprite;
@@ -44,6 +46,12 @@ public class MoveMino : MonoBehaviour
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
 
         //player.ForcePlayWalkAnim(true);
+    }
+
+    public void FreeRigid()
+    {
+        rigid.constraints = RigidbodyConstraints2D.None;
+        rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void PlayAttack()
@@ -136,41 +144,60 @@ public class MoveMino : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
 
         anim.SetTrigger("isAttack");
-        treeMove.StopAllTree();
+        soundManager.PlaySfx(soundManager.EffectSounds[0]);
+        treeMove.StopAllTree();             
 
         player.Release();
         player.ForceStopWalkAnim();
 
         anim.SetBool("isMoving", false);
 
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(0.8f);
+        particle.Play();   
+
+        yield return new WaitForSeconds(5.2f);
 
         StartCoroutine(BossMovementPhase01());
     }   
 
     IEnumerator BossMovementPhase02()
     {
+        
+        rigid.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+        
         anim.SetBool("isMoving", true);
         transform.localScale = new Vector3(3, 3, 3);
-        MoveOnlyX(0, 3.0f);
-        yield return new WaitUntil(()=>move_is_end);
-        
-        MoveOnlyX(6, 3.0f);
+
+        MoveOnlyX(0, 2.5f);
         yield return new WaitUntil(()=>move_is_end);
 
         anim.SetTrigger("isAttack");
+        soundManager.PlaySfx(soundManager.EffectSounds[0]);
+        yield return new WaitForSeconds(0.8f);
+        particle.Play();
+        
+        MoveOnlyX(8, 2.5f);
+        yield return new WaitUntil(()=>move_is_end);
+        anim.SetBool("isMoving", false);
+        yield return new WaitForSeconds(2.0f);
 
-        yield return new WaitForSeconds(1.0f);
+        anim.SetBool("isMoving", true);
+
         transform.localScale = new Vector3(-3, 3, 3);
-        MoveOnlyX(0, 3.0f);
-        yield return new WaitUntil(()=>move_is_end);
-        
-        MoveOnlyX(-5, 3.0f);
+        MoveOnlyX(0, 2.5f);
         yield return new WaitUntil(()=>move_is_end);
 
         anim.SetTrigger("isAttack");
+        soundManager.PlaySfx(soundManager.EffectSounds[0]);
+        yield return new WaitForSeconds(0.8f);
+        particle.Play();
+        
+        MoveOnlyX(-8, 2.5f);
+        yield return new WaitUntil(()=>move_is_end);
+        anim.SetBool("isMoving", false);
+        yield return new WaitForSeconds(2.0f);
 
-        yield return new WaitForSeconds(1.0f);
+        anim.SetBool("isMoving", true);
 
         StartCoroutine(BossMovementPhase02());
     } 
@@ -196,5 +223,39 @@ public class MoveMino : MonoBehaviour
         HP -= damage;
 
         yield return new WaitForSeconds(1.5f);                     
+    }
+
+    public void Die()
+    {
+        // 파티클 효과
+        // 서서히 사라짐 효과
+        // 카메라 효과
+
+        // 대화문 작성
+
+        StartCoroutine(CoDie());
+    }
+
+    IEnumerator CoDie()
+    {
+        
+
+        anim.SetTrigger("isDie");
+
+        sprite.color = new Color32(255, 255, 255, 255);
+        cameraShake.ShakeCam(2.0f);
+        fade.FadeOutSprite(sprite, 2.0f);
+        yield return new WaitForSeconds(2.0f);
+        particle.transform.position = new Vector3(transform.position.x, particle.transform.position.y, particle.transform.position.z);
+        particle.Play();
+
+        yield return new WaitUntil(()=>!particle.isPlaying);
+        
+        //this.gameObject.SetActive(false);
+
+        fade.FadeIn(3.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene("Select Stage");
     }
 }

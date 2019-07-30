@@ -20,7 +20,7 @@ public class ChangeForPhase02 : MonoBehaviour
         }
         else if (other.gameObject.tag == "Player")
         {
-            cinemachineCam.Follow = Phase02StagePos;
+            //cinemachineCam.Follow = Phase02StagePos;
             var transposer = cinemachineCam.GetCinemachineComponent<CinemachineTransposer>();
             transposer.m_FollowOffset = new Vector3(0, 0, -10);
             cutscene.phase02start = true;

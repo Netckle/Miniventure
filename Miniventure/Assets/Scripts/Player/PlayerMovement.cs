@@ -124,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
 
     SpriteRenderer sprite;
 
+    public bool stage_02_doubleJump = false;
+
     public void HandleInput()
     {
         _moveVector = PoolInput();
@@ -295,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
             wallSlide = false;
         }
 
-        if (collision.onGround)
+        if (collision.onGround && !stage_02_doubleJump)
         {
             canDoubleJump = true;
         }

@@ -1,0 +1,19 @@
+{
+    "items": [
+        {
+            "stageClear": true
+        },
+        {
+            "stageClear": true
+        },
+        {
+            "stageClear": false
+        },
+        {
+            "stageClear": false
+        },
+        {
+            "stageClear": false
+        }
+    ]
+}

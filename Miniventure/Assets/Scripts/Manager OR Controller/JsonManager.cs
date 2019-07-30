@@ -16,24 +16,30 @@ public class Dialogue
 [System.Serializable]
 public class SaveData
 {
-    public int count;
-    public float HP;
+    public bool stageClear;
 }
 
 public class JsonManager : MonoBehaviour
-{
-    
-    
-    public void Save()
+{    
+    public void Save(int stage_index, bool clear)
     {
+        SaveData[] preloadedSaveData = Load<SaveData>("SaveData", "Save.json");
 
+        preloadedSaveData[stage_index - 1].stageClear = clear;
+
+        SaveData[] saveData = preloadedSaveData;
+
+        string toJson = JsonHelper.ToJson(saveData, prettyPrint:true);
+        string originalPath = Path.Combine(Application.streamingAssetsPath, "SaveData", "Save.json");
+
+        File.WriteAllText(originalPath, toJson);
     }
 
-    public T[] Load<T>()
+    public T[] Load<T>(string folder, string fileName)
     {
         // Android
-        string originalPath = Path.Combine(Application.streamingAssetsPath, "JsonData", "Dialogue.json");
-
+        //string originalPath = Path.Combine(Application.streamingAssetsPath, "JsonData", "Dialogue.json");
+        string originalPath = Path.Combine(Application.streamingAssetsPath, folder, fileName);
         // Android only use WWW to read file
         WWW reader = new WWW(originalPath);
         while(!reader.isDone){ }

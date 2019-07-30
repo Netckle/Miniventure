@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CameraMove.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
      <Compile Include="Assets\PlayParticle.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraResolution.cs" />
      <Compile Include="Assets\Scripts\Camera\CinemachineCameraShaker.cs" />
      <Compile Include="Assets\Scripts\Camera\MultipleTargetCamera.cs" />
      <Compile Include="Assets\Scripts\Camera\SimpleCameraShakeInCinemachine.cs" />
@@ -108,6 +110,8 @@
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Player\UnBeat.cs" />
      <Compile Include="Assets\Scripts\RippleEffect\RippleEffect.cs" />
+     <Compile Include="Assets\Scripts\Stage\SceneChange.cs" />
+     <Compile Include="Assets\Scripts\Stage\SelectStage.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\ChangeForPhase02.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\StageController.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\test.cs" />

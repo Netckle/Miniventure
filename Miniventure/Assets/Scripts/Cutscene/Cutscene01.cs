@@ -49,7 +49,7 @@ public class Cutscene01 : Cutscene
             StartCoroutine(BetweenPhase());
         } 
 
-        if (endCanOn && bossSlime.HP == 0)
+        if (endCanOn && bossSlime.HP <= 0)
         {
             endCanOn = false;
             StartCoroutine(EndCutscene(13, 14));
@@ -63,7 +63,7 @@ public class Cutscene01 : Cutscene
         bossSlime.StopCor();
         //player.transform.position = bossSlime.transform.position + new Vector3(-4, 0, 0);
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), 5, 6);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), 5, 6);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.transform.position = new Vector3(0, bossSlime.transform.position.y, bossSlime.transform.position.z);
@@ -91,7 +91,7 @@ public class Cutscene01 : Cutscene
         player.Pause();
         player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
         
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
@@ -122,7 +122,7 @@ public class Cutscene01 : Cutscene
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();
@@ -135,11 +135,13 @@ public class Cutscene01 : Cutscene
 
     IEnumerator EndCutscene(int start, int end)
     {
+        //jsonManager.Save(1, true);
+
         bossSlime.StopCor();
         cutsceneIsEnd = false;
         player.Pause();
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), start, end);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), start, end);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.Die();

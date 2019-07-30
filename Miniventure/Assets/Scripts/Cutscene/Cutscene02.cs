@@ -14,6 +14,7 @@ public class Cutscene02 : MonoBehaviour
 
     public bool cutsceneIsEnd;
     public bool phase_02_can_load = true;
+    public bool phase_02_end_can_laod = true;
     public bool bossIsDead;
 
     public Transform phase02Pos;
@@ -24,26 +25,39 @@ public class Cutscene02 : MonoBehaviour
 
     PauseManager pauseManager;
 
+    SoundManager soundManager;
+
     public TreeMove treeMove;
 
     void Start()
     {
+        player.stage_02_doubleJump = true;
         //dialogueManager = GameObject.Find("Dialogue  Manager").GetComponent<DialogueManager>();
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
 
         if (!cutsceneIsEnd)
         {
+            
             StartCoroutine(CoFirstCutscene(2, 5));
         }            
     }
     
-    private void Update() {
+    private void Update() 
+    {
         if (mino.HP == 4 && phase_02_can_load)
         {
             phase_02_can_load = false;
             StartCoroutine(CoBetweenCutscene(2, 5));
         }
-        
+        if (mino.HP <= 0 && phase_02_end_can_laod)
+        {
+            phase_02_end_can_laod = false;
+            //jsonManager.Save(2, true);
+            
+            mino.StopAllCoroutines();
+            mino.Die();
+        }
     }
 
     public StageController02 stage_controller_02;
@@ -54,12 +68,13 @@ public class Cutscene02 : MonoBehaviour
         player.Pause();
         mino.StopAllCoroutines();
         mino.sprite.color = new Color32(255, 255, 255, 255);
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         for (int i = 0; i < 3; i++)
         {
             mino.PlayAttack();
+            soundManager.PlaySfx(soundManager.EffectSounds[0]);
             
             yield return new WaitForSeconds(0.8f);
 
@@ -68,12 +83,14 @@ public class Cutscene02 : MonoBehaviour
 
         treeMove.StopAllTree();
         stage_controller_02.phase_01_floor.SetActive(false);
+
+        mino.FreeRigid();
               
         // 바닥 트리거에 닿았을 경우.
 
         yield return new WaitUntil(()=>phase_02_start);
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();
@@ -90,7 +107,7 @@ public class Cutscene02 : MonoBehaviour
         //player.ForcePlayWalkAnim();
         //player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>(), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
         
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;
@@ -100,4 +117,6 @@ public class Cutscene02 : MonoBehaviour
         mino.StartBossPattern();
         cutsceneIsEnd = true;
     }
+
+    
 }

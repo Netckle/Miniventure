@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class MoveSlimeDot : MonoBehaviour
 {
@@ -71,15 +72,20 @@ public class MoveSlimeDot : MonoBehaviour
     IEnumerator CoDie()
     {
         isDie = false;
+        sprite.color = new Color32(255, 255, 255, 255);
+        cameraShake.ShakeCam(2.0f);
         fade.FadeOutSprite(sprite, 2.0f);
         yield return new WaitForSeconds(2.0f);
         particle.Play();
 
         yield return new WaitUntil(()=>!particle.isPlaying);
         
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
 
-        
+        fade.FadeIn(3.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene("Select Stage");
     }
 
     private IEnumerator CorUnBeatTime()
@@ -165,7 +171,7 @@ public class MoveSlimeDot : MonoBehaviour
     {
         if (HP <= 0)
         {
-
+            
         }
 
         if (Input.GetKeyDown(KeyCode.L))
