@@ -6,57 +6,81 @@ public class UnBeat : MonoBehaviour
 {
     public float waitTime;
     public SpriteRenderer spriteRenderer;
+    public SimpleCameraShakeInCinemachine cameraShake;
+
     private bool isUnbeatTime = false;
+
     private Rigidbody2D rigid;
-
     private PlayerMovement movement;
-
     private SoundManager soundManager;
+
+    private bool isCollide = false;
+    private bool canDamaged = true;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         movement = GetComponent<PlayerMovement>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+    }    
+
+    private void StartUnBeat(Collider2D other)
+    {
+        // Attacked by Creature       
+        --movement.health;
+        soundManager.PlaySfx(soundManager.EffectSounds[2]);
+        cameraShake.ShakeCam();
+
+        // Bouncing
+        Vector2 attackedVelocity = Vector2.zero;
+
+        if (other.gameObject.transform.position.x > transform.position.x)
+        {
+            attackedVelocity = new Vector2 (-3f, 3f);
+        }
+        else
+        {
+            attackedVelocity = new Vector2 (3f, 3f);
+        }
+        rigid.AddForce(attackedVelocity, ForceMode2D.Impulse);
+
+        GetComponent<UnBeat>().UnBeatTime();        
     }
 
-    public SimpleCameraShakeInCinemachine cameraShake;
-    // Attacked by Creature
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!movement.isDashing && (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime") && !other.isTrigger && !(rigid.velocity.y < -10f) && !isUnbeatTime)
+        if (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime" || other.gameObject.tag == "MinoBoss" && !other.isTrigger && !isUnbeatTime)
         {
-            --movement.health;
-            soundManager.PlaySfx(soundManager.EffectSounds[2]);
-            cameraShake.ShakeCam();
+            isCollide = true;
+        }
+    }
 
-            // Bouncing
-            Vector2 attackedVelocity = Vector2.zero;
+    void OnTriggerStay2D(Collider2D other) 
+    {
+        if (isCollide && canDamaged)
+        {
+            StartUnBeat(other);
+            isCollide = false;
+        }
+    }
 
-            if (other.gameObject.transform.position.x > transform.position.x)
-            {
-                attackedVelocity = new Vector2 (-3f, 3f);
-            }
-            else
-            {
-                attackedVelocity = new Vector2 (3f, 3f);
-            }
-            rigid.AddForce(attackedVelocity, ForceMode2D.Impulse);
-
-            GetComponent<UnBeat>().UnBeatTime();
+    void OnTriggerExit2D(Collider2D other) 
+    {
+        if (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime" || other.gameObject.tag == "MinoBoss" && !other.isTrigger && !isUnbeatTime)
+        {
+            isCollide = false;
         }
     }
 
     public void UnBeatTime()
     {
         StartCoroutine(CorUnBeatTime());
-    }
-
-    
+    }    
 
     private IEnumerator CorUnBeatTime()
     {
         GetComponent<PlayerMovement>().canMove = false;
+        canDamaged = false;
 
         int countTime = 0;
 
@@ -85,7 +109,8 @@ public class UnBeat : MonoBehaviour
         isUnbeatTime = false;
 
         GetComponent<PlayerMovement>().canMove = true;
-        
+        canDamaged = true;
+
         yield return null;
     }
 }

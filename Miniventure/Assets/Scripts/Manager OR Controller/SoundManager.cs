@@ -6,7 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     void Start()
     {
-        SimplePlayBGM(0);
+        //SimplePlayBGM(0);
     }
 
     public AudioClip[] BGMSounds;

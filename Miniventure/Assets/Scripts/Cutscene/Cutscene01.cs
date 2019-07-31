@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cutscene01 : Cutscene
 {
@@ -23,11 +24,13 @@ public class Cutscene01 : Cutscene
     bool endCanOn = true;
 
     PauseManager pauseManager;
+    private SoundManager soundManager;
 
     void Start()
     {
         //dialogueManager = GameObject.Find("Dialogue  Manager").GetComponent<DialogueManager>();
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
 
         if (!cutsceneIsEnd)
         {
@@ -67,6 +70,7 @@ public class Cutscene01 : Cutscene
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.transform.position = new Vector3(0, bossSlime.transform.position.y, bossSlime.transform.position.z);
+        fade.transform.SetAsLastSibling();
         fade.FadeIn(3.0f);
 
         yield return new WaitForSeconds(3.0f);
@@ -75,6 +79,8 @@ public class Cutscene01 : Cutscene
         stageController.phase01Block.SetActive(false);
 
         fade.FadeOut(3.0f);
+        yield return new WaitForSeconds(3.0f);
+        fade.transform.SetAsFirstSibling();
 
         player.pause = false;
 
@@ -85,11 +91,22 @@ public class Cutscene01 : Cutscene
     IEnumerator CoFirstCutscene(int dialogueStart, int dialogueEnd)
     {        
         cutsceneIsEnd = false;
-
-        fade.FadeOut(3.0f);
+        
+        soundManager.SimplePlayBGM(0);
+        
+        dialogueManager.panel.gameObject.SetActive(false);
+        dialogueManager.namePanel.gameObject.SetActive(false);
 
         player.Pause();
         player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
+
+        fade.FadeOut(3.0f);       
+
+        yield return new WaitForSeconds(3.0f);
+        fade.transform.SetAsFirstSibling();
+
+        dialogueManager.panel.gameObject.SetActive(true);
+        dialogueManager.namePanel.gameObject.SetActive(true);
        
         dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
@@ -145,6 +162,7 @@ public class Cutscene01 : Cutscene
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.Die();
+        soundManager.PlaySfx(soundManager.EffectSounds[4]);
         yield return new WaitUntil(()=>bossSlime.isDie);
 
         cutsceneIsEnd = true;

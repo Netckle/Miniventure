@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
 
     public bool dialogueIsEnd = false;
 
+    RectTransform rt;
+
     public void StartDialogue(Dialogue[] data, int start, int end)
     {
         dialogueIsEnd = false;
@@ -27,6 +29,8 @@ public class DialogueManager : MonoBehaviour
         namePanel.gameObject.SetActive(true);
 
         sentences.Clear();
+
+        rt = panel.gameObject.GetComponent<RectTransform>(); 
 
         for (int i = start; i < end + 1; ++i)
         {
@@ -72,9 +76,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         foreach (char letter in sentence.content)
-        {
-            xPos = panel.rectTransform.position.x - (panel.rectTransform.sizeDelta.x / 2) + (nameContent.rectTransform.sizeDelta.x / 2);
-            namePanel.rectTransform.position = new Vector3(xPos, namePanel.rectTransform.position.y, namePanel.rectTransform.position.z);
+        {       
+            namePanel.rectTransform.anchoredPosition = new Vector2(rt.anchoredPosition.x - rt.sizeDelta.x * 0.5f, (rt.anchoredPosition.y + rt.sizeDelta.y * 0.5f) + 80f);
 
             content.text += letter;
             yield return new WaitForSeconds(0.01f);

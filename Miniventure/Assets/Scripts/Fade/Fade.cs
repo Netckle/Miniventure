@@ -5,25 +5,34 @@ using UnityEngine.UI;
 
 public class Fade : MonoBehaviour
 {
-    public void FadeIn(float fadeOutTime, System.Action nextEvent = null)
+	private Image normalImage;
+
+	void Awake() 
 	{
-		StartCoroutine(CoFadeIn(fadeOutTime,nextEvent));
+		normalImage = GetComponent<Image>();
 	}
 
-	public void FadeOut(float fadeOutTime, System.Action nextEvent = null)
+	// 이미지
+
+    public void FadeIn(float fadeInTime, System.Action nextEvent = null, Image image = null)
 	{
-		StartCoroutine(CoFadeOut(fadeOutTime, nextEvent));
+		StartCoroutine(CoFadeIn(fadeInTime, nextEvent, image));
 	}
 
-	// 투명 -> 불투명
-	IEnumerator CoFadeIn(float fadeOutTime, System.Action nextEvent = null)
+	public void FadeOut(float fadeOutTime, System.Action nextEvent = null, Image image = null)
 	{
-		Debug.Log("페이드인");
-		Image img = this.gameObject.GetComponent<Image>();
-		//SpriteRenderer sr = this.gameObject.GetComponent<SpriteRenderer>();
+		StartCoroutine(CoFadeOut(fadeOutTime, nextEvent, image));
+	}
+
+	IEnumerator CoFadeIn(float fadeInTime, System.Action nextEvent = null, Image image = null)
+	{
+		Image img = (image == null ? normalImage : image);
+		
 		Color tempColor = img.color;
-		while(tempColor.a < 1f){
-			tempColor.a += Time.deltaTime / fadeOutTime;
+
+		while (tempColor.a < 1f)
+		{
+			tempColor.a += Time.deltaTime / fadeInTime;
 			img.color = tempColor;
 
 			if(tempColor.a >= 1f) tempColor.a = 1f;
@@ -35,13 +44,15 @@ public class Fade : MonoBehaviour
 		if(nextEvent != null) nextEvent();
 	}
 
-	// 불투명 -> 투명
-	IEnumerator CoFadeOut(float fadeOutTime, System.Action nextEvent = null)
+	IEnumerator CoFadeOut(float fadeOutTime, System.Action nextEvent = null, Image image = null)
 	{
-		Debug.Log("페이드아웃");
-		Image img = this.gameObject.GetComponent<Image>();
+		Image img = (image == null ? normalImage : image);
+		Debug.Log(img);
+
 		Color tempColor = img.color;
-		while(tempColor.a > 0f){
+
+		while (tempColor.a > 0f)
+		{
 			tempColor.a -= Time.deltaTime / fadeOutTime;
 			img.color = tempColor;
 
@@ -49,8 +60,16 @@ public class Fade : MonoBehaviour
 
 			yield return null;
 		}
+
 		img.color = tempColor;
 		if(nextEvent != null) nextEvent();
+	}
+	
+	// 스프라이트
+
+	public void FadeInSprite(SpriteRenderer renderer, float fadeInTime, System.Action nextEvent = null)
+	{
+		StartCoroutine(CoFadeOutSprite(renderer, fadeInTime, nextEvent));
 	}
 
 	public void FadeOutSprite(SpriteRenderer renderer, float fadeOutTime, System.Action nextEvent = null)
@@ -58,11 +77,30 @@ public class Fade : MonoBehaviour
 		StartCoroutine(CoFadeOutSprite(renderer, fadeOutTime, nextEvent));
 	}
 
+	IEnumerator CoFadeInSprite(SpriteRenderer renderer, float fadeInTime, System.Action nextEvent = null)
+    {
+		Color tempColor = renderer.color;
+
+		while (tempColor.a < 1f)
+		{
+			tempColor.a += Time.deltaTime / fadeInTime;
+			renderer.color = tempColor;
+
+			if(tempColor.a >= 1f) tempColor.a = 1f;
+
+			yield return null;
+		}
+
+		renderer.color = tempColor;
+		if(nextEvent != null) nextEvent();
+    }
+
 	IEnumerator CoFadeOutSprite(SpriteRenderer renderer, float fadeOutTime, System.Action nextEvent = null)
     {
-        Debug.Log("페이드아웃");
 		Color tempColor = renderer.color;
-		while(tempColor.a > 0f){
+
+		while(tempColor.a > 0f)
+		{
 			tempColor.a -= Time.deltaTime / fadeOutTime;
 			renderer.color = tempColor;
 
@@ -70,6 +108,7 @@ public class Fade : MonoBehaviour
 
 			yield return null;
 		}
+
 		renderer.color = tempColor;
 		if(nextEvent != null) nextEvent();
     }

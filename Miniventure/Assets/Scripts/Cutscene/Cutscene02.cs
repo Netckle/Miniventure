@@ -38,7 +38,8 @@ public class Cutscene02 : MonoBehaviour
 
         if (!cutsceneIsEnd)
         {
-            
+            dialogueManager.panel.gameObject.SetActive(false);
+            dialogueManager.namePanel.gameObject.SetActive(false);
             StartCoroutine(CoFirstCutscene(2, 5));
         }            
     }
@@ -73,13 +74,15 @@ public class Cutscene02 : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            mino.PlayAttack();
-            soundManager.PlaySfx(soundManager.EffectSounds[0]);
+            mino.PlayAttack();           
             
             yield return new WaitForSeconds(0.8f);
+            soundManager.PlaySfx(soundManager.EffectSounds[0]);
 
             stage_controller_02.particle.Play();
         }
+
+        soundManager.PlaySfx(soundManager.EffectSounds[4]);
 
         treeMove.StopAllTree();
         stage_controller_02.phase_01_floor.SetActive(false);
@@ -101,12 +104,19 @@ public class Cutscene02 : MonoBehaviour
     {        
         cutsceneIsEnd = false;
 
+        soundManager.SimplePlayBGM(0);
+
         fade.FadeOut(3.0f);
+        yield return new WaitForSeconds(3.0f);
+        fade.transform.SetAsFirstSibling();
 
         player.Pause();
         //player.ForcePlayWalkAnim();
         //player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
        
+        dialogueManager.panel.gameObject.SetActive(true);
+        dialogueManager.namePanel.gameObject.SetActive(true);
+
         dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
         

@@ -143,9 +143,9 @@ public class MoveMino : MonoBehaviour
         
         yield return new WaitForSeconds(3.0f);
 
-        anim.SetTrigger("isAttack");
-        soundManager.PlaySfx(soundManager.EffectSounds[0]);
-        treeMove.StopAllTree();             
+        anim.SetTrigger("isAttack");       
+        treeMove.StopAllTree();  
+             
 
         player.Release();
         player.ForceStopWalkAnim();
@@ -153,6 +153,7 @@ public class MoveMino : MonoBehaviour
         anim.SetBool("isMoving", false);
 
         yield return new WaitForSeconds(0.8f);
+        soundManager.PlaySfx(soundManager.EffectSounds[0]);  
         particle.Play();   
 
         yield return new WaitForSeconds(5.2f);
@@ -232,7 +233,7 @@ public class MoveMino : MonoBehaviour
         // 카메라 효과
 
         // 대화문 작성
-
+        
         StartCoroutine(CoDie());
     }
 
@@ -245,14 +246,16 @@ public class MoveMino : MonoBehaviour
         sprite.color = new Color32(255, 255, 255, 255);
         cameraShake.ShakeCam(2.0f);
         fade.FadeOutSprite(sprite, 2.0f);
+        soundManager.PlaySfx(soundManager.EffectSounds[4]);
         yield return new WaitForSeconds(2.0f);
+        
         particle.transform.position = new Vector3(transform.position.x, particle.transform.position.y, particle.transform.position.z);
         particle.Play();
 
         yield return new WaitUntil(()=>!particle.isPlaying);
         
         //this.gameObject.SetActive(false);
-
+        fade.transform.SetAsLastSibling();
         fade.FadeIn(3.0f);
         yield return new WaitForSeconds(3.0f);
 

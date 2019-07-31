@@ -83,6 +83,7 @@ public class MoveSlimeDot : MonoBehaviour
         //this.gameObject.SetActive(false);
 
         fade.FadeIn(3.0f);
+        fade.transform.SetAsLastSibling();
         yield return new WaitForSeconds(3.0f);
 
         SceneManager.LoadScene("Select Stage");

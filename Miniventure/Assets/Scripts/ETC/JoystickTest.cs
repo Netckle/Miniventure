@@ -22,6 +22,7 @@ public class JoystickTest : MonoBehaviour
  
         // 캔버스 크기에대한 반지름 조절.
         float Can = transform.parent.GetComponent<RectTransform>().localScale.x;
+        Debug.Log(Can);
         Radius *= Can;
  
         MoveFlag = false;
