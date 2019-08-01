@@ -179,7 +179,6 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponentInChildren<SpriteRenderer>();
         
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
-        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
     }   
 
     #region ONCLICK
@@ -221,13 +220,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (pause)
         {
-            pauseManager.Pause(this.gameObject, false);  
+            //pauseManager.Pause(this.gameObject, false);  
             canMove = false;  
             pauseFlag = true;
         }
         else if (!pause && pauseFlag)
         {
-            pauseManager.Release(this.gameObject, "Player");
+            //pauseManager.Release(this.gameObject, "Player");
             canMove = true;
             pauseFlag = false;
         }

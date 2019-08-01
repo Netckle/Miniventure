@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BackgroundScroll.cs" />
      <Compile Include="Assets\BeforeMainMenu.cs" />
      <Compile Include="Assets\CameraMove.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
@@ -68,6 +69,7 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUI.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
+     <Compile Include="Assets\ForPhase02.cs" />
      <Compile Include="Assets\Materials\BackgroundRepeat.cs" />
      <Compile Include="Assets\NiddleControll.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />

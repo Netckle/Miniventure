@@ -32,8 +32,6 @@ public class Cutscene02 : MonoBehaviour
     void Start()
     {
         player.stage_02_doubleJump = true;
-        //dialogueManager = GameObject.Find("Dialogue  Manager").GetComponent<DialogueManager>();
-        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
 
         if (!cutsceneIsEnd)
@@ -84,7 +82,7 @@ public class Cutscene02 : MonoBehaviour
 
         soundManager.PlaySfx(soundManager.EffectSounds[4]);
 
-        treeMove.StopAllTree();
+        //treeMove.StopAllTree();
         stage_controller_02.phase_01_floor.SetActive(false);
 
         mino.FreeRigid();

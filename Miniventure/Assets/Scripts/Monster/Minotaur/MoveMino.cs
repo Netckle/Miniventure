@@ -29,7 +29,7 @@ public class MoveMino : MonoBehaviour
 
     public Fade fade;
 
-    public TreeMove treeMove;
+    //public TreeMove treeMove;
 
     public Transform originPos;
 
@@ -43,9 +43,7 @@ public class MoveMino : MonoBehaviour
         sprite   = GetComponentInChildren<SpriteRenderer>();
 
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
-        pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
-
-        //player.ForcePlayWalkAnim(true);
+        backgroundScroll = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
     }
 
     public void FreeRigid()
@@ -131,10 +129,13 @@ public class MoveMino : MonoBehaviour
         move_is_end = true;
     }
 
+    private BackgroundScroll backgroundScroll;
+
     IEnumerator BossMovementPhase01()
     {
+        backgroundScroll.Move();
         anim.SetBool("isMoving", true);
-        treeMove.StartAllTree();
+        //treeMove.StartAllTree();
 
         player.ForcePlayWalkAnim();
         player.transform.localScale = new Vector3(1, 1, 1);
@@ -142,9 +143,9 @@ public class MoveMino : MonoBehaviour
         player.Pause();
         
         yield return new WaitForSeconds(3.0f);
-
+        backgroundScroll.StopAllCoroutines();
         anim.SetTrigger("isAttack");       
-        treeMove.StopAllTree();  
+        //treeMove.StopAllTree();  
              
 
         player.Release();

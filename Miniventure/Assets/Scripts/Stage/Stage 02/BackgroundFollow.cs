@@ -5,7 +5,7 @@ using UnityEngine;
 public class BackgroundFollow : MonoBehaviour
 {
     public GameObject[] backgroundOBJ = new GameObject[4];
-    public Vector3[] paddingZ = new Vector3[4];
+    public Vector3[] padding = new Vector3[4];
 
     public float time;
 
@@ -19,7 +19,7 @@ public class BackgroundFollow : MonoBehaviour
         for (int i = 0; i < 4; ++i)
         {
             backgroundOBJ[i].transform.position = 
-            Vector3.Lerp(backgroundOBJ[i].transform.position, Camera.main.transform.position + paddingZ[i], time * (i + 0.5f) * Time.deltaTime);
+            Vector3.Lerp(backgroundOBJ[i].transform.position, Camera.main.transform.position + padding[i], time * (i + 0.5f) * Time.deltaTime);
         }
     }
 }
