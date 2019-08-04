@@ -172,8 +172,6 @@ public class MiniSlimeMove : MonoBehaviour
 
     IEnumerator CoDie()
     {
-        FindObjectOfType<PlayerMovement>().catchedSlimes++;
-
         Die();
 
         yield return new WaitForSeconds(1.0f);

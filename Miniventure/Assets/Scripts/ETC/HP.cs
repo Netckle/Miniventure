@@ -39,9 +39,9 @@ public class HP : MonoBehaviour
 
     void UpdatePlayerHPbar()
     {
-        float HP = player.health;
-        HP_BAR.fillAmount = HP / player.maxHealth;
-        HP_TEXT.text = string.Format("HP {0} / {0}", HP, player.maxHealth);       
+        float HP = player.HP;
+        HP_BAR.fillAmount = HP / player.maxHP;
+        HP_TEXT.text = string.Format("HP {0} / {0}", HP, player.maxHP);       
     }
 
     void UpdateSlimeHPbar()

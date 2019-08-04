@@ -27,7 +27,7 @@ public class UnBeat : MonoBehaviour
     private void StartUnBeat(Collider2D other)
     {
         // Attacked by Creature       
-        --movement.health;
+        --movement.HP;
         soundManager.PlaySfx(soundManager.EffectSounds[2]);
         cameraShake.ShakeCam();
 

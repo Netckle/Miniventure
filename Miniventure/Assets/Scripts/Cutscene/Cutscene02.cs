@@ -31,7 +31,6 @@ public class Cutscene02 : MonoBehaviour
 
     void Start()
     {
-        player.stage_02_doubleJump = true;
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
 
         if (!cutsceneIsEnd)
@@ -54,9 +53,19 @@ public class Cutscene02 : MonoBehaviour
             phase_02_end_can_laod = false;
             //jsonManager.Save(2, true);
             
-            mino.StopAllCoroutines();
-            mino.Die();
+            StartCoroutine(EndCutScene(2, 5));
         }
+    }
+
+    IEnumerator EndCutScene(int startDialogue, int endDialogue)
+    {
+        mino.StopAllCoroutines();
+        mino.sprite.color = new Color32(255, 255, 255, 255);
+
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), startDialogue, endDialogue);
+        yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
+
+        mino.Die();
     }
 
     public StageController02 stage_controller_02;
@@ -72,24 +81,28 @@ public class Cutscene02 : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            mino.PlayAttack();           
+            mino.PlayAttackAnim();           
             
             yield return new WaitForSeconds(0.8f);
             soundManager.PlaySfx(soundManager.EffectSounds[0]);
-
             stage_controller_02.particle.Play();
+            mino.cameraShake.ShakeCam();
         }
 
         soundManager.PlaySfx(soundManager.EffectSounds[4]);
+        
 
         //treeMove.StopAllTree();
+        player.rigidbody2d.gravityScale = 1;
         stage_controller_02.phase_01_floor.SetActive(false);
+        mino.cameraShake.ShakeCam(1.0f);
 
-        mino.FreeRigid();
+        mino.UnlockRigidbodyFreeze();
               
         // 바닥 트리거에 닿았을 경우.
 
         yield return new WaitUntil(()=>phase_02_start);
+        player.rigidbody2d.gravityScale = 3;
 
         dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);

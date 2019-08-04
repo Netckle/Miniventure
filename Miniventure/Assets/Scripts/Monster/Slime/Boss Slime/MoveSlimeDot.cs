@@ -41,6 +41,8 @@ public class MoveSlimeDot : MonoBehaviour
 
     PauseManager pauseManager;
 
+    public float backOffsetX;
+
     void Start()
     {
         maxHP = HP;
@@ -142,13 +144,13 @@ public class MoveSlimeDot : MonoBehaviour
         moveIsEnd = true;
     }
 
-    void MoveX(float moveDistance, float moveTime)
+    void MoveX(float moveDistance, float moveTime, DG.Tweening.Ease easeType)
     {
         moveIsEnd = false;
 
         float endPos = moveDistance;
         transform.DOMoveX(endPos, moveTime)
-            .SetEase(Ease.InOutQuart)
+            .SetEase(easeType)
             .OnComplete(EndMove);
     }
 
@@ -219,31 +221,30 @@ public class MoveSlimeDot : MonoBehaviour
 
         StartCoroutine(bossPattern);
     }
-
+    
     IEnumerator BossMovementPhase01()
     {
-        Debug.Log("페이즈1실행중");
         canDamaged = false;
 
         MoveToMiddle(normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        Debug.Log("1단계 통과");
-
-        MoveX(-moveRange, normalMoveTime); // Move Left
+        MoveX(backOffsetX, 1.0f, Ease.OutQuart); // 뒤로 뺴는 동작.
         yield return new WaitUntil(()=>moveIsEnd && !pause);
-
-        Debug.Log("2단계 통과");
+        
+        MoveX(-moveRange, normalMoveTime, Ease.InOutQuart); // 왼쪽으로.
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
 
         MoveToMiddle(normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        Debug.Log("3단계 통과");
-
-        MoveX(moveRange, normalMoveTime); // Move Right
+        MoveX(-backOffsetX, 1.0f, Ease.OutQuart); // 뒤로 뺴는 동작.
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        Debug.Log("4단계 통과");
+        MoveX(moveRange, normalMoveTime, Ease.InOutQuart); // 오른쪽으로.
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
+
+        // 슬라임 스폰
 
         SpawnSlime(2);
         yield return new WaitUntil(()=>spawnIsEnd && !pause);
@@ -258,43 +259,52 @@ public class MoveSlimeDot : MonoBehaviour
 
     IEnumerator BossMovementPhase02()
     {
-        Debug.Log("페이즈2실행중");
-        //int[] nums = RandomInt.getRandomInt(3, 0, 3);
+        float moveTime = normalMoveTime * 0.75f;
 
-        float tempTime = normalMoveTime * 0.75f;
-
-        //
-
+        // Line 0
         transform.position = stage.linePos[0].position;
         particle.Play();
-        MoveToMiddle(tempTime);
+
+        MoveToMiddle(moveTime);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        MoveX(moveRange, tempTime);
+        MoveX(-backOffsetX, 1.0f, Ease.OutQuart); // 뒤로 뺴는 동작.
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        //
+        MoveX(moveRange, moveTime, Ease.InOutQuart);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
 
+        yield return new WaitForSeconds(1.5f);
+
+        // Line 1
         transform.position = stage.linePos[1].position;
         particle.Play();
-        MoveToMiddle(tempTime);
+
+        MoveToMiddle(moveTime);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        MoveX(-moveRange, tempTime);
+        MoveX(backOffsetX, 1.0f, Ease.OutQuart); // 뒤로 뺴는 동작.
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        //
+        MoveX(-moveRange, moveTime, Ease.InOutQuart);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
 
+        yield return new WaitForSeconds(1.5f);
+
+        // Line 0
         transform.position = stage.linePos[2].position;
         particle.Play();
-        MoveToMiddle(tempTime);
+
+        MoveToMiddle(moveTime);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        MoveX(moveRange, tempTime);
+        MoveX(-backOffsetX, 1.0f, Ease.OutQuart); // 뒤로 뺴는 동작.
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
+        MoveX(moveRange, moveTime, Ease.InOutQuart);
+        yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.5f);
 
         bossPattern = BossMovementPhase02();
         StartCoroutine(bossPattern);

@@ -93,7 +93,6 @@
      <Compile Include="Assets\Scripts\ETC\HP.cs" />
      <Compile Include="Assets\Scripts\ETC\JoystickTest.cs" />
      <Compile Include="Assets\Scripts\ETC\JsonHelper.cs" />
-     <Compile Include="Assets\Scripts\ETC\LineCheck.cs" />
      <Compile Include="Assets\Scripts\ETC\RandomInt.cs" />
      <Compile Include="Assets\Scripts\ETC\SortingLayer.cs" />
      <Compile Include="Assets\Scripts\Fade\Fade.cs" />

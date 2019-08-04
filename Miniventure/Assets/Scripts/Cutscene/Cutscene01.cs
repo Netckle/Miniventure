@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.UI;
 
 public class Cutscene01 : Cutscene
@@ -25,6 +26,8 @@ public class Cutscene01 : Cutscene
 
     PauseManager pauseManager;
     private SoundManager soundManager;
+
+    public CinemachineVirtualCamera VirtualCamera;
 
     void Start()
     {
@@ -82,6 +85,8 @@ public class Cutscene01 : Cutscene
         background.padding[2] = new Vector3(0, 0, 25);
         background.padding[3] = new Vector3(0, 0, 30);
 
+        
+
         background.time = 20;
         // 발판 제거
         stageController.phase01Block.SetActive(false);
@@ -107,7 +112,7 @@ public class Cutscene01 : Cutscene
         dialogueManager.namePanel.gameObject.SetActive(false);
 
         player.Pause();
-        player.ChangeTransform(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
+        player.ChangePos(bossSlime.gameObject.transform.position + new Vector3(-5, 1, 0));
 
         fade.FadeOut(3.0f);       
 
@@ -143,7 +148,7 @@ public class Cutscene01 : Cutscene
         yield return new WaitForSeconds(0.5f);    
 
         player.Pause();
-        player.ChangeTransform(bossSlime.transform.position + new Vector3(-7, 1, 0));    
+        player.ChangePos(bossSlime.transform.position + new Vector3(-7, 1, 0));    
 
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[0] = player.gameObject.transform; 
         //Camera.main.GetComponent<MultipleTargetCamera>().targets[1] = bossSlime.gameObject.transform;   
