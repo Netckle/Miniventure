@@ -6,7 +6,11 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-
+    public void SetActivePanel(bool flag)
+    {
+        panel.gameObject.SetActive(flag);
+        namePanel.gameObject.SetActive(flag);
+    }
 
     Queue<Dialogue> sentences = new Queue<Dialogue>();
 
