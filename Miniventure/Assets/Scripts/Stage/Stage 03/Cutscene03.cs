@@ -22,6 +22,8 @@ public class Cutscene03 : MonoBehaviour
     public Transform playerOriginPos;
     public Transform minoOriginPos;
 
+    private BossBatMovement bossBat;
+
     [Space]
     [Header("전투 전 대화 범위")]
     public int startNum01, endNum01;
@@ -34,6 +36,8 @@ public class Cutscene03 : MonoBehaviour
 
     private void Start() 
     {
+        bossBat = GameObject.Find("Boss Bat").GetComponent<BossBatMovement>();
+
         backgroundScroll = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
 
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
@@ -58,8 +62,9 @@ public class Cutscene03 : MonoBehaviour
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();
-        //bat.StartAction();
+        
 
         backgroundScroll.Move();
+        bossBat.StartBossMove();
     }
 }

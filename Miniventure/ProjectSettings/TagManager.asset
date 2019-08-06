@@ -8,6 +8,7 @@ TagManager:
   - Slime
   - StopCollider
   - MinoBoss
+  - DestroyCollider
   layers:
   - Default
   - TransparentFX

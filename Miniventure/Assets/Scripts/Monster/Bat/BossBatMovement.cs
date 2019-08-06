@@ -6,12 +6,13 @@ using DG.Tweening;
 public class BossBatMovement : MonoBehaviour 
 {
     private ParticleSystem particle;
-
     private PlayerMovement player;
 
-    private Rigidbody2D rigid;
+    [HideInInspector]
+    public Rigidbody2D rigid;
     private Animator anim;
     private SpriteRenderer sprite;
+    public Collider2D collider2d;
 
     [Range(0, 50)]
     public int HP;
@@ -28,22 +29,100 @@ public class BossBatMovement : MonoBehaviour
 
     public float offsetX, offsetY;
 
-    public Transform phase02originPos;
-
     public bool phase02on = false;
 
-    void Start()
-    {
-        //phase02originPos.position = new Vector3(originPos.position.x, originPos.position.y + 3.5f, 0);
-        if (phase02on)
-        {
-            StartCoroutine(BossMovement03());
-        }
-        else
-        {
-                    StartBossPhase02();
-        }
+    public MiniBatMovement[] miniBats = new MiniBatMovement[2];
 
+    private bool canDamaged = false;
+
+    private Rigidbody2D rigidbody2d;
+
+    private void Start() 
+    {
+        rigidbody2d = GetComponent<Rigidbody2D>();
+        collider2d = GetComponent<Collider2D>();
+        //StartBossMove();
+    }
+
+    public void StartBossMove()
+    {
+        StartCoroutine(NormalPattern());
+    }
+
+    private void Update() 
+    {
+        canMoveNext = CheckAllMiniBatIsDeleted();
+    }
+
+    private bool CheckAllMiniBatIsDeleted()
+    {
+        foreach (MiniBatMovement miniBat in miniBats)
+        {
+            if (miniBat.gameObject.activeSelf) // 활성화된 오브젝트 있으면
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool canMoveNext = false;
+
+    private IEnumerator NormalPattern()
+    {
+        canDamaged = false;
+        yield return new WaitForSeconds(2.0f);
+
+        foreach (MiniBatMovement miniBat in miniBats)
+        {
+            miniBat.transform.position = this.transform.position + new Vector3(0, 2f, 0);
+            miniBat.gameObject.SetActive(true);
+
+            miniBat.StartMoving();
+        }   
+
+        canMoveNext = false;
+
+        yield return new WaitUntil(()=>canMoveNext);
+        canDamaged = true;
+
+        Move(-offsetX, transform.position.y, normalMoveTime * 6);
+        yield return new WaitUntil(()=>moveIsEnd);
+
+        Move(offsetX, transform.position.y, normalMoveTime * 6);
+        yield return new WaitUntil(()=>moveIsEnd);
+
+        StartCoroutine(NormalPattern());
+    }
+
+    public void UnderPattern()
+    {
+        StartCoroutine(CoUnderPattern());
+    }
+
+    private IEnumerator CoUnderPattern()
+    {
+        Move(0, 4, normalMoveTime * 2);
+        yield return new WaitUntil(()=>moveIsEnd);
+
+        Move(13, 23, normalMoveTime * 6);
+        yield return new WaitUntil(()=>moveIsEnd);
+
+        yield return new WaitUntil(()=>player.transform.position.y > this.transform.position.y - 2);
+        StartCoroutine(NormalPattern());
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.tag == "Player" && canDamaged)
+        {
+            Debug.Log("2페이즈 각");
+            transform.DOPause();
+            StopAllCoroutines();
+            other.gameObject.transform.parent = this.transform;
+            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
+            rigidbody2d.bodyType = RigidbodyType2D.Dynamic;     
+        }
     }
 
     private void Move(float offsetX, float offsetY, float moveTime, Ease moveType = Ease.Linear)
@@ -62,106 +141,13 @@ public class BossBatMovement : MonoBehaviour
         moveIsEnd = true;
     }
 
-    public void StartBossPattern()
-    {   
-        StartCoroutine(BossMovement01());
+    public void TakeDamage(float damage)
+    {
+        StartCoroutine(CoTakeDamage(damage));
     }
 
-    public void StartBossPhase02()
+    private IEnumerator CoTakeDamage(float damage)
     {
-        originPos = phase02originPos;
-        StartCoroutine(BossMovement02());
-    }
-
-    private IEnumerator BossMovement01()
-    {
-        Move(offsetX, originPos.position.y + offsetY, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(-offsetX, originPos.position.y - offsetY, normalMoveTime * 1.5f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(-offsetX, originPos.position.y + offsetY, normalMoveTime * 2f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(offsetX, originPos.position.y - offsetY, normalMoveTime * 1.5f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(-offsetX, originPos.position.y, normalMoveTime * 1.5f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime * 1.5f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(2.0f);
-
-        StartCoroutine(BossMovement01());
-    }
-
-    private IEnumerator BossMovement02()
-    {
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX, originPos.position.y + (offsetY / 2), normalMoveTime * 2f, Ease.InQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX * 2, originPos.position.y, normalMoveTime * 2f, Ease.OutQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime * 2f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX, originPos.position.y - (offsetY / 2), normalMoveTime * 2f, Ease.InQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX * 2, originPos.position.y, normalMoveTime * 2f, Ease.OutQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime * 2f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        StartCoroutine(BossMovement02());
-    }
-
-    private IEnumerator BossMovement03()
-    {
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX, originPos.position.y - (offsetY / 2), normalMoveTime * 2f, Ease.InQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX * 2, originPos.position.y, normalMoveTime * 2f, Ease.OutQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime * 2f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX, originPos.position.y + (offsetY / 2), normalMoveTime * 2f, Ease.InQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(originPos.position.x - offsetX * 2, originPos.position.y, normalMoveTime * 2f, Ease.OutQuad);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(2.0f);
-
-        Move(originPos.position.x, originPos.position.y, normalMoveTime * 2f);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        StartCoroutine(BossMovement03());
+        yield return null;
     }
 }

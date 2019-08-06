@@ -71,6 +71,7 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\ForPhase02.cs" />
      <Compile Include="Assets\Materials\BackgroundRepeat.cs" />
+     <Compile Include="Assets\MiniBatMovement.cs" />
      <Compile Include="Assets\NiddleControll.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
@@ -124,8 +125,8 @@
      <Compile Include="Assets\Scripts\Stage\Stage 02\TreeMovement.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 02\Trigger.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 03\Cutscene03.cs" />
-     <Compile Include="Assets\Scripts\Stage\Stage 03\StageController03.cs" />
      <Compile Include="Assets\SoundPlay.cs" />
+     <Compile Include="Assets\Stage03Phase02Trigger.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
      <None Include="Assets\Scripts\RippleEffect\RippleEffect.shader" />
