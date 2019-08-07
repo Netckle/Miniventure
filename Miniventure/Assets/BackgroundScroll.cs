@@ -19,6 +19,12 @@ public class BackgroundScroll : MonoBehaviour
 
     }
 
+    public void Stop()
+    {
+        transform.DOPause();
+        StopAllCoroutines();
+    }
+
     public void Move()
     {
         StartCoroutine(CoMove(goalXPos, moveTime));

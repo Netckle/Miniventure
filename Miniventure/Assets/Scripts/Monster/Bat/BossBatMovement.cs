@@ -9,7 +9,7 @@ public class BossBatMovement : MonoBehaviour
     private PlayerMovement player;
 
     [HideInInspector]
-    public Rigidbody2D rigid;
+    //public Rigidbody2D rigid;
     private Animator anim;
     private SpriteRenderer sprite;
     public Collider2D collider2d;
@@ -35,13 +35,15 @@ public class BossBatMovement : MonoBehaviour
 
     private bool canDamaged = false;
 
-    private Rigidbody2D rigidbody2d;
+    public Rigidbody2D rigidbody2d;
 
     private void Start() 
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
         //StartBossMove();
+
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
 
     public void StartBossMove()
@@ -102,6 +104,8 @@ public class BossBatMovement : MonoBehaviour
 
     private IEnumerator CoUnderPattern()
     {
+        yield return new WaitForSeconds(3.0f);
+        Debug.Log("CoUnderPattern에 들어왔다.");
         Move(0, 4, normalMoveTime * 2);
         yield return new WaitUntil(()=>moveIsEnd);
 
@@ -119,7 +123,9 @@ public class BossBatMovement : MonoBehaviour
             Debug.Log("2페이즈 각");
             transform.DOPause();
             StopAllCoroutines();
-            other.gameObject.transform.parent = this.transform;
+
+            other.gameObject.GetComponent<PlayerMovement>().collider2d.isTrigger = true;
+            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.gravityScale = 1;
             other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
             rigidbody2d.bodyType = RigidbodyType2D.Dynamic;     
         }

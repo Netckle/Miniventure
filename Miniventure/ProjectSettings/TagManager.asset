@@ -9,6 +9,7 @@ TagManager:
   - StopCollider
   - MinoBoss
   - DestroyCollider
+  - BossBat
   layers:
   - Default
   - TransparentFX

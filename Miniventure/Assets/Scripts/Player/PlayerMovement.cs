@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {    
+    public Collider2D collider2d;
+
     [HideInInspector]
     public Rigidbody2D rigidbody2d;
 
@@ -103,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
 
         fade = GameObject.Find("Fade").GetComponent<Fade>();
+
+        collider2d = GetComponent<Collider2D>();
     }   
 
     #region ONCLICK EVENT       

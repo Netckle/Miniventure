@@ -70,6 +70,7 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\ForPhase02.cs" />
+     <Compile Include="Assets\JumpBlock.cs" />
      <Compile Include="Assets\Materials\BackgroundRepeat.cs" />
      <Compile Include="Assets\MiniBatMovement.cs" />
      <Compile Include="Assets\NiddleControll.cs" />
