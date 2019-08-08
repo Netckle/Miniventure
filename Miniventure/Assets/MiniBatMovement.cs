@@ -6,112 +6,101 @@ using DG.Tweening;
 public class MiniBatMovement : MonoBehaviour
 {
     private ParticleSystem particle;
-
-    public Transform playerPos;
-    public Transform originPos;
-
     private bool moveIsEnd = false;
+
+    public GameObject player;
+    public Transform originPos;   
 
     public float damage;  
 
-    [Space]
     public float offsetX;
     public float offsetY;
 
-    public float normalMoveTime;
+    public float normalMoveTime;    
 
-    private IEnumerator mainCor;
-
-    public float addOffsetY01, addOffsetY02, addOffsetY03;
+    public float offset01, offset02, offset03;
 
     private Vector2 originPos01, originPos02, originPos03;
-    private Vector2 tempPos01, tempPos02, tempPos03;
+    private Vector2 appliedPos01, appliedPos02, appliedPos03;
 
     private Vector2 topPos;
 
-    private float tempX, tempY;
-    private float originX, originY;
+    private Vector2 originOneThirdOffset;
+    private Vector2 appliedOneThirdOffset;
 
     private void Start() 
     {
         particle = GetComponentInChildren<ParticleSystem>();
-        
-        originX = offsetX / 4; originY = offsetY / 4;
-        tempX = offsetX / 4; tempY = (offsetY / 4) - 1.5f;       
 
-           
-        originPos01 = new Vector2(transform.position.x - originX, transform.position.y + originY);
-        tempPos01 = new Vector2(transform.position.x - tempX, transform.position.y + tempY + addOffsetY01);
+        DefineAllPos();   
+    }
 
-        originPos02 = new Vector2(originPos01.x - originX, originPos01.y + originY);
-        tempPos02 = new Vector2(tempPos01.x - tempX, tempPos01.y + tempY + addOffsetY02);
+    private void DefineAllPos()
+    {
+        originOneThirdOffset.x = offsetX / 4; 
+        originOneThirdOffset.y = offsetY / 4;
 
-        originPos03 = new Vector2(originPos02.x - tempX, originPos02.y);
-        tempPos03 = new Vector2(tempPos02.x - tempX, tempPos02.y + tempY + addOffsetY03);
+        appliedOneThirdOffset.x = offsetX / 4; 
+        appliedOneThirdOffset.y = (offsetY / 4) - 1.5f;
 
         topPos = new Vector2(transform.position.x - offsetX, transform.position.y + offsetY); 
+
+        // Define Origin Pos;
+        originPos01 = new Vector2(transform.position.x - originOneThirdOffset.x, transform.position.y + originOneThirdOffset.y);
+        originPos02 = new Vector2(originPos01.x - originOneThirdOffset.x, originPos01.y + originOneThirdOffset.y);
+        originPos03 = new Vector2(originPos02.x - originOneThirdOffset.x, originPos02.y + originOneThirdOffset.y);
+
+        // Define Applied Pos;
+        appliedPos01 = new Vector2(transform.position.x - appliedOneThirdOffset.x, transform.position.y + appliedOneThirdOffset.y + offset01);        
+        appliedPos02 = new Vector2(appliedPos01.x - appliedOneThirdOffset.x, appliedPos01.y + appliedOneThirdOffset.y + offset02);
+        appliedPos03 = new Vector2(appliedPos02.x - appliedOneThirdOffset.x, appliedPos02.y + appliedOneThirdOffset.y + offset03);
     }
 
     private void OnDrawGizmos() 
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(tempPos01, 0.3f);
-        Gizmos.DrawWireSphere(tempPos02, 0.3f);
-        Gizmos.DrawWireSphere(tempPos03, 0.3f);
-        Gizmos.DrawWireSphere(topPos, 0.3f);
 
-        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(originPos01, 0.3f);
         Gizmos.DrawWireSphere(originPos02, 0.3f);
         Gizmos.DrawWireSphere(originPos03, 0.3f);
-        Gizmos.DrawWireSphere(topPos, 0.3f);
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawWireSphere(appliedPos01, 0.3f);
+        Gizmos.DrawWireSphere(appliedPos02, 0.3f);
+        Gizmos.DrawWireSphere(appliedPos03, 0.3f);
     }
 
     public void StartMoving()
-    {
-        originX = offsetX / 4; originY = offsetY / 4;
-        tempX = offsetX / 4; tempY = (offsetY / 4) - 1.5f;       
-
-           
-        originPos01 = new Vector2(transform.position.x - originX, transform.position.y + originY);
-        tempPos01 = new Vector2(transform.position.x - tempX, transform.position.y + tempY + addOffsetY01);
-
-        originPos02 = new Vector2(originPos01.x - originX, originPos01.y + originY);
-        tempPos02 = new Vector2(tempPos01.x - tempX, tempPos01.y + tempY + addOffsetY02);
-
-        originPos03 = new Vector2(originPos02.x - tempX, originPos02.y);
-        tempPos03 = new Vector2(tempPos02.x - tempX, tempPos02.y + tempY + addOffsetY03);
-
-        topPos = new Vector2(transform.position.x - offsetX, transform.position.y + offsetY); 
-        StartCoroutine(CoMoving());
+    { 
+        DefineAllPos();
+        StartCoroutine(CoStartMoving());
     }
 
-    private IEnumerator CoMoving()
+    private IEnumerator CoStartMoving()
     {
-        Move(tempPos01, normalMoveTime);
+        Move(appliedPos01, normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd);
 
-        Move(tempPos02, normalMoveTime);
+        Move(appliedPos02, normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd);
 
-        Move(tempPos03, normalMoveTime);
+        Move(appliedPos03, normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd);
 
         Move(topPos, normalMoveTime);
         yield return new WaitUntil(()=>moveIsEnd);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
 
-        Move(topPos.x + (playerPos.position.x - topPos.x), topPos.y + (playerPos.position.y - topPos.y), normalMoveTime * 3);
+        Debug.Log(player.transform.position);
+
+        Move(player.transform.position, normalMoveTime * 3.0f, Ease.OutQuart);
         yield return new WaitUntil(()=>moveIsEnd);
 
-        Move(transform.position.x + ((playerPos.position.x - topPos.x)), transform.position.y + ((playerPos.position.y - topPos.y)), normalMoveTime * 3);
+        Move(((Vector2)transform.position + (Vector2)transform.position - topPos).normalized * 10.0f, normalMoveTime * 3.0f + 10.0f);
         yield return new WaitUntil(()=>moveIsEnd);
-    }
-
-    
-
-    
+    }  
 
     private void Move(float _offsetX, float _offsetY, float _moveTime, Ease moveType = Ease.Linear)
     {
@@ -142,21 +131,21 @@ public class MiniBatMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Player")
-        {
-            StopAllCoroutines();
-            //other.gameObject.GetComponent<PlayerMovement>().TakeDamage(damage);
-            StartCoroutine(Die());
-        }
-
         if (other.gameObject.tag == "DestroyCollider")
         {
+            transform.DOPause();
             StopAllCoroutines();
-            StartCoroutine(Die());
+
+            StartCoroutine(CoDie());
         }
     }
 
-    private IEnumerator Die()
+    public void TakeDamage()
+    {
+        StartCoroutine(CoDie());
+    }
+
+    private IEnumerator CoDie()
     {
         //StopCoroutine(mainCor);
 

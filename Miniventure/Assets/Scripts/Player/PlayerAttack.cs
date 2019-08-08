@@ -68,7 +68,15 @@ public class PlayerAttack : MonoBehaviour
                     {
                         enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage, transform.localScale.x);
                         Debug.Log("슬라임에게 데미지를 준다");
-                    }                    
+                    }       
+                    else if (enemiesToDamage[i].tag == "BossBat" && !enemiesToDamage[i].GetComponent<BossBatMovement>().otherPatternOn)
+                    {
+                        enemiesToDamage[i].GetComponent<BossBatMovement>().AfterCollideToPlayer();
+                    }      
+                    else if (enemiesToDamage[i].tag == "MiniBat")
+                    {
+                        enemiesToDamage[i].GetComponent<MiniBatMovement>().TakeDamage();
+                    }       
                     Debug.Log(enemiesToDamage[i].tag);                  
                 }
 

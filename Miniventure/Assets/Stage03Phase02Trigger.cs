@@ -11,32 +11,22 @@ public class Stage03Phase02Trigger : MonoBehaviour
     {
         if (other.gameObject.tag == "BossBat")
         {
-            
             BossBatMovement bossBat = other.gameObject.GetComponent<BossBatMovement>();
-            bossBat.collider2d.isTrigger = false;
-            bossBat.rigidbody2d.velocity = Vector2.zero;
-
-            bossBat.rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
-
-            bossBat.transform.position = bossPos.position;
-
+            bossBat.AfterColliderToFloor(bossPos.position);
             
-
-            bossBat.UnderPattern();
             this.gameObject.SetActive(false);
         }
 
         else if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.gravityScale = 3;
-            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.velocity = Vector2.zero;
-            other.gameObject.transform.position = playerPos.position;
-            other.gameObject.GetComponent<PlayerMovement>().collider2d.isTrigger = false;
-            
+            PlayerMovement player = other.gameObject.GetComponent<PlayerMovement>();
+
+            player.rigidbody2d.gravityScale = 3;
+            player.rigidbody2d.velocity = Vector2.zero;
+
+            player.transform.position = playerPos.position;
+
+            player.collider2d.isTrigger = false;
         }
-    }
-
-        
-
-    
+    }       
 }

@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+using TMPro;
 
 public class BossBatMovement : MonoBehaviour 
 {
+    public Image eventBox;
+    public TextMeshProUGUI text;
+
     private ParticleSystem particle;
     private PlayerMovement player;
 
-    [HideInInspector]
-    //public Rigidbody2D rigid;
     private Animator anim;
     private SpriteRenderer sprite;
+    [HideInInspector]
     public Collider2D collider2d;
+    [HideInInspector]
+    public Rigidbody2D rigidbody2d;
 
     [Range(0, 50)]
     public int HP;
@@ -25,23 +31,23 @@ public class BossBatMovement : MonoBehaviour
     public float normalMoveTime = 1.0f;
 
     public Transform originPos;
-    public GameObject damageEffect;
 
-    public float offsetX, offsetY;
+    public float offsetX;
+    public float offsetY;
 
-    public bool phase02on = false;
+    public bool otherPatternOn = false;
 
     public MiniBatMovement[] miniBats = new MiniBatMovement[2];
 
     private bool canDamaged = false;
+    public bool canContinueNormalPattern = false;
 
-    public Rigidbody2D rigidbody2d;
+    public float boxOffset;
 
     private void Start() 
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
-        //StartBossMove();
 
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
@@ -53,7 +59,25 @@ public class BossBatMovement : MonoBehaviour
 
     private void Update() 
     {
-        canMoveNext = CheckAllMiniBatIsDeleted();
+
+
+        canContinueNormalPattern = CheckAllMiniBatIsDeleted(); // 미니 박쥐가 다 없어지면 TRUE;
+    }
+
+    private void FixedUpdate() 
+    {
+        if (canDamaged)
+        {
+            eventBox.gameObject.SetActive(true);
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
+            float x = screenPos.x + boxOffset;
+            eventBox.transform.position = new Vector3(x, screenPos.y, 0);
+            text.text = "공격 가능";
+        }
+        else
+        {
+            eventBox.gameObject.SetActive(false);
+        }
     }
 
     private bool CheckAllMiniBatIsDeleted()
@@ -68,10 +92,9 @@ public class BossBatMovement : MonoBehaviour
         return true;
     }
 
-    public bool canMoveNext = false;
-
     private IEnumerator NormalPattern()
     {
+        otherPatternOn = false;
         canDamaged = false;
         yield return new WaitForSeconds(2.0f);
 
@@ -81,11 +104,13 @@ public class BossBatMovement : MonoBehaviour
             miniBat.gameObject.SetActive(true);
 
             miniBat.StartMoving();
+
+            yield return new WaitForSeconds(4.0F);
         }   
 
-        canMoveNext = false;
+        canContinueNormalPattern = false;
 
-        yield return new WaitUntil(()=>canMoveNext);
+        yield return new WaitUntil(()=>canContinueNormalPattern); // 미니 박쥐가 다 없어질 때까지...
         canDamaged = true;
 
         Move(-offsetX, transform.position.y, normalMoveTime * 6);
@@ -97,15 +122,19 @@ public class BossBatMovement : MonoBehaviour
         StartCoroutine(NormalPattern());
     }
 
-    public void UnderPattern()
+    public void StartOtherPatternOn()
     {
-        StartCoroutine(CoUnderPattern());
+        StartCoroutine(CoStartOtherPatternOn());
     }
 
-    private IEnumerator CoUnderPattern()
+    private IEnumerator CoStartOtherPatternOn()
     {
+        otherPatternOn = true;
+
+        canDamaged = true;
         yield return new WaitForSeconds(3.0f);
-        Debug.Log("CoUnderPattern에 들어왔다.");
+        canDamaged = false;
+
         Move(0, 4, normalMoveTime * 2);
         yield return new WaitUntil(()=>moveIsEnd);
 
@@ -113,22 +142,49 @@ public class BossBatMovement : MonoBehaviour
         yield return new WaitUntil(()=>moveIsEnd);
 
         yield return new WaitUntil(()=>player.transform.position.y > this.transform.position.y - 2);
+
+        otherPatternOn = false;
+
         StartCoroutine(NormalPattern());
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Player" && canDamaged)
+        if (other.gameObject.tag == "Player")
         {
-            Debug.Log("2페이즈 각");
+            // player.TakeDamage(damage);
+        }
+    }
+
+    public void AfterCollideToPlayer()
+    {
+        if (!otherPatternOn && canDamaged) // 노말 패턴이었다는 조건...
+        {
             transform.DOPause();
             StopAllCoroutines();
 
-            other.gameObject.GetComponent<PlayerMovement>().collider2d.isTrigger = true;
-            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.gravityScale = 1;
-            other.gameObject.GetComponent<PlayerMovement>().rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
-            rigidbody2d.bodyType = RigidbodyType2D.Dynamic;     
+            // Change Bat State
+            rigidbody2d.bodyType = RigidbodyType2D.Dynamic; 
+
+            // Change Player State
+            player.collider2d.isTrigger = true;
+
+            player.rigidbody2d.gravityScale = 1f;
+            player.rigidbody2d.velocity = Vector2.zero;
+            player.rigidbody2d.bodyType = RigidbodyType2D.Dynamic;    
         }
+    }
+
+    public void AfterColliderToFloor(Vector3 pos)
+    {
+        collider2d.isTrigger = false;
+
+        rigidbody2d.velocity = Vector2.zero;
+        rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
+
+        transform.position = pos;            
+
+        StartOtherPatternOn();
     }
 
     private void Move(float offsetX, float offsetY, float moveTime, Ease moveType = Ease.Linear)

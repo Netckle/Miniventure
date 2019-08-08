@@ -81,6 +81,7 @@
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
      <Compile Include="Assets\PlayParticle.cs" />
+     <Compile Include="Assets\ReduceFallVelocity.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraResolution.cs" />
      <Compile Include="Assets\Scripts\Camera\CinemachineCameraShaker.cs" />
      <Compile Include="Assets\Scripts\Camera\MultipleTargetCamera.cs" />

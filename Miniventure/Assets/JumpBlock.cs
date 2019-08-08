@@ -39,7 +39,7 @@ public class JumpBlock : MonoBehaviour
     {
         obj.GetComponent<PlayerMovement>().Pause();
 
-        Move(obj, playerOriginPos.position, 4.0f, Ease.OutQuart);
+        Move(obj, playerOriginPos.position, 3.0f, Ease.OutQuart);
         yield return new WaitUntil(()=>moveIsEnd);
 
         obj.gameObject.GetComponent<PlayerMovement>().rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
