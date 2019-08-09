@@ -12,7 +12,7 @@ public class Stage03Phase02Trigger : MonoBehaviour
         if (other.gameObject.tag == "BossBat")
         {
             BossBatMovement bossBat = other.gameObject.GetComponent<BossBatMovement>();
-            bossBat.AfterColliderToFloor(bossPos.position);
+            bossBat.AfterColliderToFloor();
             
             this.gameObject.SetActive(false);
         }

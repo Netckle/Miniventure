@@ -4,83 +4,70 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using TMPro;
 
 public class BeforeMainMenu : MonoBehaviour
 {
-    public Image logoImage;
-    public RectTransform titleImage;
-
-    public Button startButton;
-
-    public float fadeInTime, fadeOutTime, betweenWaitTime;
-
     private Fade fade;
-    private bool logoFadeInOutIsEnd = false;
-
     private SoundManager soundManager;
 
-    private bool moveIsEnd = false;
+    public SpriteRenderer playerSprite;
+
+    public TextMeshProUGUI TMP;    
+    public string titleText;
+
+    public TextMeshProUGUI tmpForTip; 
+    public string[] tips = new string[3];
 
     void Start()
     {
         fade = GameObject.Find("Fade").GetComponent<Fade>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
 
-        StartCoroutine(FadeInOutLogo(fadeInTime, fadeOutTime, betweenWaitTime));
+        StartCoroutine(BeforeTitleScreen());
     }
 
-    private IEnumerator FadeInOutLogo(float fadeInTime, float fadeOutTime, float betweenWaitTime)
+    private IEnumerator BeforeTitleScreen()
     {
-        logoFadeInOutIsEnd = false;
+        TMP.text = "";
 
-        fade.FadeIn(fadeInTime, null, logoImage);
-        yield return new WaitForSeconds(fadeInTime);
-
+        foreach (char letter in titleText)
+        {       
+            TMP.text += letter;
+            yield return new WaitForSeconds(0.1f);
+        }
         soundManager.PlaySfx(soundManager.EffectSounds[0]);
 
-        yield return new WaitForSeconds(betweenWaitTime);
+        yield return new WaitForSeconds(3.0f);
 
-        fade.FadeOut(fadeOutTime, null, logoImage);
-        yield return new WaitForSeconds(fadeOutTime);
-
-        fade.FadeOut(fadeOutTime);
-        fade.transform.SetAsFirstSibling();
-
-        soundManager.PlaySfx(soundManager.BGMSounds[0], true);
-
-        //Vector3 pos = startButton.gameObject.transform.position;
-        //Debug.Log(pos);
-        MoveTitleImage(250, 6.0f);
-
-        logoFadeInOutIsEnd = true;
+        TMP.text = "";
+        
+        soundManager.SimplePlayBGM(0);
+        
+        fade.FadeOut(3.0f);
+        yield return new WaitForSeconds(3.0f);
+        fade.transform.SetAsFirstSibling();        
     }
 
-    private void MoveTitleImage(float moveDistance, float moveTime)
-    {  
-        moveIsEnd = false;
-
-        float endPos = moveDistance;
-        titleImage.DOAnchorPosY(endPos, moveTime)
-            .SetEase(Ease.InOutQuart)
-            .OnComplete(EndMove);   
-    }
-
-    void EndMove()
+    public void OnClickStart()
     {
-        moveIsEnd = true;
+        StartCoroutine(CoOnClickStart());
     }
 
-    public void OnClick()
-    {
-        StartCoroutine(CoOnClick());
-    }
-
-    private IEnumerator CoOnClick()
+    private IEnumerator CoOnClickStart()
     {
         soundManager.PlaySfx(soundManager.EffectSounds[1]);
+
         fade.transform.SetAsLastSibling();
-        fade.FadeIn(fadeInTime);
-        yield return new WaitForSeconds(fadeInTime);
+        fade.FadeIn(3.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        playerSprite.gameObject.SetActive(true);
+
+        tmpForTip.gameObject.SetActive(true);
+        tmpForTip.text = tips[Random.Range(0, 3)];
+
+        yield return new WaitForSeconds(4.0f);
 
         SceneManager.LoadScene("Select Stage");
     }

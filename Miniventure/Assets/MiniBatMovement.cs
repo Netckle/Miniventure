@@ -5,7 +5,11 @@ using DG.Tweening;
 
 public class MiniBatMovement : MonoBehaviour
 {
-    private ParticleSystem particle;
+    public SimpleCameraShakeInCinemachine cameraShakeInCinemachine;
+
+    private SoundManager soundManager;
+    private Animator animator;
+    public ParticleSystem particle;
     private bool moveIsEnd = false;
 
     public GameObject player;
@@ -28,10 +32,14 @@ public class MiniBatMovement : MonoBehaviour
     private Vector2 originOneThirdOffset;
     private Vector2 appliedOneThirdOffset;
 
+    private void Awake() 
+    {
+        animator = GetComponentInChildren<Animator>();
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+    }
+
     private void Start() 
     {
-        particle = GetComponentInChildren<ParticleSystem>();
-
         DefineAllPos();   
     }
 
@@ -73,6 +81,10 @@ public class MiniBatMovement : MonoBehaviour
 
     public void StartMoving()
     { 
+        animator.SetBool("isDie", false);
+        particle.Play();
+        soundManager.PlaySfx(soundManager.EffectSounds[5]);
+
         DefineAllPos();
         StartCoroutine(CoStartMoving());
     }
@@ -93,12 +105,10 @@ public class MiniBatMovement : MonoBehaviour
 
         yield return new WaitForSeconds(3.0f);
 
-        Debug.Log(player.transform.position);
+        particle.Play();
+        soundManager.PlaySfx(soundManager.EffectSounds[5]);
 
-        Move(player.transform.position, normalMoveTime * 3.0f, Ease.OutQuart);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(((Vector2)transform.position + (Vector2)transform.position - topPos).normalized * 10.0f, normalMoveTime * 3.0f + 10.0f);
+        Move(topPos + ((Vector2)player.transform.position - topPos) * 3f, normalMoveTime * 8.0f, Ease.OutQuart);
         yield return new WaitUntil(()=>moveIsEnd);
     }  
 
@@ -138,21 +148,34 @@ public class MiniBatMovement : MonoBehaviour
 
             StartCoroutine(CoDie());
         }
+        if (other.gameObject.tag == "Player")
+        {
+            cameraShakeInCinemachine.ShakeCam();
+            soundManager.PlaySfx(soundManager.EffectSounds[2]);
+            transform.DOPause();
+            StopAllCoroutines();
+
+            StartCoroutine(CoDie());
+        }
     }
 
     public void TakeDamage()
     {
+
         StartCoroutine(CoDie());
     }
 
     private IEnumerator CoDie()
     {
-        //StopCoroutine(mainCor);
+        animator.SetBool("isDie", true);
+        GameObject effect = GameObject.Find("Damage Effect");
+        effect.SetActive(false);
+        effect.transform.position = this.transform.position;
+        effect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
-        //particle.Play();
-        //yield return new WaitUntil(()=>!particle.isPlaying);
-        yield return null;
-        //Fade?
+        effect.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        
 
         this.gameObject.SetActive(false);
     }

@@ -26,12 +26,14 @@ public class Fade : MonoBehaviour
 
 	IEnumerator CoFadeIn(float fadeInTime, System.Action nextEvent = null, Image image = null)
 	{
+		transform.SetAsLastSibling();
+
 		Image img = (image == null ? normalImage : image);
 		
 		Color tempColor = img.color;
 
 		while (tempColor.a < 1f)
-		{
+		{ 
 			tempColor.a += Time.deltaTime / fadeInTime;
 			img.color = tempColor;
 

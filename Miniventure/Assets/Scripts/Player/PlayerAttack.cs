@@ -22,6 +22,8 @@ public class PlayerAttack : MonoBehaviour
 
     private SoundManager soundManager;
 
+    public GameObject damageEffect;
+
     private void Start() {
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         player = GetComponentInParent<PlayerMovement>();
@@ -58,24 +60,48 @@ public class PlayerAttack : MonoBehaviour
                     {
                         Debug.Log("보스 미노 데미지 준다");
                         enemiesToDamage[i].GetComponent<MoveMino>().TakeDamage(damage);
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.SetActive(true);
                     }
                     else if (enemiesToDamage[i].tag == "SlimeBoss")
                     {
                         enemiesToDamage[i].GetComponent<MoveSlimeDot>().TakeDamage(damage);
                         Debug.Log("보스 슬라임에게 데미지를 준다");
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.SetActive(true);
                     }
                     else if (enemiesToDamage[i].tag == "Slime")
                     {
                         enemiesToDamage[i].GetComponent<MiniSlimeMove>().TakeDamage(damage, transform.localScale.x);
                         Debug.Log("슬라임에게 데미지를 준다");
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.SetActive(true);
                     }       
-                    else if (enemiesToDamage[i].tag == "BossBat" && !enemiesToDamage[i].GetComponent<BossBatMovement>().otherPatternOn)
+                    else if (enemiesToDamage[i].tag == "BossBat" && enemiesToDamage[i].GetComponent<BossBatMovement>().canDamaged && !enemiesToDamage[i].GetComponent<BossBatMovement>().otherPatternOn)
                     {
+                        soundManager.PlaySfx(soundManager.EffectSounds[4]);
                         enemiesToDamage[i].GetComponent<BossBatMovement>().AfterCollideToPlayer();
-                    }      
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.transform.localScale = new Vector3(3, 3, 3);
+                        damageEffect.SetActive(true);
+                    }    
+                    else if (enemiesToDamage[i].tag == "BossBat" && enemiesToDamage[i].GetComponent<BossBatMovement>().canDamaged && enemiesToDamage[i].GetComponent<BossBatMovement>().otherPatternOn)
+                    {
+                        enemiesToDamage[i].GetComponent<BossBatMovement>().TakeDamage(1);
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.SetActive(true);
+                    }  
                     else if (enemiesToDamage[i].tag == "MiniBat")
                     {
                         enemiesToDamage[i].GetComponent<MiniBatMovement>().TakeDamage();
+                        damageEffect.SetActive(false);
+                        damageEffect.transform.position = enemiesToDamage[i].transform.position;
+                        damageEffect.SetActive(true);
                     }       
                     Debug.Log(enemiesToDamage[i].tag);                  
                 }
@@ -93,6 +119,8 @@ public class PlayerAttack : MonoBehaviour
             timeBtwAttack -= Time.deltaTime;
         }
     }
+
+    
 
     void OnDrawGizmosSelected()
     {

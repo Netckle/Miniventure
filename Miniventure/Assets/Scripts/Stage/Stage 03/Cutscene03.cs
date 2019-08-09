@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class Cutscene03 : MonoBehaviour
 {
@@ -45,6 +47,36 @@ public class Cutscene03 : MonoBehaviour
         pauseManager = GameObject.Find("Pause Manager").GetComponent<PauseManager>();
 
         StartCoroutine(FirstCutscene());
+    }
+
+    bool canFinish = true;
+
+    private void Update() 
+    {
+        if (bossBat.HP == 0 && canFinish)
+        {
+            canFinish = false;
+            StartCoroutine(LastCutscene());
+        }
+    }
+
+    private IEnumerator LastCutscene()
+    {
+        player.Pause();
+        bossBat.transform.DOPause();
+        bossBat.StopAllCoroutines();
+
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), startNum01, endNum01);
+        yield return new WaitUntil(()=> dialogueManager.dialogueIsEnd);
+
+        bossBat.Die();
+        yield return new WaitUntil(()=> bossBat.isDead);
+
+        fade.transform.SetAsFirstSibling();
+        fade.FadeIn(3.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        SceneManager.LoadScene("Select Stage");
     }
 
     private IEnumerator FirstCutscene()

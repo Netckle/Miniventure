@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
 using TMPro;
 
 public class BossBatMovement : MonoBehaviour 
 {
-    public Image eventBox;
-    public TextMeshProUGUI text;
+    public SimpleCameraShakeInCinemachine cameraShakeInCinemachine;
+
+    private MoveManager move;
+    private BackgroundScroll backgroundScroll;
+    private SpriteUnBeat unBeat;
 
     private ParticleSystem particle;
     private PlayerMovement player;
@@ -26,11 +28,14 @@ public class BossBatMovement : MonoBehaviour
     public int maxHP = 20;
 
     public bool isUnbeatTime = false;
-    public bool moveIsEnd = false;
 
     public float normalMoveTime = 1.0f;
 
+    public Transform playerUnderOriginPos;
+
     public Transform originPos;
+    public Transform underOriginPos;
+    public Transform underTargetPos;
 
     public float offsetX;
     public float offsetY;
@@ -39,46 +44,50 @@ public class BossBatMovement : MonoBehaviour
 
     public MiniBatMovement[] miniBats = new MiniBatMovement[2];
 
-    private bool canDamaged = false;
+    public bool canDamaged = false;
     public bool canContinueNormalPattern = false;
 
-    public float boxOffset;
+    public Vector3 boxOffset;
+
+    private bool boxIsOpen = false;
 
     private void Start() 
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
 
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        unBeat = GameObject.Find("Sprite UnBeat").GetComponent<SpriteUnBeat>();
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-    }
-
-    public void StartBossMove()
-    {
-        StartCoroutine(NormalPattern());
+        move = GameObject.Find("Move Manager").GetComponent<MoveManager>();
+        backgroundScroll = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
+        fade = GameObject.Find("Fade").GetComponent<Fade>();
+        particle = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update() 
     {
-
-
         canContinueNormalPattern = CheckAllMiniBatIsDeleted(); // 미니 박쥐가 다 없어지면 TRUE;
     }
 
     private void FixedUpdate() 
     {
-        if (canDamaged)
+        if (canDamaged && otherPatternOn && !boxIsOpen)
         {
-            eventBox.gameObject.SetActive(true);
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(this.transform.position);
-            float x = screenPos.x + boxOffset;
-            eventBox.transform.position = new Vector3(x, screenPos.y, 0);
-            text.text = "공격 가능";
+            move.SpawnMessageBox(this.gameObject.transform.position, boxOffset, "공격 가능");
+            boxIsOpen = true;
         }
-        else
+        else if (canDamaged && otherPatternOn && boxIsOpen)
         {
-            eventBox.gameObject.SetActive(false);
+            move.MessageBoxFollow(this.gameObject.transform.position, boxOffset);
+        }
+        else if (!canDamaged)
+        {
+            boxIsOpen = false;
+            move.CloseMessageBox();
         }
     }
+
 
     private bool CheckAllMiniBatIsDeleted()
     {
@@ -90,6 +99,11 @@ public class BossBatMovement : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void StartBossMove()
+    {
+        StartCoroutine(NormalPattern());
     }
 
     private IEnumerator NormalPattern()
@@ -113,103 +127,106 @@ public class BossBatMovement : MonoBehaviour
         yield return new WaitUntil(()=>canContinueNormalPattern); // 미니 박쥐가 다 없어질 때까지...
         canDamaged = true;
 
-        Move(-offsetX, transform.position.y, normalMoveTime * 6);
-        yield return new WaitUntil(()=>moveIsEnd);
+        move.Move(this.gameObject, -offsetX, transform.position.y, normalMoveTime * 6);
+        yield return new WaitUntil(()=>move.moveIsEnd);
 
-        Move(offsetX, transform.position.y, normalMoveTime * 6);
-        yield return new WaitUntil(()=>moveIsEnd);
+        move.Move(this.gameObject, offsetX, transform.position.y, normalMoveTime * 6);
+        yield return new WaitUntil(()=>move.moveIsEnd);
 
         StartCoroutine(NormalPattern());
     }
 
-    public void StartOtherPatternOn()
+    
+
+    public void AfterCollideToPlayer()
     {
-        StartCoroutine(CoStartOtherPatternOn());
+        transform.DOPause();
+        StopAllCoroutines();
+
+        StartCoroutine(CoAfterCollideToPlayer());
     }
 
-    private IEnumerator CoStartOtherPatternOn()
+    private IEnumerator CoAfterCollideToPlayer()
+    {
+        
+        backgroundScroll.Stop();
+
+        player.rigidbody2d.velocity = Vector2.zero;
+        player.rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
+
+        move.Move(player.gameObject, playerUnderOriginPos.position, normalMoveTime * 6, DG.Tweening.Ease.OutQuart);
+        move.Move(this.gameObject, underOriginPos.position, normalMoveTime * 6, DG.Tweening.Ease.OutQuart);        
+        yield return new WaitUntil(()=>move.moveIsEnd);
+
+        player.rigidbody2d.velocity = Vector2.zero;
+        player.rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
+
+        yield return new WaitForSeconds(1.0f);
+
+        AfterColliderToFloor();
+    }
+
+    Fade fade;
+
+    public void AfterColliderToFloor()
+    {        
+        StartCoroutine(CoAfterColliderToFloor());
+    }
+
+    private IEnumerator CoAfterColliderToFloor()
     {
         otherPatternOn = true;
 
         canDamaged = true;
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(4.0f); // 데미지를 입힐 수 있는 시간.
         canDamaged = false;
 
-        Move(0, 4, normalMoveTime * 2);
-        yield return new WaitUntil(()=>moveIsEnd);
+        move.Move(this.gameObject, underTargetPos.position, normalMoveTime * 2);
+        yield return new WaitUntil(()=>move.moveIsEnd);
 
-        Move(13, 23, normalMoveTime * 6);
-        yield return new WaitUntil(()=>moveIsEnd);
+        move.Move(this.gameObject, originPos.position, normalMoveTime * 6);
+        yield return new WaitUntil(()=>move.moveIsEnd);
 
-        yield return new WaitUntil(()=>player.transform.position.y > this.transform.position.y - 2);
+        yield return new WaitUntil(()=>player.transform.position.y >= this.transform.position.y);
 
+        backgroundScroll.Move();
         otherPatternOn = false;
 
         StartCoroutine(NormalPattern());
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            // player.TakeDamage(damage);
-        }
-    }
 
-    public void AfterCollideToPlayer()
-    {
-        if (!otherPatternOn && canDamaged) // 노말 패턴이었다는 조건...
-        {
-            transform.DOPause();
-            StopAllCoroutines();
 
-            // Change Bat State
-            rigidbody2d.bodyType = RigidbodyType2D.Dynamic; 
-
-            // Change Player State
-            player.collider2d.isTrigger = true;
-
-            player.rigidbody2d.gravityScale = 1f;
-            player.rigidbody2d.velocity = Vector2.zero;
-            player.rigidbody2d.bodyType = RigidbodyType2D.Dynamic;    
-        }
-    }
-
-    public void AfterColliderToFloor(Vector3 pos)
-    {
-        collider2d.isTrigger = false;
-
-        rigidbody2d.velocity = Vector2.zero;
-        rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
-
-        transform.position = pos;            
-
-        StartOtherPatternOn();
-    }
-
-    private void Move(float offsetX, float offsetY, float moveTime, Ease moveType = Ease.Linear)
-    {
-        moveIsEnd = false;
-        Vector2 endPos = new Vector3(offsetX, offsetY);
-
-        transform
-            .DOMove(endPos, moveTime)
-            .SetEase(moveType)
-            .OnComplete(EndMove);
-    }
-
-    private void EndMove()
-    {
-        moveIsEnd = true;
-    }
-
-    public void TakeDamage(float damage)
-    {
+    public void TakeDamage(int damage)
+    {  
         StartCoroutine(CoTakeDamage(damage));
     }
 
-    private IEnumerator CoTakeDamage(float damage)
+    private IEnumerator CoTakeDamage(int damage)
     {
-        yield return null;
+        cameraShakeInCinemachine.ShakeCam();
+        HP -= damage;
+        unBeat.UnBeat(sprite);
+        
+        yield return new WaitUntil(()=>!unBeat.isUnBeatTime);
+    }
+
+
+    public void Die()
+    {
+        StartCoroutine(CoDie());
+    }
+
+    public bool isDead = false;
+    private IEnumerator CoDie()
+    {
+        cameraShakeInCinemachine.ShakeCam(1.0f);
+        fade.FadeOutSprite(sprite, 1.0f);
+        yield return new WaitForSeconds(1.0f);
+
+        particle.Play();
+        yield return new WaitUntil(()=>!particle.isPlaying);
+
+        isDead = true;
     }
 }

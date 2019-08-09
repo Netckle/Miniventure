@@ -73,6 +73,7 @@
      <Compile Include="Assets\JumpBlock.cs" />
      <Compile Include="Assets\Materials\BackgroundRepeat.cs" />
      <Compile Include="Assets\MiniBatMovement.cs" />
+     <Compile Include="Assets\MoveManager.cs" />
      <Compile Include="Assets\NiddleControll.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
@@ -128,6 +129,7 @@
      <Compile Include="Assets\Scripts\Stage\Stage 02\Trigger.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 03\Cutscene03.cs" />
      <Compile Include="Assets\SoundPlay.cs" />
+     <Compile Include="Assets\SpriteUnBeat.cs" />
      <Compile Include="Assets\Stage03Phase02Trigger.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
