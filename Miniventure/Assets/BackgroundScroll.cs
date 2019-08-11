@@ -15,8 +15,6 @@ public class BackgroundScroll : MonoBehaviour
     void Start() 
     {
         backgroundTrans = transform.position;
-        Move();
-
     }
 
     public void Stop()

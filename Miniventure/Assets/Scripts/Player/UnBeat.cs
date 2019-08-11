@@ -49,7 +49,7 @@ public class UnBeat : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime" || other.gameObject.tag == "MinoBoss" || other.gameObject.tag == "MiniBat" || other.gameObject.tag == "BossBat" && !other.isTrigger && !isUnbeatTime)
+        if (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime" || other.gameObject.tag == "MinoBoss" || other.gameObject.tag == "Bat" || other.gameObject.tag == "BatBoss" && !other.isTrigger && !isUnbeatTime)
         {
             isCollide = true;
         }

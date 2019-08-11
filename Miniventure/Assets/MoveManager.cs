@@ -69,13 +69,6 @@ public class MoveManager : MonoBehaviour
         yield return null;
     }
 
-    public void CloseMessageBox()
-    {
-        message.text = "";
-
-        messageBox.gameObject.SetActive(false);
-    }
-
     public void MessageBoxFollow(Vector3 pos, Vector3 offset)
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
@@ -83,6 +76,6 @@ public class MoveManager : MonoBehaviour
         screenPos += offset;
         screenPos.z = 0;
 
-        messageBox.transform.position = screenPos;
+        //essageBox.transform.position = screenPos;
     }
 }

@@ -9,8 +9,8 @@ TagManager:
   - StopCollider
   - MinoBoss
   - DestroyCollider
-  - BossBat
-  - MiniBat
+  - BatBoss
+  - Bat
   layers:
   - Default
   - TransparentFX
@@ -21,12 +21,12 @@ TagManager:
   - 
   - 
   - Floor
-  - Boss
-  - Mini
   - BackGround
   - Player
-  - MinoBoss
+  - Monster
   - Platform
+  - 
+  - 
   - 
   - 
   - 

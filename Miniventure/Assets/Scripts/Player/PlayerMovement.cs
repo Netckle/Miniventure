@@ -490,6 +490,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void ForcePlayFallAnim()
+    {
+        rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
+        rigidbody2d.velocity = Vector2.down;
+    }
+
+    public void ForceStopFallAnim()
+    {
+        rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
+        rigidbody2d.velocity = Vector2.zero;
+    }
+
     public void ForcePlayMoveAnim()
     {
         forceMoveMode = true;

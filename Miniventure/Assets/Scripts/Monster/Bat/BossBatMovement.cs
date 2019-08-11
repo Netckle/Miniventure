@@ -6,6 +6,8 @@ using TMPro;
 
 public class BossBatMovement : MonoBehaviour 
 {
+    public GameObject HPBar;
+
     public SimpleCameraShakeInCinemachine cameraShakeInCinemachine;
 
     private MoveManager move;
@@ -47,7 +49,11 @@ public class BossBatMovement : MonoBehaviour
     public bool canDamaged = false;
     public bool canContinueNormalPattern = false;
 
+    public bool underPhaseIsEnd;
+
     public Vector3 boxOffset;
+
+        Fade fade;
 
     private bool boxIsOpen = false;
 
@@ -72,19 +78,20 @@ public class BossBatMovement : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if (canDamaged && otherPatternOn && !boxIsOpen)
+        if (canDamaged && !otherPatternOn)
         {
-            move.SpawnMessageBox(this.gameObject.transform.position, boxOffset, "공격 가능");
-            boxIsOpen = true;
+            HPBar.gameObject.SetActive(true);
+
         }
-        else if (canDamaged && otherPatternOn && boxIsOpen)
+        else if (canDamaged && otherPatternOn)
         {
-            move.MessageBoxFollow(this.gameObject.transform.position, boxOffset);
+            HPBar.gameObject.SetActive(true);
         }
         else if (!canDamaged)
         {
-            boxIsOpen = false;
-            move.CloseMessageBox();
+            HPBar.gameObject.SetActive(false);
+
+            
         }
     }
 
@@ -108,6 +115,7 @@ public class BossBatMovement : MonoBehaviour
 
     private IEnumerator NormalPattern()
     {
+        underPhaseIsEnd = false;
         otherPatternOn = false;
         canDamaged = false;
         yield return new WaitForSeconds(2.0f);
@@ -143,31 +151,28 @@ public class BossBatMovement : MonoBehaviour
         transform.DOPause();
         StopAllCoroutines();
 
-        StartCoroutine(CoAfterCollideToPlayer());
+        player.collider2d.isTrigger = true;
+
+        rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
+        rigidbody2d.velocity = Vector2.zero;
     }
 
     private IEnumerator CoAfterCollideToPlayer()
     {
-        
         backgroundScroll.Stop();
 
-        player.rigidbody2d.velocity = Vector2.zero;
-        player.rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
+        player.ForcePlayFallAnim();
 
-        move.Move(player.gameObject, playerUnderOriginPos.position, normalMoveTime * 6, DG.Tweening.Ease.OutQuart);
-        move.Move(this.gameObject, underOriginPos.position, normalMoveTime * 6, DG.Tweening.Ease.OutQuart);        
-        yield return new WaitUntil(()=>move.moveIsEnd);
-
-        player.rigidbody2d.velocity = Vector2.zero;
-        player.rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
-
+        move.Move(player.gameObject, playerUnderOriginPos.position, normalMoveTime * 5, DG.Tweening.Ease.OutQuart);
+        move.Move(this.gameObject, underOriginPos.position, normalMoveTime * 5, DG.Tweening.Ease.OutQuart);        
+        yield return new WaitUntil(()=>move.moveIsEnd);        
+        player.ForceStopFallAnim();
         yield return new WaitForSeconds(1.0f);
+        
 
         AfterColliderToFloor();
     }
-
-    Fade fade;
-
+    
     public void AfterColliderToFloor()
     {        
         StartCoroutine(CoAfterColliderToFloor());

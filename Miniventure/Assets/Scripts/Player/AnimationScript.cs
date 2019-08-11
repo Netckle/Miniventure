@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AnimationScript : MonoBehaviour
 {
-
     private Animator anim;
     private PlayerMovement move;
     private Collision coll;

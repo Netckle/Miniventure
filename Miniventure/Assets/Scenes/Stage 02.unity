@@ -568,7 +568,8 @@ PrefabInstance:
       propertyPath: m_GravityScale
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 909989688435317241, guid: 7eaa0c01951f59a4181e06c08029fd17, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7eaa0c01951f59a4181e06c08029fd17, type: 3}
 --- !u!4 &575839190 stripped
 Transform:
@@ -576,6 +577,32 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 575839189}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &622705328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 909989688435317238, guid: 7eaa0c01951f59a4181e06c08029fd17,
+    type: 3}
+  m_PrefabInstance: {fileID: 575839189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &622705329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622705328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163dd6a773443344887f2a15bb269723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTimeBtwAttack: 0.3
+  attackPos: {fileID: 749006967}
+  whatIsEnemies:
+    serializedVersion: 2
+    m_Bits: 2048
+  attackRange: 0.5
+  damage: 1
+  damageEffect: {fileID: 767140499}
 --- !u!1 &628964758
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +614,7 @@ GameObject:
   - component: {fileID: 628964761}
   - component: {fileID: 628964760}
   - component: {fileID: 628964759}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Attack Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5398,7 +5425,7 @@ GameObject:
   - component: {fileID: 683240864}
   - component: {fileID: 683240863}
   - component: {fileID: 683240865}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: Boss Mino
   m_TagString: MinoBoss
   m_Icon: {fileID: 0}
@@ -5481,19 +5508,12 @@ MonoBehaviour:
   offsetX: 10
   fade: {fileID: 451794690}
   playerOriginPos: {fileID: 558872571}
-  damageEffect: {fileID: 767140499}
---- !u!114 &735416316 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 909989688435317241, guid: 7eaa0c01951f59a4181e06c08029fd17,
+--- !u!4 &749006967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 909989688283863822, guid: 7eaa0c01951f59a4181e06c08029fd17,
     type: 3}
   m_PrefabInstance: {fileID: 575839189}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163dd6a773443344887f2a15bb269723, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &767140499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3080649337782093278, guid: 3659fa3703db19a49bf14884fa332fcc,
@@ -5718,7 +5738,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 575839189}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 622705328}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 136964b3c283f8a4a831217f29603a8e, type: 3}
@@ -5989,11 +6009,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 735416316}
+      objectReference: {fileID: 622705329}
     - target: {fileID: 3221695441013862703, guid: cbb8a9378701e0742b663152cb2d85a1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClickAct
+      value: OnClickAttack
       objectReference: {fileID: 0}
     - target: {fileID: 3221695441013862703, guid: cbb8a9378701e0742b663152cb2d85a1,
         type: 3}
@@ -6294,7 +6314,7 @@ GameObject:
   - component: {fileID: 1924656781}
   - component: {fileID: 1924656780}
   - component: {fileID: 1924656782}
-  m_Layer: 13
+  m_Layer: 11
   m_Name: Sprite
   m_TagString: SlimeBoss
   m_Icon: {fileID: 0}
@@ -7030,6 +7050,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stage 02
       objectReference: {fileID: 0}
+    - target: {fileID: 1121716793, guid: 1c38bfc68d9198d46a1f8ec04652853e, type: 3}
+      propertyPath: particle
+      value: 
+      objectReference: {fileID: 628964760}
+    - target: {fileID: 1121716793, guid: 1c38bfc68d9198d46a1f8ec04652853e, type: 3}
+      propertyPath: phase_02_trigger
+      value: 
+      objectReference: {fileID: 1957723847}
     - target: {fileID: 1201384379608638461, guid: 1c38bfc68d9198d46a1f8ec04652853e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7085,14 +7113,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1121716793, guid: 1c38bfc68d9198d46a1f8ec04652853e, type: 3}
-      propertyPath: particle
-      value: 
-      objectReference: {fileID: 628964760}
-    - target: {fileID: 1121716793, guid: 1c38bfc68d9198d46a1f8ec04652853e, type: 3}
-      propertyPath: phase_02_trigger
-      value: 
-      objectReference: {fileID: 1957723847}
     - target: {fileID: 5860215047862701482, guid: 1c38bfc68d9198d46a1f8ec04652853e,
         type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[0].X

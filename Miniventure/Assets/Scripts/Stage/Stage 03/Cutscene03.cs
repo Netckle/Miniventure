@@ -38,7 +38,7 @@ public class Cutscene03 : MonoBehaviour
 
     private void Start() 
     {
-        bossBat = GameObject.Find("Boss Bat").GetComponent<BossBatMovement>();
+        bossBat = GameObject.Find("Bat Boss").GetComponent<BossBatMovement>();
 
         backgroundScroll = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
 

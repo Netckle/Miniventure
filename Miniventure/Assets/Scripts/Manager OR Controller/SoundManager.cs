@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    void Start()
-    {
-        //SimplePlayBGM(0);
-    }
-
     public AudioClip[] BGMSounds;
     public AudioClip[] EffectSounds;
     

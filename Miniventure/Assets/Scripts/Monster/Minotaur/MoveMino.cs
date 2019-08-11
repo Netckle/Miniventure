@@ -37,8 +37,6 @@ public class MoveMino : MonoBehaviour
     public Fade fade;
     public Transform playerOriginPos;
 
-    public GameObject damageEffect;
-
     private void Flip(string direction)
     {
         switch(direction)
@@ -210,7 +208,7 @@ public class MoveMino : MonoBehaviour
         MoveOnlyX(-10, (minoMoveTime * (10 - Mathf.Abs(transform.position.x)) / 2));
         yield return new WaitUntil(()=>moveIsEnd);        
 
-        MoveOnlyX(10, 8.0f);
+        MoveOnlyX(10, 6.0f);
         yield return new WaitUntil(()=>moveIsEnd);
 
         Flip("LEFT");
@@ -249,7 +247,7 @@ public class MoveMino : MonoBehaviour
         MoveOnlyX(10, (minoMoveTime * (10 - Mathf.Abs(transform.position.x)) / 2));
         yield return new WaitUntil(()=>moveIsEnd);        
 
-        MoveOnlyX(-10, 8.0f);
+        MoveOnlyX(-10, 6.0f);
         yield return new WaitUntil(()=>moveIsEnd);
 
         Flip("RIGHT");
@@ -267,9 +265,6 @@ public class MoveMino : MonoBehaviour
 
     IEnumerator CoTakeDamage(int damage)
     {       
-        damageEffect.SetActive(false);
-        damageEffect.transform.position = this.transform.position;
-        damageEffect.SetActive(true);
         soundManager.PlaySfx(soundManager.EffectSounds[1]);        
         cameraShake.ShakeCam();
 

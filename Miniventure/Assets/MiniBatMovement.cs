@@ -168,13 +168,15 @@ public class MiniBatMovement : MonoBehaviour
     private IEnumerator CoDie()
     {
         animator.SetBool("isDie", true);
+
         GameObject effect = GameObject.Find("Damage Effect");
+
         effect.SetActive(false);
         effect.transform.position = this.transform.position;
         effect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
         effect.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         
 
         this.gameObject.SetActive(false);
