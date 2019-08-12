@@ -8,7 +8,7 @@ public class BossBatMovement : MonoBehaviour
 {
     public GameObject HPBar;
 
-    public SimpleCameraShakeInCinemachine cameraShakeInCinemachine;
+    public SimpleCameraShakeInCinemachine cameraShake;
 
     private MoveManager move;
     private BackgroundScroll backgroundScroll;
@@ -30,7 +30,6 @@ public class BossBatMovement : MonoBehaviour
     public int maxHP = 20;
 
     public bool isUnbeatTime = false;
-
     public float normalMoveTime = 1.0f;
 
     public Transform playerUnderOriginPos;
@@ -39,74 +38,53 @@ public class BossBatMovement : MonoBehaviour
     public Transform underOriginPos;
     public Transform underTargetPos;
 
-    public float offsetX;
-    public float offsetY;
-
     public bool otherPatternOn = false;
 
     public MiniBatMovement[] miniBats = new MiniBatMovement[2];
 
     public bool canDamaged = false;
-    public bool canContinueNormalPattern = false;
 
-    public bool underPhaseIsEnd;
+    public Vector3 boxOffset;    
+    public GameObject jumpBlock;
 
-    public Vector3 boxOffset;
+    private Vector3 leftEndPos;
+    private Vector3 rightEndPos;
 
-        Fade fade;
+    public bool isDead = false;
 
-    private bool boxIsOpen = false;
-
-    private void Start() 
+    private void Awake() 
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
-        collider2d = GetComponent<Collider2D>();
+        collider2d  = GetComponent<Collider2D>();
+
+        leftEndPos  = new Vector3(-(originPos.position.x), 20, 0);
+        rightEndPos = new Vector3(originPos.position.x, 20, 0);
+        soundManager        = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+
+        anim = GetComponentInChildren<Animator>();
 
         sprite = GetComponentInChildren<SpriteRenderer>();
-        unBeat = GameObject.Find("Sprite UnBeat").GetComponent<SpriteUnBeat>();
-        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        move = GameObject.Find("Move Manager").GetComponent<MoveManager>();
-        backgroundScroll = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
-        fade = GameObject.Find("Fade").GetComponent<Fade>();
+        unBeat              = GameObject.Find("Sprite UnBeat").GetComponent<SpriteUnBeat>();
+        player              = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        move                = GameObject.Find("Move Manager").GetComponent<MoveManager>();
+        backgroundScroll    = GameObject.Find("Background Scroll").GetComponent<BackgroundScroll>();
+
         particle = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update() 
     {
-        canContinueNormalPattern = CheckAllMiniBatIsDeleted(); // 미니 박쥐가 다 없어지면 TRUE;
-    }
-
-    private void FixedUpdate() 
-    {
-        if (canDamaged && !otherPatternOn)
-        {
-            HPBar.gameObject.SetActive(true);
-
-        }
-        else if (canDamaged && otherPatternOn)
+        if (canDamaged)
         {
             HPBar.gameObject.SetActive(true);
         }
         else if (!canDamaged)
         {
             HPBar.gameObject.SetActive(false);
-
-            
         }
     }
 
-
-    private bool CheckAllMiniBatIsDeleted()
-    {
-        foreach (MiniBatMovement miniBat in miniBats)
-        {
-            if (miniBat.gameObject.activeSelf) // 활성화된 오브젝트 있으면
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+    public BoxCollider2D boxCollider;
 
     public void StartBossMove()
     {
@@ -115,84 +93,112 @@ public class BossBatMovement : MonoBehaviour
 
     private IEnumerator NormalPattern()
     {
-        underPhaseIsEnd = false;
+        boxCollider.isTrigger = true;
         otherPatternOn = false;
         canDamaged = false;
+
         yield return new WaitForSeconds(2.0f);
+        jumpBlock.SetActive(false);
 
         foreach (MiniBatMovement miniBat in miniBats)
         {
-            miniBat.transform.position = this.transform.position + new Vector3(0, 2f, 0);
+            miniBat.transform.position = this.transform.position;
             miniBat.gameObject.SetActive(true);
+            //miniBat.particle.Play();
 
-            miniBat.StartMoving();
+            miniBat.StartMove();
 
-            yield return new WaitForSeconds(4.0F);
+            yield return new WaitUntil(()=>!miniBat.gameObject.activeSelf);
         }   
 
-        canContinueNormalPattern = false;
+        Move(this.gameObject, rightEndPos, normalMoveTime);
+        yield return new WaitUntil(()=>moveIsEnd);
 
-        yield return new WaitUntil(()=>canContinueNormalPattern); // 미니 박쥐가 다 없어질 때까지...
-        canDamaged = true;
+        canDamaged = true; 
+        boxCollider.isTrigger = false;       
 
-        move.Move(this.gameObject, -offsetX, transform.position.y, normalMoveTime * 6);
-        yield return new WaitUntil(()=>move.moveIsEnd);
+        Move(this.gameObject, leftEndPos, normalMoveTime * 4);
+        yield return new WaitUntil(()=>moveIsEnd);
 
-        move.Move(this.gameObject, offsetX, transform.position.y, normalMoveTime * 6);
-        yield return new WaitUntil(()=>move.moveIsEnd);
+        Move(this.gameObject, rightEndPos, normalMoveTime * 4);
+        yield return new WaitUntil(()=>moveIsEnd);
+
+        Move(this.gameObject, originPos.position, normalMoveTime);
+        yield return new WaitUntil(()=>moveIsEnd);
 
         StartCoroutine(NormalPattern());
     }
 
-    
+    public void Move(GameObject obj, Vector3 _endPos, float moveTime, Ease moveType = Ease.Linear)
+    {
+        moveIsEnd = false;
+        Vector3 endPos = new Vector3(_endPos.x, _endPos.y, 0);
+
+        obj.transform
+            .DOMove(endPos, moveTime)
+            .SetEase(moveType)
+            .OnComplete(EndMove);
+    }
+    public bool moveIsEnd;
+    private void EndMove()
+    {
+        moveIsEnd = true;
+    }
 
     public void AfterCollideToPlayer()
     {
         transform.DOPause();
         StopAllCoroutines();
+        boxCollider.isTrigger = true;
 
-        player.collider2d.isTrigger = true;
-
-        rigidbody2d.bodyType = RigidbodyType2D.Dynamic;
-        rigidbody2d.velocity = Vector2.zero;
+        StartCoroutine(CoAfterCollideToPlayer());
     }
 
     private IEnumerator CoAfterCollideToPlayer()
     {
         backgroundScroll.Stop();
 
+        player.Pause();
         player.ForcePlayFallAnim();
 
-        move.Move(player.gameObject, playerUnderOriginPos.position, normalMoveTime * 5, DG.Tweening.Ease.OutQuart);
-        move.Move(this.gameObject, underOriginPos.position, normalMoveTime * 5, DG.Tweening.Ease.OutQuart);        
+        move.Move(player.gameObject, new Vector3(player.transform.position.x, 9, 0), normalMoveTime * 3, DG.Tweening.Ease.OutQuart);
+        move.Move(this.gameObject, new Vector3(transform.position.x, 10, 0), normalMoveTime * 3, DG.Tweening.Ease.OutQuart);        
         yield return new WaitUntil(()=>move.moveIsEnd);        
-        player.ForceStopFallAnim();
-        yield return new WaitForSeconds(1.0f);
-        
+        player.ForceStopFallAnim();   
+        player.Release();     
 
         AfterColliderToFloor();
     }
     
     public void AfterColliderToFloor()
     {        
+        boxCollider.isTrigger = false;
         StartCoroutine(CoAfterColliderToFloor());
     }
 
     private IEnumerator CoAfterColliderToFloor()
     {
         otherPatternOn = true;
+        anim.speed = 0.5f;
 
         canDamaged = true;
         yield return new WaitForSeconds(4.0f); // 데미지를 입힐 수 있는 시간.
         canDamaged = false;
 
+        anim.speed = 1;
+
         move.Move(this.gameObject, underTargetPos.position, normalMoveTime * 2);
         yield return new WaitUntil(()=>move.moveIsEnd);
 
-        move.Move(this.gameObject, originPos.position, normalMoveTime * 6);
+        boxCollider.isTrigger = true;
+
+        move.Move(this.gameObject, originPos.position, normalMoveTime * 3);
         yield return new WaitUntil(()=>move.moveIsEnd);
 
-        yield return new WaitUntil(()=>player.transform.position.y >= this.transform.position.y);
+        jumpBlock.SetActive(true);
+        
+
+        yield return new WaitUntil(()=>player.transform.position.y >= this.transform.position.y - 5f);
 
         backgroundScroll.Move();
         otherPatternOn = false;
@@ -209,24 +215,28 @@ public class BossBatMovement : MonoBehaviour
 
     private IEnumerator CoTakeDamage(int damage)
     {
-        cameraShakeInCinemachine.ShakeCam();
+        cameraShake.ShakeCam();
         HP -= damage;
         unBeat.UnBeat(sprite);
         
         yield return new WaitUntil(()=>!unBeat.isUnBeatTime);
     }
-
+    SoundManager soundManager;
 
     public void Die()
     {
         StartCoroutine(CoDie());
     }
+    public Fade fade;
 
-    public bool isDead = false;
     private IEnumerator CoDie()
     {
-        cameraShakeInCinemachine.ShakeCam(1.0f);
+        anim.SetBool("isDie", true);
+        canDamaged = false;
+        soundManager.PlaySfx(soundManager.EffectSounds[4]);
+        cameraShake.ShakeCam(1.0f);
         fade.FadeOutSprite(sprite, 1.0f);
+
         yield return new WaitForSeconds(1.0f);
 
         particle.Play();

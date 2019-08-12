@@ -5,180 +5,78 @@ using DG.Tweening;
 
 public class MiniBatMovement : MonoBehaviour
 {
-    public SimpleCameraShakeInCinemachine cameraShakeInCinemachine;
+    public SimpleCameraShakeInCinemachine cameraShake;
+    public ParticleSystem particle;
 
     private SoundManager soundManager;
+    private MoveManager moveManager;
     private Animator animator;
-    public ParticleSystem particle;
-    private bool moveIsEnd = false;
 
-    public GameObject player;
+    private GameObject player;    
+
     public Transform originPos;   
 
-    public float damage;  
+    public float damage; 
+    public float idleMoveTime;   
 
-    public float offsetX;
-    public float offsetY;
+    public float waitTime;
 
-    public float normalMoveTime;    
-
-    public float offset01, offset02, offset03;
-
-    private Vector2 originPos01, originPos02, originPos03;
-    private Vector2 appliedPos01, appliedPos02, appliedPos03;
-
-    private Vector2 topPos;
-
-    private Vector2 originOneThirdOffset;
-    private Vector2 appliedOneThirdOffset;
+    private Vector3 middlePos;
+    private Vector3 fromMiddleToPlayer;
+    private Vector3 playerPos;
 
     private void Awake() 
     {
-        animator = GetComponentInChildren<Animator>();
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        moveManager = GameObject.Find("Move Manager").GetComponent<MoveManager>();
+        animator = GetComponentInChildren<Animator>();
+
+        player = GameObject.Find("Player");
+
+        middlePos = new Vector3(0, originPos.position.y, 0);
     }
 
-    private void Start() 
+    public void StartMove()
     {
-        DefineAllPos();   
+        soundManager.PlaySfx(soundManager.EffectSounds[5]);
+        StartCoroutine(CoStartMove());
     }
 
-    private void DefineAllPos()
+    private IEnumerator CoStartMove()
     {
-        originOneThirdOffset.x = offsetX / 4; 
-        originOneThirdOffset.y = offsetY / 4;
+        moveManager.Move(this.gameObject, middlePos, idleMoveTime);
+        yield return new WaitUntil(()=>moveManager.moveIsEnd);
 
-        appliedOneThirdOffset.x = offsetX / 4; 
-        appliedOneThirdOffset.y = (offsetY / 4) - 1.5f;
-
-        topPos = new Vector2(transform.position.x - offsetX, transform.position.y + offsetY); 
-
-        // Define Origin Pos;
-        originPos01 = new Vector2(transform.position.x - originOneThirdOffset.x, transform.position.y + originOneThirdOffset.y);
-        originPos02 = new Vector2(originPos01.x - originOneThirdOffset.x, originPos01.y + originOneThirdOffset.y);
-        originPos03 = new Vector2(originPos02.x - originOneThirdOffset.x, originPos02.y + originOneThirdOffset.y);
-
-        // Define Applied Pos;
-        appliedPos01 = new Vector2(transform.position.x - appliedOneThirdOffset.x, transform.position.y + appliedOneThirdOffset.y + offset01);        
-        appliedPos02 = new Vector2(appliedPos01.x - appliedOneThirdOffset.x, appliedPos01.y + appliedOneThirdOffset.y + offset02);
-        appliedPos03 = new Vector2(appliedPos02.x - appliedOneThirdOffset.x, appliedPos02.y + appliedOneThirdOffset.y + offset03);
-    }
-
-    private void OnDrawGizmos() 
-    {
-        Gizmos.color = Color.red;
-
-        Gizmos.DrawWireSphere(originPos01, 0.3f);
-        Gizmos.DrawWireSphere(originPos02, 0.3f);
-        Gizmos.DrawWireSphere(originPos03, 0.3f);
-
-        Gizmos.color = Color.blue;
-
-        Gizmos.DrawWireSphere(appliedPos01, 0.3f);
-        Gizmos.DrawWireSphere(appliedPos02, 0.3f);
-        Gizmos.DrawWireSphere(appliedPos03, 0.3f);
-    }
-
-    public void StartMoving()
-    { 
-        animator.SetBool("isDie", false);
+        yield return new WaitForSeconds(waitTime);
         particle.Play();
         soundManager.PlaySfx(soundManager.EffectSounds[5]);
 
-        DefineAllPos();
-        StartCoroutine(CoStartMoving());
-    }
+        fromMiddleToPlayer = player.transform.position - middlePos;
+        playerPos = player.transform.position;
 
-    private IEnumerator CoStartMoving()
-    {
-        Move(appliedPos01, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
+        moveManager.Move(this.gameObject, player.transform.position, idleMoveTime);
+        yield return new WaitUntil(()=>moveManager.moveIsEnd);
 
-        Move(appliedPos02, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(appliedPos03, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        Move(topPos, normalMoveTime);
-        yield return new WaitUntil(()=>moveIsEnd);
-
-        yield return new WaitForSeconds(3.0f);
-
-        particle.Play();
-        soundManager.PlaySfx(soundManager.EffectSounds[5]);
-
-        Move(topPos + ((Vector2)player.transform.position - topPos) * 3f, normalMoveTime * 8.0f, Ease.OutQuart);
-        yield return new WaitUntil(()=>moveIsEnd);
-    }  
-
-    private void Move(float _offsetX, float _offsetY, float _moveTime, Ease moveType = Ease.Linear)
-    {
-        moveIsEnd = false;
-        Vector3 endPos = new Vector3(_offsetX, _offsetY, 0f);
-
-        transform
-            .DOMove(endPos, _moveTime)
-            .SetEase(moveType)
-            .OnComplete(EndMove);
-    }
-
-    private void Move(Vector2 _offset, float _moveTime, Ease moveType = Ease.Linear)
-    {
-        moveIsEnd = false;
-        Vector3 endPos = new Vector3(_offset.x, _offset.y, 0f);
-
-        transform
-            .DOMove(endPos, _moveTime)
-            .SetEase(moveType)
-            .OnComplete(EndMove);
-    }
-
-    private void EndMove()
-    {
-        moveIsEnd = true;
+        moveManager.Move(this.gameObject, playerPos + fromMiddleToPlayer + fromMiddleToPlayer, idleMoveTime * 2f);
+        yield return new WaitUntil(()=>moveManager.moveIsEnd);
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
+        if (other.gameObject.tag == "Player")
+        {
+            transform.DOPause();
+            cameraShake.ShakeCam();
+
+            gameObject.SetActive(false);
+        }
+
         if (other.gameObject.tag == "DestroyCollider")
         {
             transform.DOPause();
-            StopAllCoroutines();
-
-            StartCoroutine(CoDie());
+            gameObject.SetActive(false);
         }
-        if (other.gameObject.tag == "Player")
-        {
-            cameraShakeInCinemachine.ShakeCam();
-            soundManager.PlaySfx(soundManager.EffectSounds[2]);
-            transform.DOPause();
-            StopAllCoroutines();
 
-            StartCoroutine(CoDie());
-        }
-    }
-
-    public void TakeDamage()
-    {
-
-        StartCoroutine(CoDie());
-    }
-
-    private IEnumerator CoDie()
-    {
-        animator.SetBool("isDie", true);
-
-        GameObject effect = GameObject.Find("Damage Effect");
-
-        effect.SetActive(false);
-        effect.transform.position = this.transform.position;
-        effect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-
-        effect.SetActive(true);
-        yield return new WaitForSeconds(0.3f);
-        
-
-        this.gameObject.SetActive(false);
+        transform.position = originPos.position;
     }
 }

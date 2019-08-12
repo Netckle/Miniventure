@@ -63,6 +63,7 @@ public class BeforeMainMenu : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
 
         playerSprite.gameObject.SetActive(true);
+        playerSprite.sortingOrder = 1;
 
         tmpForTip.gameObject.SetActive(true);
         tmpForTip.text = tips[Random.Range(0, 3)];

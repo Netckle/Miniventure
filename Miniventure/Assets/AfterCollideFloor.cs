@@ -67,12 +67,12 @@ public class AfterCollideFloor : MonoBehaviour
         BossBatMovement bossMovement = boss.GetComponent<BossBatMovement>();
         bossMovement.rigidbody2d.bodyType = RigidbodyType2D.Kinematic;
         bossMovement.rigidbody2d.velocity = Vector2.zero;
-        bossMovement.underPhaseIsEnd = false;
+        //bossMovement.underPhaseIsEnd = false;
 
         moveManager.Move(boss, bossUnderOriginPos.position, moveTime);
         yield return new WaitUntil(()=>moveIsEnd);
 
-        bossMovement.underPhaseIsEnd = true;
+        //bossMovement.underPhaseIsEnd = true;
 
         
         bossMoveIsEnd = true;

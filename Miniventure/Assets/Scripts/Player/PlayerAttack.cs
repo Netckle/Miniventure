@@ -83,7 +83,7 @@ public class PlayerAttack : MonoBehaviour
 
                         if (batBoss.canDamaged && !batBoss.otherPatternOn)
                         {
-                            batBoss.TakeDamage(damage);
+                            batBoss.TakeDamage(0);
                             batBoss.AfterCollideToPlayer();
                             ShowDamageEffect(enemiesToDamage[i].transform.position, 3.0f); 
                         }
@@ -92,12 +92,7 @@ public class PlayerAttack : MonoBehaviour
                             batBoss.TakeDamage(damage);
                             ShowDamageEffect(enemiesToDamage[i].transform.position, 3.0f); 
                         }
-                    }  
-                    else if (enemiesToDamage[i].tag == "Bat")
-                    {
-                        enemiesToDamage[i].GetComponent<MiniBatMovement>().TakeDamage();
-                        ShowDamageEffect(enemiesToDamage[i].transform.position); 
-                    }                     
+                    }                    
                 }
                 attackIsRunning = false;  
             }      
