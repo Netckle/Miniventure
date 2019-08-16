@@ -25,6 +25,8 @@ public class MiniBatMovement : MonoBehaviour
     private Vector3 fromMiddleToPlayer;
     private Vector3 playerPos;
 
+    public ParticleSystem followParticle;
+
     private void Awake() 
     {
         soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
@@ -44,20 +46,24 @@ public class MiniBatMovement : MonoBehaviour
 
     private IEnumerator CoStartMove()
     {
+        followParticle.gameObject.SetActive(true);
+        followParticle.Play();
         moveManager.Move(this.gameObject, middlePos, idleMoveTime);
         yield return new WaitUntil(()=>moveManager.moveIsEnd);
-
+        followParticle.gameObject.SetActive(false);
         yield return new WaitForSeconds(waitTime);
         particle.Play();
+        followParticle.gameObject.SetActive(true);
+        followParticle.Play();
         soundManager.PlaySfx(soundManager.EffectSounds[5]);
 
         fromMiddleToPlayer = player.transform.position - middlePos;
         playerPos = player.transform.position;
 
-        moveManager.Move(this.gameObject, player.transform.position, idleMoveTime);
+        moveManager.Move(this.gameObject, player.transform.position, idleMoveTime * 0.75f);
         yield return new WaitUntil(()=>moveManager.moveIsEnd);
 
-        moveManager.Move(this.gameObject, playerPos + fromMiddleToPlayer + fromMiddleToPlayer, idleMoveTime * 2f);
+        moveManager.Move(this.gameObject, playerPos + fromMiddleToPlayer + fromMiddleToPlayer, idleMoveTime * 0.75f * 2f);
         yield return new WaitUntil(()=>moveManager.moveIsEnd);
     }
 

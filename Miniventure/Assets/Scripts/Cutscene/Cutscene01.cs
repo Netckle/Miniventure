@@ -37,7 +37,7 @@ public class Cutscene01 : Cutscene
 
         if (!cutsceneIsEnd)
         {
-            StartCoroutine(CoFirstCutscene(2, 5));
+            StartCoroutine(CoFirstCutscene(0, 12));
         }            
     }    
 
@@ -46,10 +46,10 @@ public class Cutscene01 : Cutscene
         if (phase02start)
         {          
             phase02start = false;  
-            StartCoroutine(CoLastCutscene(7, 8));            
+            StartCoroutine(CoLastCutscene(16, 18));            
         }
 
-        if (middlePhaseCanOn && bossSlime.HP == 5)
+        if (middlePhaseCanOn && bossSlime.HP == 10)
         {
             middlePhaseCanOn = false;
             StartCoroutine(BetweenPhase());
@@ -58,7 +58,7 @@ public class Cutscene01 : Cutscene
         if (endCanOn && bossSlime.HP <= 0)
         {
             endCanOn = false;
-            StartCoroutine(EndCutscene(13, 14));
+            StartCoroutine(EndCutscene(19, 20));
         }       
     }
 
@@ -72,7 +72,7 @@ public class Cutscene01 : Cutscene
         bossSlime.StopCor();
         //player.transform.position = bossSlime.transform.position + new Vector3(-4, 0, 0);
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), 5, 6);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), 13, 15);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         bossSlime.transform.position = new Vector3(0, bossSlime.transform.position.y, bossSlime.transform.position.z);

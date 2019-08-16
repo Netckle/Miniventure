@@ -61,7 +61,9 @@
   <ItemGroup>
      <Compile Include="Assets\AfterCollideFloor.cs" />
      <Compile Include="Assets\BackgroundScroll.cs" />
-     <Compile Include="Assets\BeforeMainMenu.cs" />
+     <Compile Include="Assets\BossBatHpBar.cs" />
+     <Compile Include="Assets\BossMinoHpBar.cs" />
+     <Compile Include="Assets\BossSlimeHpBar.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleAudio.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -70,15 +72,20 @@
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\ForPhase02.cs" />
+     <Compile Include="Assets\KnightGroundCheck.cs" />
+     <Compile Include="Assets\KnightGuardCheck.cs" />
+     <Compile Include="Assets\KnightMovement.cs" />
      <Compile Include="Assets\Materials\BackgroundRepeat.cs" />
      <Compile Include="Assets\MiniBatMovement.cs" />
      <Compile Include="Assets\MoveManager.cs" />
+     <Compile Include="Assets\MoveToNextStage.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasScreenSpaceScaler.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\CanvasWorldScaler.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\Internal\VectorSwizzleExtensions.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelPerfectCamera.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\PixelSnap.cs" />
      <Compile Include="Assets\PixelPerfectCamera\Scripts\Scroller.cs" />
+     <Compile Include="Assets\PlayerHpBar.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraMove.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraResolution.cs" />
      <Compile Include="Assets\Scripts\Camera\CinemachineCameraShaker.cs" />
@@ -97,9 +104,10 @@
      <Compile Include="Assets\Scripts\ETC\JsonHelper.cs" />
      <Compile Include="Assets\Scripts\ETC\RandomInt.cs" />
      <Compile Include="Assets\Scripts\ETC\SortingLayer.cs" />
-     <Compile Include="Assets\Scripts\Fade\Fade.cs" />
-     <Compile Include="Assets\Scripts\FPS\FPS.cs" />
+     <Compile Include="Assets\Scripts\Main Screen\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Manager or Controller\DialogueManager.cs" />
+     <Compile Include="Assets\Scripts\Manager or Controller\Fade\Fade.cs" />
+     <Compile Include="Assets\Scripts\Manager or Controller\FPS\FPS.cs" />
      <Compile Include="Assets\Scripts\Manager or Controller\JsonManager.cs" />
      <Compile Include="Assets\Scripts\Manager or Controller\PauseManager.cs" />
      <Compile Include="Assets\Scripts\Manager or Controller\SoundManager.cs" />
@@ -114,8 +122,6 @@
      <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Player\UnBeat.cs" />
-     <Compile Include="Assets\Scripts\Stage\SceneChange.cs" />
-     <Compile Include="Assets\Scripts\Stage\SelectStage.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\ChangeForPhase02.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\StageController.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 01\test.cs" />
@@ -125,6 +131,7 @@
      <Compile Include="Assets\Scripts\Stage\Stage 02\TreeMovement.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 02\Trigger.cs" />
      <Compile Include="Assets\Scripts\Stage\Stage 03\JumpBlock.cs" />
+     <Compile Include="Assets\Sprites\Slime\Afterimage.cs" />
      <Compile Include="Assets\SpriteUnBeat.cs" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
@@ -145,6 +152,7 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\ScanLines.shader" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/Project/Miniventure/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

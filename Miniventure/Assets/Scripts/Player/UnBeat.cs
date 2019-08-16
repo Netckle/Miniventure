@@ -17,6 +17,18 @@ public class UnBeat : MonoBehaviour
     private bool isCollide = false;
     private bool canDamaged = true;
 
+    public GameObject damageEffect;
+
+    void ShowDamageEffect(Vector3 pos, float size = 1.0f)
+    {
+        damageEffect.SetActive(false);
+
+        damageEffect.transform.position = pos;
+        damageEffect.transform.localScale = new Vector3(size, size, size);
+        
+        damageEffect.SetActive(true);
+    }
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -51,6 +63,7 @@ public class UnBeat : MonoBehaviour
     {
         if (other.gameObject.tag == "SlimeBoss" || other.gameObject.tag == "Slime" || other.gameObject.tag == "MinoBoss" || other.gameObject.tag == "Bat" || other.gameObject.tag == "BatBoss" && !other.isTrigger && !isUnbeatTime)
         {
+            Debug.Log(other.gameObject.tag);
             isCollide = true;
         }
     }
@@ -59,6 +72,7 @@ public class UnBeat : MonoBehaviour
     {
         if (isCollide && canDamaged)
         {
+            ShowDamageEffect(this.gameObject.transform.position, 2);
             StartUnBeat(other);
             isCollide = false;
         }

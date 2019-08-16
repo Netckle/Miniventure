@@ -45,6 +45,8 @@ public class PlayerAttack : MonoBehaviour
         damageEffect.SetActive(true);
     }
 
+    
+
     void Update()
     {        
         if (timeBtwAttack <= 0)
@@ -64,13 +66,22 @@ public class PlayerAttack : MonoBehaviour
                 {       
                     if (enemiesToDamage[i].tag == "MinoBoss")
                     {
-                        enemiesToDamage[i].GetComponent<MoveMino>().TakeDamage(damage);
-                        ShowDamageEffect(enemiesToDamage[i].transform.position, 3.0f);                        
+                        MoveMino mino = enemiesToDamage[i].GetComponent<MoveMino>();
+                        if (mino.canDamaged)
+                        {
+                            mino.TakeDamage(damage);
+                            ShowDamageEffect(enemiesToDamage[i].transform.position, 3.0f);   
+                        }                     
                     }
                     else if (enemiesToDamage[i].tag == "SlimeBoss")
                     {
-                        enemiesToDamage[i].GetComponent<MoveSlimeDot>().TakeDamage(damage);
-                        ShowDamageEffect(enemiesToDamage[i].transform.position); 
+                        MoveSlimeDot slime = enemiesToDamage[i].GetComponent<MoveSlimeDot>();
+
+                        if (slime.canDamaged)
+                        {
+                            slime.TakeDamage(damage);
+                            ShowDamageEffect(enemiesToDamage[i].transform.position, 3); 
+                        }                        
                     }
                     else if (enemiesToDamage[i].tag == "Slime")
                     {

@@ -9,6 +9,7 @@ public class MiniSlimeMove : MonoBehaviour
     Animator anim;
 
     public ParticleSystem particle;
+    public ParticleSystem followParticle;
 
     public LayerMask enemyMask;
     public float speed;
@@ -65,6 +66,7 @@ public class MiniSlimeMove : MonoBehaviour
 
     void Move()
     {
+        followParticle.gameObject.SetActive(true);
         // Check to see if there's ground in front of us before moving forward
         Vector2 lineCastPos = myTrans.position.toVector2();// - myTrans.right.toVector2() * myWidth + Vector2.up * myHeight;
 
@@ -172,6 +174,7 @@ public class MiniSlimeMove : MonoBehaviour
 
     IEnumerator CoDie()
     {
+        followParticle.gameObject.SetActive(false);
         Die();
 
         yield return new WaitForSeconds(1.0f);

@@ -6,72 +6,87 @@ using UnityEngine.EventSystems;
 public class JoystickTest : MonoBehaviour
 {
     // 공개
-    //public Transform Player;        // 플레이어.
-    public Transform Stick;         // 조이스틱.
+    public Transform stick;         // 조이스틱.
  
     // 비공개
-    private Vector3 StickFirstPos;  // 조이스틱의 처음 위치.
-    private Vector3 JoyVec;         // 조이스틱의 벡터(방향)
-    private float Radius;           // 조이스틱 배경의 반 지름.
-    private bool MoveFlag;          // 플레이어 움직임 스위치.
+    private RectTransform stickRect;
+
+    private Vector3 stickFirstPos;  // 조이스틱의 처음 위치.
+    private Vector3 stickVector;    // 조이스틱의 방향 벡터.
+    private float radius;           // 조이스틱 뒷 배경의 반지름.
+    private bool moveFlag;          // 플레이어 움직임 스위치.
+
+    public float canvasLocalX;
  
-    void Start()
+    void Awake()
     {
-        Radius = GetComponent<RectTransform>().sizeDelta.y * 0.5f;
-        StickFirstPos = Stick.transform.position;
+        radius = GetComponent<RectTransform>().sizeDelta.y * 0.5f;
+
+        stickRect = stick.GetComponent<RectTransform>();
+
+        stickFirstPos = stickRect.localPosition;
+        // stickFirstPos = Vector3.zero;
  
         // 캔버스 크기에대한 반지름 조절.
-        float Can = transform.parent.GetComponent<RectTransform>().localScale.x;
-        Debug.Log(Can);
-        Radius *= Can;
+        // float canvasLocalX = transform.parent.GetComponent<RectTransform>().localScale.x;
+        radius *= canvasLocalX;
  
-        MoveFlag = false;
+        moveFlag = false;
     }
- 
-    void Update()
-    {
-        //if (MoveFlag)
-            //Player.transform.Translate(Vector3.forward * Time.deltaTime * 10f);
-    }
+
+    private Vector2 offset = new Vector3(-245, -240);
+    Vector3 pointPos;
  
     // 드래그
-    public void Drag(BaseEventData _Data)
+    public void Drag(BaseEventData data)
     {
-        MoveFlag = true;
-        PointerEventData Data = _Data as PointerEventData;
-        Vector3 Pos = Data.position;
+        moveFlag = true;
+
+        PointerEventData pointData = data as PointerEventData;
+        pointPos = pointData.position + offset;
         
-        // 조이스틱을 이동시킬 방향을 구함.(오른쪽,왼쪽,위,아래)
-        JoyVec = (Pos - StickFirstPos).normalized;
- 
+        // 조이스틱을 이동시킬 방향 벡터를 구함. (오른쪽,왼쪽,위,아래)
+        stickVector = (pointPos - stickFirstPos).normalized;
+
         // 조이스틱의 처음 위치와 현재 내가 터치하고있는 위치의 거리를 구한다.
-        float Dis = Vector3.Distance(Pos, StickFirstPos);
-        
+        float distance = Vector2.Distance(pointPos, stickFirstPos);
+
         // 거리가 반지름보다 작으면 조이스틱을 현재 터치하고 있는 곳으로 이동.
-        if (Dis < Radius)
-            Stick.position = StickFirstPos + JoyVec * Dis;
+        if (distance < radius)
+        {
+            stickRect.localPosition = stickFirstPos + stickVector * distance;
+        }
         // 거리가 반지름보다 커지면 조이스틱을 반지름의 크기만큼만 이동.
         else
-            Stick.position = StickFirstPos + JoyVec * Radius;
- 
-        //Player.eulerAngles = new Vector3(0, Mathf.Atan2(JoyVec.x, JoyVec.y) * Mathf.Rad2Deg, 0);
+        {
+            stickRect.localPosition = stickFirstPos + stickVector * radius;
+        }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(pointPos, 1);
     }
  
     // 드래그 끝.
     public void DragEnd()
     {
-        Stick.position = StickFirstPos; // 스틱을 원래의 위치로.
-        JoyVec = Vector3.zero;          // 방향을 0으로.
-        MoveFlag = false;
+        stickVector = Vector3.zero;                 // 방향을 0으로.
+        stickRect.localPosition = stickFirstPos;    // 스틱을 원래의 위치로.   
+
+        Debug.Log(stickFirstPos);    
+
+        moveFlag = false;
     }
 
     public float GetHorizontalValue()
     {
-        return JoyVec.x;
+        return stickVector.x;
     }
 
     public float GetVerticalValue()
     {
-        return JoyVec.y;
+        return stickVector.y;
     }
 }

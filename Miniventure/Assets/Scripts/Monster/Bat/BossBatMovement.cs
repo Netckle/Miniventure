@@ -6,7 +6,7 @@ using TMPro;
 
 public class BossBatMovement : MonoBehaviour 
 {
-    public GameObject HPBar;
+    public GameObject canDamagedIcon;
 
     public SimpleCameraShakeInCinemachine cameraShake;
 
@@ -76,11 +76,11 @@ public class BossBatMovement : MonoBehaviour
     {
         if (canDamaged)
         {
-            HPBar.gameObject.SetActive(true);
+            canDamagedIcon.gameObject.SetActive(true);
         }
         else if (!canDamaged)
         {
-            HPBar.gameObject.SetActive(false);
+            canDamagedIcon.gameObject.SetActive(false);
         }
     }
 
@@ -215,6 +215,7 @@ public class BossBatMovement : MonoBehaviour
 
     private IEnumerator CoTakeDamage(int damage)
     {
+        soundManager.PlaySfx(soundManager.EffectSounds[1]);
         cameraShake.ShakeCam();
         HP -= damage;
         unBeat.UnBeat(sprite);

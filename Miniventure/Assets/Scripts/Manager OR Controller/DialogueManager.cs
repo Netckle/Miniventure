@@ -81,8 +81,8 @@ public class DialogueManager : MonoBehaviour
 
         foreach (char letter in sentence.content)
         {       
-            namePanel.rectTransform.anchoredPosition = new Vector2(rt.anchoredPosition.x - (rt.sizeDelta.x * 0.5f) + (namePanel.rectTransform.sizeDelta.x * 0.5f), (rt.anchoredPosition.y + rt.sizeDelta.y * 0.5f));
-
+            //namePanel.rectTransform.anchoredPosition = new Vector2(rt.anchoredPosition.x - (rt.sizeDelta.x * 0.5f) + (namePanel.rectTransform.sizeDelta.x * 0.5f), (rt.anchoredPosition.y + rt.sizeDelta.y * 0.5f));
+            namePanel.rectTransform.anchoredPosition = new Vector2(0, (rt.anchoredPosition.y + rt.sizeDelta.y * 0.5f));
             content.text += letter;
             yield return new WaitForSeconds(0.01f);
         }

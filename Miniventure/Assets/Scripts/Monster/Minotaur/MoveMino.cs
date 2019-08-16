@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MoveMino : MonoBehaviour 
 {
+    public GameObject canDamageIcon;
+
     private SoundManager soundManager;
     private PauseManager pauseManager;
 
@@ -36,6 +38,20 @@ public class MoveMino : MonoBehaviour
     
     public Fade fade;
     public Transform playerOriginPos;
+
+    public bool canDamaged;
+
+    private void Update() 
+    {
+        if (canDamaged)
+        {
+            canDamageIcon.SetActive(true);
+        }
+        else if (!canDamaged)
+        {
+            canDamageIcon.SetActive(false);
+        }
+    }
 
     private void Flip(string direction)
     {
@@ -141,6 +157,7 @@ public class MoveMino : MonoBehaviour
 
     IEnumerator BossMovement01(float runningTime = 3.0f, float afterAttackTime = 5.2f)
     {
+        canDamaged = false;
         // 배경 스크롤 시작.
         backgroundScroll.Move();
 
@@ -170,15 +187,26 @@ public class MoveMino : MonoBehaviour
         particle.Play();   
 
         // 때릴 수 있는 쿨타임 시간.
+        canDamaged = true;
         yield return new WaitForSeconds(afterAttackTime);
 
         StartCoroutine(BossMovement01());
     }      
 
+    private bool canMove;
+
+    IEnumerator time()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(3.0f);
+        canMove = true;
+    }
+
     IEnumerator BossMovement02()
     {       
         for (int i = 0; i < 3; i++) // 파트 1
         {
+            canDamaged = false;
             anim.SetBool("isMoving", true);
             Flip("RIGHT");
 
@@ -198,26 +226,29 @@ public class MoveMino : MonoBehaviour
             particle.Play();
             cameraShake.ShakeCam();
 
-            // canDamaged = true;
+            
+            canDamaged = true;
             anim.SetBool("isMoving", false);
             yield return new WaitForSeconds(2.0f);
         }
-        
+        canDamaged = false;
         // 파트 2
         anim.SetBool("isMoving", true);
         MoveOnlyX(-10, (minoMoveTime * (10 - Mathf.Abs(transform.position.x)) / 2));
         yield return new WaitUntil(()=>moveIsEnd);        
 
-        MoveOnlyX(10, 6.0f);
+        MoveOnlyX(10, 5.0f);
         yield return new WaitUntil(()=>moveIsEnd);
-
+        canDamaged = true;
         Flip("LEFT");
 
         anim.SetBool("isMoving", false);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(4.0f);
+        canDamaged = false;
         
         for (int i = 0; i < 3; i++) // 파트 3
         {
+            canDamaged = false;
             anim.SetBool("isMoving", true);
             Flip("LEFT");
 
@@ -237,23 +268,25 @@ public class MoveMino : MonoBehaviour
             particle.Play();
             cameraShake.ShakeCam();
 
-            // canDamaged = true;
+            canDamaged = true;
             anim.SetBool("isMoving", false);
             yield return new WaitForSeconds(2.0f);
         }
-
+        canDamaged = false;
         // 파트 4
         anim.SetBool("isMoving", true);
         MoveOnlyX(10, (minoMoveTime * (10 - Mathf.Abs(transform.position.x)) / 2));
         yield return new WaitUntil(()=>moveIsEnd);        
 
-        MoveOnlyX(-10, 6.0f);
+        MoveOnlyX(-10, 5.0f);
         yield return new WaitUntil(()=>moveIsEnd);
+        canDamaged = true;
 
         Flip("RIGHT");
 
         anim.SetBool("isMoving", false);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(4.0f);
+        canDamaged = false;
 
         StartCoroutine(BossMovement02());
     }
@@ -299,6 +332,6 @@ public class MoveMino : MonoBehaviour
         fade.FadeIn(3.0f);
         yield return new WaitForSeconds(3.0f);
 
-        SceneManager.LoadScene("Select Stage");
+        SceneManager.LoadScene("Loading Stage 02");
     }
 }

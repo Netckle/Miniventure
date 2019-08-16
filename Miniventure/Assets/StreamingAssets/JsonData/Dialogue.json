@@ -2,92 +2,297 @@
   "items": [
     {
       "index": 0,
-      "name": "안내직원",
-      "content": "1번째 몬스터는 RPG에는 꼭 나오는 몬스터. 슬라임입니다!",
+      "name": "의뢰인",
+      "content": "1번째 몬스터는 슬라임이네요.<br>별로 어렵진 않을거에요.",
       "target": "none"
     },
     {
       "index": 1,
-      "name": "안내직원",
-      "content": "열심히 싸워보세요!",
+      "name": "레니",
+      "content": "겨우 그런걸 알려주려고 연락수단을 준건 아니죠?",
       "target": "none"
     },
     {
       "index": 2,
-      "name": "[SYSTEM]",
-      "content": "야생의 슬라임과 눈이 마주쳤다.",
+      "name": "의뢰인",
+      "content": "걱정 마세요.<br>우선 오른쪽 조이스틱으로 이동 할 수 있어요.",
       "target": "none"
     },
     {
       "index": 3,
-      "name": "[SYSTEM]",
-      "content": "싸운다를 선택했다.",
+      "name": "의뢰인",
+      "content": "왼쪽 버튼들은 각각 공격과 점프에요.<br>한눈에 알겠죠?",
       "target": "none"
     },
     {
       "index": 4,
-      "name": "넷클",
-      "content": "야 누구 맘대로 이야기를...",
+      "name": "의뢰인",
+      "content": "가끔 버튼이 추가로 나올 수 있으니 잘 확인하세요.",
       "target": "none"
     },
     {
       "index": 5,
-      "name": "슬라임",
-      "content": "끼에에에에엑!",
+      "name": "레니",
+      "content": "그래서, 제가 정확히 뭘 하면 되는거죠?",
       "target": "none"
     },
     {
       "index": 6,
-      "name": "[SYSTEM]",
-      "content": "슬라임이 도망쳤다.",
+      "name": "의뢰인",
+      "content": "길드에서 탈주해서 난동을 부리는 마법사를 잡아야죠.<br>일단 눈 앞에 몬스터부터 없애야겠네요.",
       "target": "none"
     },
     {
       "index": 7,
-      "name": "슬라임",
-      "content": "......?! 끼에에에에에에엑!",
+      "name": "레니",
+      "content": "약점같은건 모르나요?<br>그래도 몬스터 때려잡는 길드 잖아요.",
       "target": "none"
     },
     {
       "index": 8,
-      "name": "[SYSTEM]",
-      "content": "슬라임은 흥분한 것 같다.",
+      "name": "의뢰인",
+      "content": "그걸 알면 당신같은 일반인을 쓰겠어요?",
       "target": "none"
     },
     {
       "index": 9,
-      "name": "[SYSTEM]",
-      "content": "야생의 슬라임이 쓰러졌다.",
+      "name": "레니",
+      "content": "끄응...",
       "target": "none"
     },
     {
       "index": 10,
-      "name": "슬라임",
-      "content": "ㅇㅇ은 10골드를 얻었다!<br>라고 말하고 싶지만 돈은 없었다.",
+      "name": "의뢰인",
+      "content": "음...하나 말해두자면<br>당신 위에 별이 뜰 때 공격하세요.",
       "target": "none"
     },
     {
       "index": 11,
-      "name": "[SYSTEM]",
-      "content": "넷클은 10골드를 얻었다!<br>라고 말하고 싶지만 돈은 없었다.",
+      "name": "슬라임",
+      "content": "(꾸룩꾸룩꾸룩꾸룩)",
       "target": "none"
     },
     {
       "index": 12,
-      "name": "넷클",
-      "content": ".....",
+      "name": "레니",
+      "content": "일단 싸워볼까...",
       "target": "none"
     },
     {
       "index": 13,
       "name": "슬라임",
-      "content": "꼬로로로록....",
+      "content": "(꾸룩꾸룩꾸룩꾸룩꾸룩꾸룩꾸룩)",
       "target": "none"
     },
     {
       "index": 14,
-      "name": "넷클",
-      "content": "승리했다.",
+      "name": "레니",
+      "content": "저기요? 이녀석 왜 이러는거죠?",
+      "target": "none"
+    },
+    {
+      "index": 15,
+      "name": "의뢰인",
+      "content": "슬라임은 도망칠때 땅꿀을 파서 도망가죠. 어서 따라가세요!",
+      "target": "none"
+    },
+    {
+      "index": 16,
+      "name": "레니",
+      "content": "우와. 너무 좁은데...<br>그런데 왼쪽에 버튼은 뭐죠?",
+      "target": "none"
+    },
+    {
+      "index": 17,
+      "name": "의뢰인",
+      "content": "아까 말한 특수 버튼이에요.<br>발판 위에서 사용하면 아래로 내려갈 수 있어요.",
+      "target": "none"
+    },
+    {
+      "index": 18,
+      "name": "레니",
+      "content": "흐으응...",
+      "target": "none"
+    },
+    {
+      "index": 19,
+      "name": "레니",
+      "content": "이제 좀 뒤져!",
+      "target": "none"
+    },
+    {
+      "index": 20,
+      "name": "슬라임",
+      "content": "(꼬르르르르르르르르르륵......)",
+      "target": "none"
+    },
+    {
+      "index": 21,
+      "name": "의뢰인",
+      "content": "엄청 큰 미노타우로스네요.",
+      "target": "none"
+    },
+    {
+      "index": 22,
+      "name": "레니",
+      "content": "...그게 단가요?",
+      "target": "none"
+    },
+    {
+      "index": 23,
+      "name": "의뢰인",
+      "content": "너무 그러지 말아요.<br>우리도 몬스터에 대한건 모른다고 했잖아요?",
+      "target": "none"
+    },
+    {
+      "index": 24,
+      "name": "의뢰인",
+      "content": "그나저나 당신이 있는 곳은 지반이 너무 약해요.<br>계속 움직이면서 싸워야겠어요.",
+      "target": "none"
+    },
+    {
+      "index": 25,
+      "name": "미노타우로스",
+      "content": "(꾸어어어어어어억!!!)",
+      "target": "none"
+    },
+    {
+      "index": 26,
+      "name": "레니",
+      "content": "무너져서 이 괴물이랑 같혀있는건 사양이야...",
+      "target": "none"
+    },
+    {
+      "index": 27,
+      "name": "미노타우로스",
+      "content": "(꾸어어어어어어어어어억!!!)",
+      "target": "none"
+    },
+    {
+      "index": 28,
+      "name": "의뢰인",
+      "content": "당장 나와요! 거긴 지반이 엄청 약한 곳이에요.<br>몇 번 치기만 해도 무너질거에요!",
+      "target": "none"
+    },
+    {
+      "index": 29,
+      "name": "레니",
+      "content": "그게 무슨...",
+      "target": "none"
+    },
+    {
+      "index": 30,
+      "name": "레니",
+      "content": "아아...머리야...",
+      "target": "none"
+    },
+    {
+      "index": 31,
+      "name": "의뢰인",
+      "content": "괜찮아요? 살아있는거죠?",
+      "target": "none"
+    },
+    {
+      "index": 32,
+      "name": "레니",
+      "content": "하필이면 무슨 구덩이같은 곳에 빠져버렸어요.",
+      "target": "none"
+    },
+    {
+      "index": 33,
+      "name": "미노타우로스",
+      "content": "(꾸어어어어어어어어어억!!!)",
+      "target": "none"
+    },
+    {
+      "index": 34,
+      "name": "레니",
+      "content": "헉헉...드디어...",
+      "target": "none"
+    },
+    {
+      "index": 35,
+      "name": "미노타우로스",
+      "content": "(꾸에에에에에에에에에에에에에에엑!!!!!!)",
+      "target": "none"
+    },
+
+    {
+      "index": 36,
+      "name": "레니",
+      "content": "슬라임에...미노타우로스에...이번엔 박쥐라니...",
+      "target": "none"
+    },
+    {
+      "index": 37,
+      "name": "의뢰인",
+      "content": "뭔가 미묘하네요.<br>어차피 난동을 부릴거면 드래곤이 좋을텐데...",
+      "target": "none"
+    },
+    {
+      "index": 38,
+      "name": "레니",
+      "content": "특별한 이유라도 있나요?",
+      "target": "none"
+    },
+    {
+      "index": 39,
+      "name": "의뢰인",
+      "content": "드래곤같이 강력한 몬스터를 퇴치하면 나라에서 목돈을 쥐어주거든요.<br>그게 꽤 짭짤해요.",
+      "target": "none"
+    },
+    {
+      "index": 40,
+      "name": "레니",
+      "content": "...현실적이네요.",
+      "target": "none"
+    },
+    {
+      "index": 41,
+      "name": "의뢰인",
+      "content": "뭐 그건 넘어가고,<br>여기도 지반이 약하긴 하지만 올라올 수는 있겠네요.",
+      "target": "none"
+    },
+    {
+      "index": 42,
+      "name": "의뢰인",
+      "content": "비행체 몬스터는 항상 뭘 날려대니까 조심하세요.",
+      "target": "none"
+    },
+    {
+      "index": 43,
+      "name": "레니",
+      "content": "예입, 알겠습니다--",
+      "target": "none"
+    },
+    {
+      "index": 44,
+      "name": "박쥐",
+      "content": "(끼야야야야야야야야야약!!!!!!)",
+      "target": "none"
+    },
+    {
+      "index": 45,
+      "name": "레니",
+      "content": "끼요요요요요요요요욧!!!!!!",
+      "target": "none"
+    },
+    {
+      "index": 46,
+      "name": "의뢰인",
+      "content": "비명소리가 꽤 끔찍하네요.<br>마법사의 취향일까요?",
+      "target": "none"
+    },
+    {
+      "index": 47,
+      "name": "레니",
+      "content": "그러게요. 확인된 몬스터는 분명 3마리 였죠?",
+      "target": "none"
+    },
+    {
+      "index": 48,
+      "name": "의뢰인",
+      "content": "네 맞아요. 마법사가 몬스터를 더 만들어내기전에 어서 찾아내죠!",
       "target": "none"
     }
   ]

@@ -37,23 +37,23 @@ public class Cutscene02 : MonoBehaviour
         {
             dialogueManager.panel.gameObject.SetActive(false);
             dialogueManager.namePanel.gameObject.SetActive(false);
-            StartCoroutine(CoFirstCutscene(2, 5));
+            StartCoroutine(CoFirstCutscene(21, 26));
         }            
     }
     
     private void Update() 
     {
-        if (mino.HP == 4 && phase_02_can_load)
+        if (mino.HP == 10 && phase_02_can_load)
         {
             phase_02_can_load = false;
-            StartCoroutine(CoBetweenCutscene(2, 5));
+            StartCoroutine(CoBetweenCutscene(27, 29));
         }
         if (mino.HP <= 0 && phase_02_end_can_laod)
         {
             phase_02_end_can_laod = false;
             //jsonManager.Save(2, true);
             
-            StartCoroutine(EndCutScene(2, 5));
+            StartCoroutine(EndCutScene(34, 35));
         }
     }
 
@@ -104,7 +104,7 @@ public class Cutscene02 : MonoBehaviour
         yield return new WaitUntil(()=>phase_02_start);
         player.rigidbody2d.gravityScale = 3;
 
-        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), dialogueStart, dialogueEnd);
+        dialogueManager.StartDialogue(jsonManager.Load<Dialogue>("JsonData", "Dialogue.json"), 30, 33);
         yield return new WaitUntil(() => dialogueManager.dialogueIsEnd);
 
         player.Release();

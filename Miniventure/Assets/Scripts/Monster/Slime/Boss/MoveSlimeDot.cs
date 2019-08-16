@@ -23,7 +23,9 @@ public class MoveSlimeDot : MonoBehaviour
     Animator anim;
     
     bool slimeIsExist;
-    bool canDamaged;
+    public bool canDamaged;
+
+    public GameObject canDamageIcon;
 
     bool moveIsEnd;
     bool spawnIsEnd;
@@ -88,7 +90,7 @@ public class MoveSlimeDot : MonoBehaviour
         fade.transform.SetAsLastSibling();
         yield return new WaitForSeconds(3.0f);
 
-        SceneManager.LoadScene("Select Stage");
+        SceneManager.LoadScene("Loading Stage 01");
     }
 
     private IEnumerator CorUnBeatTime()
@@ -191,6 +193,14 @@ public class MoveSlimeDot : MonoBehaviour
         {
             transform.position = pausePos;
         }
+        if (canDamaged)
+        {
+            canDamageIcon.gameObject.SetActive(true);
+        }
+        else if (!canDamaged)
+        {
+            canDamageIcon.gameObject.SetActive(false);
+        }
     }
 
     public void StopCor()
@@ -251,7 +261,7 @@ public class MoveSlimeDot : MonoBehaviour
 
         canDamaged = true;
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(5.0f);
 
         bossPattern = BossMovementPhase01();
         StartCoroutine(bossPattern);
@@ -262,6 +272,8 @@ public class MoveSlimeDot : MonoBehaviour
         float moveTime = normalMoveTime * 0.75f;
 
         // Line 0
+        canDamaged = false;
+
         transform.position = stage.linePos[0].position;
         particle.Play();
 
@@ -273,10 +285,13 @@ public class MoveSlimeDot : MonoBehaviour
 
         MoveX(moveRange, moveTime, Ease.InOutQuart);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
-
-        yield return new WaitForSeconds(1.5f);
+        
+        canDamaged = true;
+        yield return new WaitForSeconds(2.0f);
 
         // Line 1
+        canDamaged = false;
+
         transform.position = stage.linePos[1].position;
         particle.Play();
 
@@ -289,9 +304,12 @@ public class MoveSlimeDot : MonoBehaviour
         MoveX(-moveRange, moveTime, Ease.InOutQuart);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        yield return new WaitForSeconds(1.5f);
+        canDamaged = true;
+        yield return new WaitForSeconds(2.0f);
 
         // Line 0
+        canDamaged = false;
+
         transform.position = stage.linePos[2].position;
         particle.Play();
 
@@ -304,7 +322,8 @@ public class MoveSlimeDot : MonoBehaviour
         MoveX(moveRange, moveTime, Ease.InOutQuart);
         yield return new WaitUntil(()=>moveIsEnd && !pause);
 
-        yield return new WaitForSeconds(1.5f);
+        canDamaged = true;
+        yield return new WaitForSeconds(2.0f);
 
         bossPattern = BossMovementPhase02();
         StartCoroutine(bossPattern);
